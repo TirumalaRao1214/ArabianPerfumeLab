@@ -1,0 +1,328 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 800" width="600" height="800">
+  <defs>
+    <!-- Room background gradient -->
+    <linearGradient id="room-bg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%"   stop-color="#1a0f04"/>
+      <stop offset="60%"  stop-color="#0e0a02"/>
+      <stop offset="100%" stop-color="#080600"/>
+    </linearGradient>
+    <!-- Shelf wood gradient -->
+    <linearGradient id="wood" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%"   stop-color="#6b3a1f"/>
+      <stop offset="100%" stop-color="#3d1e08"/>
+    </linearGradient>
+    <!-- Counter surface -->
+    <linearGradient id="counter" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%"   stop-color="#5a3015"/>
+      <stop offset="100%" stop-color="#2a1208"/>
+    </linearGradient>
+    <!-- Gold shimmer for accents -->
+    <linearGradient id="goldG" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%"   stop-color="#f7e4a0"/>
+      <stop offset="50%"  stop-color="#d4af37"/>
+      <stop offset="100%" stop-color="#8a6b10"/>
+    </linearGradient>
+    <!-- Warm skin tone -->
+    <radialGradient id="skin" cx="50%" cy="40%" r="55%">
+      <stop offset="0%"   stop-color="#c8834a"/>
+      <stop offset="60%"  stop-color="#a86030"/>
+      <stop offset="100%" stop-color="#7a3e14"/>
+    </radialGradient>
+    <!-- Shirt fabric — warm white/kurta -->
+    <linearGradient id="shirt" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%"   stop-color="#e8ddc8"/>
+      <stop offset="100%" stop-color="#c4b090"/>
+    </linearGradient>
+    <!-- Warm spotlight on figure -->
+    <radialGradient id="spotlight" cx="50%" cy="55%" r="48%">
+      <stop offset="0%"   stop-color="#d4891a" stop-opacity="0.18"/>
+      <stop offset="100%" stop-color="#d4891a" stop-opacity="0"/>
+    </radialGradient>
+    <!-- Bottle gold cap -->
+    <linearGradient id="bottle-cap" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%"   stop-color="#f0d882"/>
+      <stop offset="100%" stop-color="#a07820"/>
+    </linearGradient>
+    <!-- Bottle amber body -->
+    <linearGradient id="bottle-amb" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%"   stop-color="#8b4513" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#3d1c06" stop-opacity="0.95"/>
+    </linearGradient>
+    <!-- Bottle dark body -->
+    <linearGradient id="bottle-dark" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%"   stop-color="#1a1a2e" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#090910" stop-opacity="0.95"/>
+    </linearGradient>
+    <!-- Frame border -->
+    <linearGradient id="frame-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%"   stop-color="#f7e4a0"/>
+      <stop offset="35%"  stop-color="#d4af37"/>
+      <stop offset="65%"  stop-color="#d4af37"/>
+      <stop offset="100%" stop-color="#8a6b10"/>
+    </linearGradient>
+    <filter id="softshadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+  </defs>
+
+  <!-- ── Room background ── -->
+  <rect width="600" height="800" fill="url(#room-bg)"/>
+
+  <!-- Warm spotlight glow centred on owner -->
+  <rect width="600" height="800" fill="url(#spotlight)"/>
+
+  <!-- ══════════════════════════════════
+       BACK WALL — hexagonal display panels
+       ══════════════════════════════════ -->
+  <!-- Gold hex accent panels (simplified, like in the photo) -->
+  <g opacity="0.18" fill="#d4af37">
+    <polygon points="150,40  180,20  210,40  210,80  180,100  150,80"/>
+    <polygon points="210,40  240,20  270,40  270,80  240,100  210,80"/>
+    <polygon points="330,40  360,20  390,40  390,80  360,100  330,80"/>
+    <polygon points="390,40  420,20  450,40  450,80  420,100  390,80"/>
+  </g>
+  <g opacity="0.10" fill="none" stroke="#d4af37" stroke-width="1.5">
+    <polygon points="150,40  180,20  210,40  210,80  180,100  150,80"/>
+    <polygon points="210,40  240,20  270,40  270,80  240,100  210,80"/>
+    <polygon points="330,40  360,20  390,40  390,80  360,100  330,80"/>
+    <polygon points="390,40  420,20  450,40  450,80  420,100  390,80"/>
+  </g>
+
+  <!-- ══════════════════════════════════
+       SHELVES (3 rows behind the owner)
+       ══════════════════════════════════ -->
+
+  <!-- Shelf row 1 (top) -->
+  <rect x="40" y="108" width="520" height="10" rx="3" fill="url(#wood)" opacity="0.85"/>
+  <!-- Shelf row 2 -->
+  <rect x="40" y="198" width="520" height="10" rx="3" fill="url(#wood)" opacity="0.80"/>
+  <!-- Shelf row 3 -->
+  <rect x="40" y="288" width="520" height="10" rx="3" fill="url(#wood)" opacity="0.75"/>
+
+  <!-- ── Top shelf bottles ── -->
+  <!-- Small attar bottle group left -->
+  <g transform="translate(60, 85)" opacity="0.9">
+    <rect x="0" y="0" width="10" height="22" rx="3" fill="url(#bottle-amb)"/>
+    <rect x="-1" y="-8" width="12" height="10" rx="2" fill="url(#bottle-cap)"/>
+    <rect x="12" y="2" width="10" height="20" rx="3" fill="url(#bottle-dark)"/>
+    <rect x="11" y="-6" width="12" height="9" rx="2" fill="url(#bottle-cap)"/>
+    <rect x="25" y="0" width="10" height="22" rx="3" fill="url(#bottle-amb)"/>
+    <rect x="24" y="-8" width="12" height="10" rx="2" fill="url(#bottle-cap)"/>
+  </g>
+  <!-- Tall flacon centre-left top shelf -->
+  <g transform="translate(140, 68)" opacity="0.88">
+    <rect x="0" y="0" width="18" height="38" rx="4" fill="url(#bottle-dark)"/>
+    <rect x="-2" y="-14" width="22" height="16" rx="5" fill="url(#bottle-cap)"/>
+    <rect x="3" y="-16" width="12" height="4" rx="2" fill="url(#bottle-cap)"/>
+  </g>
+  <!-- Group right side top shelf -->
+  <g transform="translate(400, 72)" opacity="0.85">
+    <rect x="0"  y="0" width="15" height="34" rx="4" fill="url(#bottle-amb)"/>
+    <rect x="-1" y="-12" width="17" height="14" rx="4" fill="url(#bottle-cap)"/>
+    <rect x="20" y="4"  width="14" height="30" rx="4" fill="url(#bottle-dark)"/>
+    <rect x="19" y="-8" width="16" height="14" rx="4" fill="url(#bottle-cap)"/>
+    <rect x="40" y="2"  width="12" height="32" rx="3" fill="url(#bottle-amb)"/>
+    <rect x="39" y="-9" width="14" height="13" rx="3" fill="url(#bottle-cap)"/>
+  </g>
+  <!-- Far right top shelf -->
+  <g transform="translate(490, 78)" opacity="0.75">
+    <rect x="0"  y="0" width="12" height="28" rx="3" fill="url(#bottle-dark)"/>
+    <rect x="-1" y="-10" width="14" height="12" rx="3" fill="url(#bottle-cap)"/>
+    <rect x="16" y="2"  width="10" height="24" rx="3" fill="url(#bottle-amb)"/>
+    <rect x="15" y="-8" width="12" height="12" rx="3" fill="url(#bottle-cap)"/>
+  </g>
+
+  <!-- ── Middle shelf bottles ── -->
+  <g transform="translate(55, 168)" opacity="0.80">
+    <rect x="0"  y="0" width="18" height="28" rx="4" fill="url(#bottle-amb)"/>
+    <rect x="-2" y="-10" width="22" height="12" rx="4" fill="url(#bottle-cap)"/>
+    <rect x="24" y="4"  width="14" height="24" rx="3" fill="url(#bottle-dark)"/>
+    <rect x="23" y="-6" width="16" height="12" rx="3" fill="url(#bottle-cap)"/>
+  </g>
+  <g transform="translate(440, 170)" opacity="0.78">
+    <rect x="0"  y="0" width="16" height="26" rx="4" fill="url(#bottle-dark)"/>
+    <rect x="-1" y="-9" width="18" height="11" rx="3" fill="url(#bottle-cap)"/>
+    <rect x="22" y="2"  width="14" height="24" rx="3" fill="url(#bottle-amb)"/>
+    <rect x="21" y="-7" width="16" height="11" rx="3" fill="url(#bottle-cap)"/>
+    <rect x="42" y="4"  width="12" height="22" rx="3" fill="url(#bottle-dark)"/>
+    <rect x="41" y="-5" width="14" height="11" rx="3" fill="url(#bottle-cap)"/>
+  </g>
+
+  <!-- ══════════════════════════════════
+       OWNER FIGURE — front and centre
+       Based on photo: stocky build, round face with glasses,
+       wearing kurta/shirt, seated behind counter
+       ══════════════════════════════════ -->
+
+  <!-- Body / Kurta (warm white / cream) -->
+  <path d="M195,470 Q200,380 220,340 L240,320 Q260,300 300,295 Q340,300 360,320 L380,340 Q400,380 405,470 L430,600 L170,600 Z"
+        fill="url(#shirt)"/>
+
+  <!-- Kurta collar / neckline detail -->
+  <path d="M285,310 Q300,330 315,310" fill="none" stroke="#b8a080" stroke-width="2" opacity="0.6"/>
+  <line x1="300" y1="310" x2="300" y2="380" stroke="#b8a080" stroke-width="1.5" opacity="0.4"/>
+
+  <!-- Shoulder width indicator (shirt seams) -->
+  <path d="M220,340 Q200,355 188,380" fill="none" stroke="#c8b090" stroke-width="2" opacity="0.35"/>
+  <path d="M380,340 Q400,355 412,380" fill="none" stroke="#c8b090" stroke-width="2" opacity="0.35"/>
+
+  <!-- Left arm / hand on counter -->
+  <path d="M188,395 Q175,430 168,480 Q165,510 175,530" fill="url(#shirt)" stroke="#d4c0a0" stroke-width="1"/>
+  <!-- Left hand -->
+  <ellipse cx="172" cy="535" rx="22" ry="14" fill="url(#skin)"/>
+  <path d="M158,530 Q154,520 158,515 Q162,510 166,518" fill="url(#skin)"/>
+  <path d="M182,528 Q186,518 190,520 Q194,524 188,532" fill="url(#skin)"/>
+
+  <!-- Right arm / hand -->
+  <path d="M412,395 Q425,430 432,478 Q435,510 425,530" fill="url(#shirt)" stroke="#d4c0a0" stroke-width="1"/>
+  <!-- Right hand holding attar bottle -->
+  <ellipse cx="428" cy="535" rx="22" ry="14" fill="url(#skin)"/>
+  <!-- Small bottle in right hand -->
+  <rect x="418" y="495" width="12" height="28" rx="3" fill="url(#bottle-amb)" opacity="0.9"/>
+  <rect x="417" y="488" width="14" height="10" rx="3" fill="url(#bottle-cap)" opacity="0.9"/>
+
+  <!-- Neck -->
+  <rect x="278" y="270" width="44" height="42" rx="12" fill="url(#skin)"/>
+
+  <!-- Head — round, full face -->
+  <ellipse cx="300" cy="220" rx="82" ry="88" fill="url(#skin)"/>
+
+  <!-- Hair — short, dark -->
+  <path d="M218,195 Q222,125 300,118 Q378,125 382,195 Q370,155 300,148 Q230,155 218,195 Z"
+        fill="#1a0e06"/>
+  <!-- Side hair -->
+  <path d="M218,195 Q214,215 216,240" fill="none" stroke="#1a0e06" stroke-width="8" stroke-linecap="round"/>
+  <path d="M382,195 Q386,215 384,240" fill="none" stroke="#1a0e06" stroke-width="8" stroke-linecap="round"/>
+
+  <!-- Ear left -->
+  <ellipse cx="218" cy="230" rx="12" ry="16" fill="url(#skin)"/>
+  <!-- Ear right -->
+  <ellipse cx="382" cy="230" rx="12" ry="16" fill="url(#skin)"/>
+
+  <!-- Eyebrows — dark, thick -->
+  <path d="M248,178 Q265,170 282,174" fill="none" stroke="#1a0e06" stroke-width="5" stroke-linecap="round"/>
+  <path d="M318,174 Q335,170 352,178" fill="none" stroke="#1a0e06" stroke-width="5" stroke-linecap="round"/>
+
+  <!-- Eyes — dark brown -->
+  <ellipse cx="268" cy="198" rx="14" ry="10" fill="#f7e4d0"/>
+  <circle  cx="270" cy="198" r="7" fill="#1a0e06"/>
+  <circle  cx="272" cy="195" r="2.5" fill="white" opacity="0.7"/>
+
+  <ellipse cx="332" cy="198" rx="14" ry="10" fill="#f7e4d0"/>
+  <circle  cx="330" cy="198" r="7" fill="#1a0e06"/>
+  <circle  cx="332" cy="195" r="2.5" fill="white" opacity="0.7"/>
+
+  <!-- Glasses — rectangular frames, characteristic of the owner -->
+  <!-- Left lens frame -->
+  <rect x="248" y="185" width="38" height="26" rx="5"
+        fill="none" stroke="#2a1a08" stroke-width="3"/>
+  <!-- Right lens frame -->
+  <rect x="314" y="185" width="38" height="26" rx="5"
+        fill="none" stroke="#2a1a08" stroke-width="3"/>
+  <!-- Bridge -->
+  <line x1="286" y1="198" x2="314" y2="198" stroke="#2a1a08" stroke-width="2.5"/>
+  <!-- Left arm -->
+  <line x1="248" y1="198" x2="228" y2="200" stroke="#2a1a08" stroke-width="2.5"/>
+  <!-- Right arm -->
+  <line x1="352" y1="198" x2="372" y2="200" stroke="#2a1a08" stroke-width="2.5"/>
+  <!-- Lens glint -->
+  <line x1="254" y1="190" x2="260" y2="194" stroke="white" stroke-width="1.2" opacity="0.5"/>
+  <line x1="320" y1="190" x2="326" y2="194" stroke="white" stroke-width="1.2" opacity="0.5"/>
+
+  <!-- Nose -->
+  <path d="M292,210 Q296,232 288,242 Q300,250 312,242 Q304,232 308,210"
+        fill="none" stroke="rgba(100,50,20,0.4)" stroke-width="1.8"/>
+
+  <!-- Mouth — gentle smile -->
+  <path d="M276,262 Q300,278 324,262" fill="none" stroke="#7a3e18" stroke-width="3" stroke-linecap="round"/>
+  <!-- Lower lip -->
+  <path d="M282,270 Q300,280 318,270" fill="#a06040" opacity="0.4"/>
+
+  <!-- Face shadow / depth under chin -->
+  <ellipse cx="300" cy="295" rx="55" ry="12" fill="rgba(0,0,0,0.25)"/>
+
+  <!-- ══════════════════════════════════
+       COUNTER / TABLE IN FRONT
+       ══════════════════════════════════ -->
+  <rect x="80" y="590" width="440" height="80" rx="5" fill="url(#counter)"/>
+  <!-- Counter top surface highlight -->
+  <rect x="80" y="590" width="440" height="12" rx="4" fill="rgba(180,120,60,0.4)"/>
+  <!-- Counter front panel decoration -->
+  <rect x="80" y="590" width="440" height="80" rx="5" fill="none" stroke="rgba(212,175,55,0.25)" stroke-width="1"/>
+  <!-- Counter wood grain lines -->
+  <line x1="80" y1="615" x2="520" y2="615" stroke="rgba(0,0,0,0.2)" stroke-width="0.8"/>
+  <line x1="80" y1="635" x2="520" y2="635" stroke="rgba(0,0,0,0.15)" stroke-width="0.8"/>
+
+  <!-- ── Products on counter ── -->
+  <!-- Attar bottle set left -->
+  <g transform="translate(105, 545)">
+    <rect x="0"  y="0" width="10" height="44" rx="3" fill="url(#bottle-amb)" opacity="0.9"/>
+    <rect x="-1" y="-14" width="12" height="16" rx="3" fill="url(#bottle-cap)"/>
+    <rect x="14" y="4"  width="9"  height="40" rx="3" fill="url(#bottle-dark)" opacity="0.9"/>
+    <rect x="13" y="-10" width="11" height="16" rx="3" fill="url(#bottle-cap)"/>
+    <rect x="27" y="2"  width="10" height="42" rx="3" fill="url(#bottle-amb)" opacity="0.85"/>
+    <rect x="26" y="-12" width="12" height="16" rx="3" fill="url(#bottle-cap)"/>
+  </g>
+
+  <!-- Box product (like Javadhu box) right side of counter -->
+  <g transform="translate(400, 550)">
+    <rect x="0"  y="0"  width="55" height="44" rx="4" fill="#1a2a4a" opacity="0.9"/>
+    <rect x="0"  y="0"  width="55" height="12" rx="3" fill="#2a3a5a" opacity="0.9"/>
+    <rect x="2"  y="14" width="51" height="28" fill="none" stroke="rgba(212,175,55,0.4)" stroke-width="0.8"/>
+    <text x="27" y="32" text-anchor="middle" font-family="Georgia,serif" font-size="8" fill="#d4af37" letter-spacing="1">ATTAR</text>
+    <text x="27" y="42" text-anchor="middle" font-family="Georgia,serif" font-size="7" fill="#a08030" letter-spacing="0.5">COLLECTION</text>
+  </g>
+
+  <!-- Large decorative bottle on counter (right centre) -->
+  <g transform="translate(330, 520)">
+    <rect x="0"  y="0"  width="28" height="64" rx="8" fill="url(#bottle-amb)" opacity="0.92"/>
+    <rect x="-3" y="-20" width="34" height="24" rx="8" fill="url(#bottle-cap)"/>
+    <rect x="6"  y="-24" width="16" height="6"  rx="3" fill="url(#bottle-cap)"/>
+    <!-- Bottle label -->
+    <rect x="4"  y="16" width="20" height="28" rx="2" fill="rgba(0,0,0,0.3)"/>
+    <rect x="5"  y="17" width="18" height="26" rx="1" fill="none" stroke="rgba(212,175,55,0.5)" stroke-width="0.6"/>
+    <text x="14" y="30" text-anchor="middle" font-family="Georgia,serif" font-size="4.5" fill="#d4af37" letter-spacing="0.5">OUD</text>
+  </g>
+
+  <!-- ══════════════════════════════════
+       ORNATE GOLD FRAME BORDER
+       ══════════════════════════════════ -->
+  <!-- Outer border -->
+  <rect x="8"  y="8"  width="584" height="784" rx="4"
+        fill="none" stroke="url(#frame-grad)" stroke-width="2.5" opacity="0.70"/>
+  <!-- Inner border -->
+  <rect x="16" y="16" width="568" height="768" rx="3"
+        fill="none" stroke="url(#frame-grad)" stroke-width="1" opacity="0.35"/>
+
+  <!-- Corner ornaments -->
+  <g fill="url(#frame-grad)" opacity="0.6">
+    <!-- TL -->
+    <polygon points="8,8  36,8  8,36"/>
+    <polygon points="12,12  32,12  12,32"/>
+    <!-- TR -->
+    <polygon points="592,8  564,8  592,36"/>
+    <polygon points="588,12  568,12  588,32"/>
+    <!-- BL -->
+    <polygon points="8,792  36,792  8,764"/>
+    <polygon points="12,788  32,788  12,768"/>
+    <!-- BR -->
+    <polygon points="592,792  564,792  592,764"/>
+    <polygon points="588,788  568,788  588,768"/>
+  </g>
+
+  <!-- ══════════════════════════════════
+       CAPTION BANNER at bottom
+       ══════════════════════════════════ -->
+  <rect x="40" y="700" width="520" height="68" rx="4" fill="rgba(0,0,0,0.65)"/>
+  <rect x="40" y="700" width="520" height="68" rx="4" fill="none" stroke="url(#frame-grad)" stroke-width="1" opacity="0.5"/>
+  <text x="300" y="726" text-anchor="middle"
+        font-family="Georgia,'Times New Roman',serif" font-style="italic"
+        font-size="15" fill="#f0d882" letter-spacing="1">Founder &amp; Master Perfumer</text>
+  <text x="300" y="750" text-anchor="middle"
+        font-family="Georgia,'Times New Roman',serif"
+        font-size="13" fill="#d4af37" letter-spacing="3" opacity="0.85">ARABIAN PERFUME LAB</text>
+  <text x="300" y="762" text-anchor="middle"
+        font-family="Georgia,'Times New Roman',serif" font-style="italic"
+        font-size="10" fill="#a08030" letter-spacing="2" opacity="0.7">Guntur, Andhra Pradesh</text>
+</svg>

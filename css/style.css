@@ -2258,6 +2258,53 @@ ul, ol { list-style: none; }
     line-height: 1.9;
     margin-bottom: var(--sp-xl);
 }
+
+/* Owner quote — personal statement from the founder */
+.owner-quote {
+    position: relative;
+    margin: 0 0 var(--sp-xl) 0;
+    padding: var(--sp-lg) var(--sp-xl);
+    border-left: 3px solid var(--c-gold);
+    background: linear-gradient(135deg, rgba(212,175,55,0.06) 0%, rgba(212,175,55,0.02) 100%);
+    border-radius: 0 4px 4px 0;
+}
+.owner-quote::before {
+    content: '\201C';
+    position: absolute;
+    top: -0.2rem;
+    left: 0.8rem;
+    font-family: Georgia, serif;
+    font-size: 4rem;
+    line-height: 1;
+    color: var(--c-gold);
+    opacity: 0.25;
+    pointer-events: none;
+}
+.owner-quote-text {
+    font-family: var(--f-serif);
+    font-style: italic;
+    font-size: 0.92rem;
+    color: var(--c-ivory);
+    line-height: 1.85;
+    margin-bottom: var(--sp-md);
+}
+.owner-quote-footer {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+.owner-quote-name {
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--c-gold);
+}
+.owner-quote-location {
+    font-size: 0.72rem;
+    color: var(--c-ivory-dim);
+    letter-spacing: 0.08em;
+}
 .values-list {
     display: flex;
     flex-direction: column;
