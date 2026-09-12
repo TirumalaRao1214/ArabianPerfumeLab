@@ -26,9 +26,9 @@
        SECURITY HEADERS (meta fallback — authoritative headers are
        in _headers / netlify.toml / vercel.json for the host)
        ============================================================ -->
-  <!-- Content-Security-Policy: restrict to self + data URIs only -->
+  <!-- Content-Security-Policy: restrict to self + data URIs + approved image CDNs -->
   <meta http-equiv="Content-Security-Policy"
-        content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none';">
+        content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data: https://lh3.googleusercontent.com https://encrypted-tbn0.gstatic.com https://images.unsplash.com https://plus.unsplash.com https://images.pexels.com; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none';">
 
   <!-- Prevent MIME-type sniffing -->
   <meta http-equiv="X-Content-Type-Options" content="nosniff">
@@ -288,8 +288,8 @@
         </h1>
 
         <p class="hero-sub reveal delay-2">
-          Premium Arabian-inspired fragrances from ₹499.
-          Attars from ₹100. Solid Perfumes from ₹99.
+          50ml Perfumes starts @ ₹499 · 2 for ₹999 · 100ml @ ₹999.
+          Attars starts @ ₹100. Solid Perfumes starts @ ₹99.
           Your favourite perfume is here.
         </p>
 
@@ -589,15 +589,15 @@
         <div class="pricing-card">
           <div class="pricing-card-icon" aria-hidden="true">🪔</div>
           <div class="pricing-card-label">Attars</div>
-          <div class="pricing-card-price">from <span>₹400</span></div>
-          <div class="pricing-card-sub">Pure oil-based · 6ml · 12ml</div>
+          <div class="pricing-card-price">starts @ <span>₹100</span></div>
+          <div class="pricing-card-sub">Pure oil-based · 3ml · 6ml · 12ml</div>
           <a href="#collection" class="pricing-card-cta" data-filter-collection="attar">Shop Attars</a>
         </div>
 
         <div class="pricing-card">
           <div class="pricing-card-icon" aria-hidden="true">🫙</div>
           <div class="pricing-card-label">Solid Perfumes</div>
-          <div class="pricing-card-price">from <span>₹99</span></div>
+          <div class="pricing-card-price">starts @ <span>₹99</span></div>
           <div class="pricing-card-sub">Wax balm compact · 8g · 15g</div>
           <a href="#collection" class="pricing-card-cta" data-filter-collection="solid">Shop Solid</a>
         </div>
@@ -606,7 +606,7 @@
           <div class="pricing-card-badge-top">BEST VALUE</div>
           <div class="pricing-card-icon" aria-hidden="true">🧴</div>
           <div class="pricing-card-label">20ml Perfume</div>
-          <div class="pricing-card-price"><span>3 for ₹897</span></div>
+          <div class="pricing-card-price"><span>3 Perfumes @ ₹999</span></div>
           <div class="pricing-card-sub">Mix &amp; match any 3 fragrances</div>
           <a href="#collection" class="pricing-card-cta" data-filter-collection="standard">Shop 20ml</a>
         </div>
@@ -615,15 +615,15 @@
           <div class="pricing-card-badge-top">POPULAR</div>
           <div class="pricing-card-icon" aria-hidden="true">🍶</div>
           <div class="pricing-card-label">50ml Perfume</div>
-          <div class="pricing-card-price">from <span>₹899</span></div>
-          <div class="pricing-card-sub">Free home delivery on WhatsApp orders</div>
+          <div class="pricing-card-price">starts @ <span>₹499</span></div>
+          <div class="pricing-card-sub">2 Perfumes @ ₹999 · Free home delivery</div>
           <a href="#collection" class="pricing-card-cta" data-filter-collection="standard">Shop 50ml</a>
         </div>
 
         <div class="pricing-card">
           <div class="pricing-card-icon" aria-hidden="true">🏺</div>
           <div class="pricing-card-label">100ml Perfume</div>
-          <div class="pricing-card-price">from <span>₹1,599</span></div>
+          <div class="pricing-card-price"><span>1 Perfume @ ₹999</span></div>
           <div class="pricing-card-sub">Full-size · long-lasting</div>
           <a href="#collection" class="pricing-card-cta" data-filter-collection="standard">Shop 100ml</a>
         </div>
@@ -682,8 +682,8 @@
         <!-- Visual card -->
         <div class="visual-card reveal delay-2">
           <div class="visual-card-inner">
-            <img src="assets/images/owner-portrait.svg"
-                 alt="Owner and Founder of Arabian Perfume Lab in his Guntur boutique"
+            <img src="assets/images/founder-photo.png"
+                 alt="Founder of Arabian Perfume Lab — master perfumer with signature collection in his Guntur boutique"
                  class="visual-card-img"
                  loading="lazy"
                  width="480"
@@ -1220,8 +1220,8 @@
       <div class="about-grid">
 
         <div class="about-img-wrap reveal">
-          <img src="assets/images/owner-portrait.svg"
-               alt="Owner and Founder of Arabian Perfume Lab — master perfumer in his boutique in Guntur"
+          <img src="assets/images/founder-photo.png"
+               alt="Founder of Arabian Perfume Lab — master perfumer with perfume collection in his boutique in Guntur, Andhra Pradesh"
                class="about-img"
                loading="lazy"
                width="480" height="640">

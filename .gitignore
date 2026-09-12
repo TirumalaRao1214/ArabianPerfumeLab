@@ -1,4 +1,4 @@
-# OS
+﻿# OS
 .DS_Store
 Thumbs.db
 desktop.ini
@@ -14,3 +14,41 @@ npm-debug.log*
 # Build
 dist/
 build/
+
+# Temp / log files landing in workspace root
+*.tmp
+*.tmp.ico
+*.log
+*.LOG
+*.cab
+*.ses
+*.db
+*.db-shm
+*.db-wal
+
+# Specific system/install artefacts
+CFG*.tmp
+MSI*.LOG
+ADLAWebHandler_*.log
+IBM-*.log
+PSProcess.log
+PSService.log
+MicrosoftEdgeUpdate.log
+NotifyIconGeneratedAumid_*.png
+RestartSCAIAgent_*.xml
+SCAIAgent_*.xml
+adb.log
+cv_debug.log
+chrome_installer.log
+build_out.txt
+
+# Additional workspace noise
+*.cpuprofile
+*.code
+*.cache
+*.dat
+xml_file*.xml
+"xml_file (*.xml"
+product-catalogue.txt
+prep_*.cache
+esbuild-*.code

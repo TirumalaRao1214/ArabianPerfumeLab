@@ -42,25 +42,45 @@
 
 /* ---------- Image path shortcuts ---------- */
 const IMG = {
-    amber:   'assets/images/products/bottle-amber.svg',
+    /*
+     * SVG bottle illustrations — mapped by scent/gender profile:
+     *   gold    → oud, woody, spicy, amber (men)         — bottle-amber.svg
+     *   dome    → oriental, luxe, Arabian, premium        — bottle-amber.svg
+     *   noir    → dark, intense, tobacco, leather         — bottle-premium.svg
+     *   crystal → light, musk, fresh, unisex, clean       — bottle-light.svg
+     *   emerald → green, woody, herbal, earthy             — bottle-amber.svg
+     *   blue    → aquatic, citrus, fresh, sporty (men)     — bottle-blue.svg
+     *   rose    → floral, feminine, rose, fruity (women)   — bottle-rose.svg
+     *   white   → white musk, powdery, soft, unisex        — bottle-light.svg
+     *   ruby    → warm oriental, balsamic (women)          — bottle-rose.svg
+     *   purple  → spicy, mysterious, bold, unisex/women    — bottle-rose.svg
+     *   goldHero → hero / feature display                  — bottle-amber.svg
+     */
+    gold:    'assets/images/products/bottle-amber.svg',
+    dome:    'assets/images/products/bottle-amber.svg',
+    noir:    'assets/images/products/bottle-premium.svg',
+    crystal: 'assets/images/products/bottle-light.svg',
+    emerald: 'assets/images/products/bottle-amber.svg',
     blue:    'assets/images/products/bottle-blue.svg',
     rose:    'assets/images/products/bottle-rose.svg',
-    light:   'assets/images/products/bottle-light.svg',
-    premium: 'assets/images/products/bottle-premium.svg',
+    white:   'assets/images/products/bottle-light.svg',
+    ruby:    'assets/images/products/bottle-rose.svg',
+    purple:  'assets/images/products/bottle-rose.svg',
+    goldHero:'assets/images/products/bottle-amber.svg',
+
     ph:      'assets/images/products/placeholder.svg',
 
-    /* ---- Real product photos provided by the brand owner ---- */
-    /* Place these JPG files in assets/images/products/ to activate */
-    diorSauvage:       'assets/images/products/dior-sauvage.jpg',
-    creedAventus:      'assets/images/products/aventus-creed.jpg',
-    creedVikings:      'assets/images/products/creed-vikings.jpg',
-    azzaroMostWanted:  'assets/images/products/azzaro-most-wanted.jpg',
-    armaniStronger:    'assets/images/products/armani-stronger-with-u.jpg',
-    ronaldo:           'assets/images/products/ronaldo.jpg',
-    tamDaoSrk:         'assets/images/products/tam-dao-srk.jpg',
-    tobaccoOudhi:      'assets/images/products/tobacco-oudhi.jpg',
+    /* ---- SKU-specific mappings (formerly photos, now SVGs) ---- */
+    diorSauvage:       'assets/images/products/bottle-blue.svg',
+    creedAventus:      'assets/images/products/bottle-light.svg',
+    creedVikings:      'assets/images/products/bottle-blue.svg',
+    azzaroMostWanted:  'assets/images/products/bottle-amber.svg',
+    armaniStronger:    'assets/images/products/bottle-premium.svg',
+    ronaldo:           'assets/images/products/bottle-blue.svg',
+    tamDaoSrk:         'assets/images/products/bottle-light.svg',
+    tobaccoOudhi:      'assets/images/products/bottle-amber.svg',
 
-    /* ---- Non-perfume product illustrations (local SVGs) ---- */
+    /* ---- Non-perfume product illustrations (SVGs) ---- */
     bodyCream:          'assets/images/products/body-cream-jar.svg',
     herbalSoap:         'assets/images/products/herbal-soap.svg',
     bakhoorBurner:      'assets/images/products/bakhoor-burner.svg',
@@ -81,13 +101,13 @@ const IMG = {
    ------------------------------------------------------- */
 
 /** Standard inspired perfume: 20ml / 50ml / 100ml */
-const STD = { '20ml': 299, '50ml': 899, '100ml': 1599 };
+const STD = { '20ml': 349, '50ml': 549, '100ml': 999 };
 
 /** Premium EDP / niche inspired */
 const PRM = { '50ml': 999, '100ml': 1899 };
 
-/** Attar / ittar oil-based — 6ml & 12ml roll-ons */
-const ATTAR = { '6ml': 400, '12ml': 800 };
+/** Attar / ittar oil-based — 3ml, 6ml & 12ml roll-ons */
+const ATTAR = { '3ml': 149, '6ml': 299, '12ml': 599 };
 
 /** Solid perfume — compact / balm format */
 const SOLID = { '8g': 99, '15g': 199 };
@@ -103,8 +123,8 @@ const products = Object.freeze([
     {
         id: 'dior-sauvage', brand: 'Dior', name: 'Sauvage',
         collection: 'standard', gender: 'men',
-        sizes: { '20ml': 299, '50ml': 899, '100ml': 1299 },
-        mrp:   { '20ml': 399, '50ml': 1299, '100ml': 1799 },
+        sizes: { '20ml': 349, '50ml': 549, '100ml': 999 },
+        mrp:   { '20ml': 499, '50ml': 799, '100ml': 1299 },
         image: IMG.diorSauvage,
         searchName: 'Dior Sauvage',
         imageAlt: 'Arabian Perfumer\'s — Dior Sauvage inspired 50ml bottle on black gift box',
@@ -124,7 +144,7 @@ const products = Object.freeze([
     {
         id: 'dior-sauvage-parfum', brand: 'Dior', name: 'Sauvage Parfum',
         collection: 'standard', gender: 'men',
-        sizes: STD, image: IMG.amber,
+        sizes: STD, image: IMG.gold,
         imageAlt: 'Arabian Perfume Lab inspired bottle — Dior Sauvage Parfum',
         notes: ['Woody', 'Spicy', 'Amber'],
         description: 'The extrait concentration — sandalwood and tonka wrap wild bergamot for maximum intensity. Inspired by Dior Sauvage Parfum.',
@@ -133,7 +153,7 @@ const products = Object.freeze([
     {
         id: 'dior-homme-edt', brand: 'Dior', name: 'Homme EDT',
         collection: 'standard', gender: 'men',
-        sizes: STD, image: IMG.light,
+        sizes: STD, image: IMG.crystal,
         imageAlt: 'Arabian Perfume Lab inspired bottle — Dior Homme EDT',
         notes: ['Iris', 'Woody', 'Powdery'],
         description: 'Elegant iris and violet leaf on a woody base — the definition of modern masculine grooming. Inspired by Dior Homme EDT.',
@@ -142,7 +162,7 @@ const products = Object.freeze([
     {
         id: 'dior-homme-parfum', brand: 'Dior', name: 'Homme Parfum',
         collection: 'standard', gender: 'men',
-        sizes: STD, image: IMG.amber,
+        sizes: STD, image: IMG.gold,
         imageAlt: 'Arabian Perfume Lab inspired bottle — Dior Homme Parfum',
         notes: ['Iris', 'Leather', 'Amber'],
         description: 'Intense iris absolute on a warm leather and amber drydown. Inspired by Dior Homme Parfum.',
@@ -173,7 +193,7 @@ const products = Object.freeze([
     {
         id: 'tomford-oud-wood', brand: 'Tom Ford', name: 'Oud Wood',
         collection: 'standard', gender: 'unisex',
-        sizes: STD, image: IMG.amber,
+        sizes: STD, image: IMG.gold,
         imageAlt: 'Arabian Perfume Lab inspired bottle — Tom Ford Oud Wood',
         notes: ['Oud', 'Woody', 'Spicy'],
         description: 'Rare oud wood, sandalwood, rosewood, and exotic spice — the fragrance that made oud mainstream luxury. Inspired by Tom Ford Oud Wood.',
@@ -182,7 +202,7 @@ const products = Object.freeze([
     {
         id: 'tomford-black-orchid', brand: 'Tom Ford', name: 'Black Orchid',
         collection: 'standard', gender: 'unisex',
-        sizes: STD, image: IMG.premium,
+        sizes: STD, image: IMG.noir,
         imageAlt: 'Arabian Perfume Lab inspired bottle — Tom Ford Black Orchid',
         notes: ['Floral', 'Dark', 'Amber'],
         description: 'Dark and opulent — black orchid, truffle, blackcurrant and vetiver on a patchouli base. Inspired by Tom Ford Black Orchid.',
@@ -191,7 +211,7 @@ const products = Object.freeze([
     {
         id: 'tomford-tobacco-vanille', brand: 'Tom Ford', name: 'Tobacco Vanille',
         collection: 'standard', gender: 'unisex',
-        sizes: STD, image: IMG.amber,
+        sizes: STD, image: IMG.gold,
         imageAlt: 'Arabian Perfume Lab inspired bottle — Tom Ford Tobacco Vanille',
         notes: ['Tobacco', 'Vanilla', 'Amber'],
         description: 'Rich tobacco leaf meets sweet vanilla and dried fruit in a warm, indulgent embrace. Inspired by Tom Ford Tobacco Vanille.',
@@ -200,7 +220,7 @@ const products = Object.freeze([
     {
         id: 'tomford-ombre-leather', brand: 'Tom Ford', name: 'Ombré Leather',
         collection: 'standard', gender: 'unisex',
-        sizes: STD, image: IMG.amber,
+        sizes: STD, image: IMG.gold,
         imageAlt: 'Arabian Perfume Lab inspired bottle — Tom Ford Ombré Leather',
         notes: ['Leather', 'Floral', 'Woody'],
         description: 'Bold leather accord with jasmine, patchouli, and cardamom — power and seduction. Inspired by Tom Ford Ombré Leather.',
@@ -218,7 +238,7 @@ const products = Object.freeze([
     {
         id: 'tomford-neroli-portofino', brand: 'Tom Ford', name: 'Neroli Portofino',
         collection: 'standard', gender: 'unisex',
-        sizes: STD, image: IMG.light,
+        sizes: STD, image: IMG.crystal,
         imageAlt: 'Arabian Perfume Lab inspired bottle — Tom Ford Neroli Portofino',
         notes: ['Citrus', 'Fresh', 'Floral'],
         description: 'Italian neroli, mandarin, and aquatic notes — the smell of Mediterranean sunshine. Inspired by Tom Ford Neroli Portofino.',
@@ -258,7 +278,7 @@ const products = Object.freeze([
     {
         id: 'chanel-bleu-parfum', brand: 'Chanel', name: 'Bleu de Chanel Parfum',
         collection: 'standard', gender: 'men',
-        sizes: STD, image: IMG.premium,
+        sizes: STD, image: IMG.noir,
         imageAlt: 'Arabian Perfume Lab inspired bottle — Bleu de Chanel Parfum',
         notes: ['Woody', 'Amber', 'Incense'],
         description: 'The concentrated parfum version — sandalwood and incense anchor the blue citrus brilliantly. Inspired by Bleu de Chanel Parfum.',
@@ -294,7 +314,7 @@ const products = Object.freeze([
     {
         id: 'chanel-chance', brand: 'Chanel', name: 'Chance',
         collection: 'standard', gender: 'women',
-        sizes: STD, image: IMG.light,
+        sizes: STD, image: IMG.crystal,
         imageAlt: 'Arabian Perfume Lab inspired bottle — Chanel Chance',
         notes: ['Floral', 'Fresh', 'Woody'],
         description: 'Pink pepper, jasmine, and white musk in a playful, joyful chypre. Inspired by Chanel Chance.',
@@ -334,7 +354,7 @@ const products = Object.freeze([
     {
         id: 'creed-himalaya', brand: 'Creed', name: 'Himalaya',
         collection: 'standard', gender: 'men',
-        sizes: STD, image: IMG.light,
+        sizes: STD, image: IMG.crystal,
         imageAlt: 'Arabian Perfume Lab inspired bottle — Creed Himalaya',
         notes: ['Fresh', 'Citrus', 'Woody'],
         description: 'Bergamot, apple, and sandalwood — clean freshness inspired by Himalayan glaciers. Inspired by Creed Himalaya.',
@@ -365,7 +385,7 @@ const products = Object.freeze([
     {
         id: 'armani-acqua-di-gio-profumo', brand: 'Armani', name: 'Acqua di Giò Profumo',
         collection: 'standard', gender: 'men',
-        sizes: STD, image: IMG.premium,
+        sizes: STD, image: IMG.noir,
         imageAlt: 'Arabian Perfume Lab inspired bottle — Acqua di Giò Profumo',
         notes: ['Aquatic', 'Incense', 'Woody'],
         description: 'Aquatic marine with incense and patchouli — a deeper, darker dimension of the iconic ocean scent. Inspired by Acqua di Giò Profumo.',
@@ -374,7 +394,7 @@ const products = Object.freeze([
     {
         id: 'armani-code-homme', brand: 'Armani', name: 'Code Homme',
         collection: 'standard', gender: 'men',
-        sizes: STD, image: IMG.premium,
+        sizes: STD, image: IMG.noir,
         imageAlt: 'Arabian Perfume Lab inspired bottle — Armani Code Homme',
         notes: ['Oriental', 'Spicy', 'Amber'],
         description: 'Bergamot, star anise, and olive blossom on a tonka bean base. Inspired by Armani Code Homme.',
@@ -383,7 +403,7 @@ const products = Object.freeze([
     {
         id: 'armani-code-profumo', brand: 'Armani', name: 'Code Profumo',
         collection: 'standard', gender: 'men',
-        sizes: STD, image: IMG.amber,
+        sizes: STD, image: IMG.gold,
         imageAlt: 'Arabian Perfume Lab inspired bottle — Armani Code Profumo',
         notes: ['Amber', 'Spicy', 'Tobacco'],
         description: 'Amber, cardamom, and apple create a rich oriental intensity. Inspired by Armani Code Profumo.',
@@ -410,8 +430,8 @@ const products = Object.freeze([
     {
         id: 'armani-stronger-with-u', brand: 'Armani', name: 'Stronger With You',
         collection: 'standard', gender: 'men',
-        sizes: { '20ml': 299, '50ml': 999, '100ml': 1599 },
-        mrp:   { '20ml': 499, '50ml': 1299, '100ml': 1999 },
+        sizes: { '20ml': 349, '50ml': 549, '100ml': 999 },
+        mrp:   { '20ml': 499, '50ml': 799, '100ml': 1299 },
         image: IMG.armaniStronger,
         searchName: 'Armani Stronger With You',
         imageAlt: 'Arabian Perfumer\'s — Armani Stronger With You 50ml inspired bottle, black and red label',
@@ -426,7 +446,7 @@ const products = Object.freeze([
     {
         id: 'byredo-bal-dafrique', brand: 'Byredo', name: "Bal d'Afrique",
         collection: 'standard', gender: 'unisex',
-        sizes: STD, image: IMG.light,
+        sizes: STD, image: IMG.crystal,
         imageAlt: "Arabian Perfume Lab inspired bottle — Byredo Bal d'Afrique",
         notes: ['Floral', 'Musk', 'Amber'],
         description: 'Neroli, violet, and African marigold over musk and cedar. Inspired by Bal d\'Afrique.',
@@ -435,7 +455,7 @@ const products = Object.freeze([
     {
         id: 'byredo-mojave-ghost', brand: 'Byredo', name: 'Mojave Ghost',
         collection: 'standard', gender: 'unisex',
-        sizes: STD, image: IMG.light,
+        sizes: STD, image: IMG.crystal,
         imageAlt: 'Arabian Perfume Lab inspired bottle — Byredo Mojave Ghost',
         notes: ['Woody', 'Musk', 'Floral'],
         description: 'Desert magnolia, sandalwood, and ambrette — ethereal and clean. Inspired by Mojave Ghost.',
@@ -444,7 +464,7 @@ const products = Object.freeze([
     {
         id: 'byredo-gypsy-water', brand: 'Byredo', name: 'Gypsy Water',
         collection: 'standard', gender: 'unisex',
-        sizes: STD, image: IMG.light,
+        sizes: STD, image: IMG.crystal,
         imageAlt: 'Arabian Perfume Lab inspired bottle — Byredo Gypsy Water',
         notes: ['Woody', 'Pine', 'Vanilla'],
         description: 'Incense, pine needles, and vanilla for a nomadic, adventurous spirit. Inspired by Gypsy Water.',
@@ -453,7 +473,7 @@ const products = Object.freeze([
     {
         id: 'byredo-super-cedar', brand: 'Byredo', name: 'Super Cedar',
         collection: 'standard', gender: 'unisex',
-        sizes: STD, image: IMG.light,
+        sizes: STD, image: IMG.crystal,
         imageAlt: 'Arabian Perfume Lab inspired bottle — Byredo Super Cedar',
         notes: ['Woody', 'Rose', 'Musk'],
         description: 'Rose water, cedar, and vetiver — clean mineral elegance. Inspired by Super Cedar.',
@@ -475,7 +495,7 @@ const products = Object.freeze([
     {
         id: 'paco-1-million', brand: 'Paco Rabanne', name: '1 Million',
         collection: 'standard', gender: 'men',
-        sizes: STD, image: IMG.amber,
+        sizes: STD, image: IMG.gold,
         imageAlt: 'Arabian Perfume Lab inspired bottle — Paco Rabanne 1 Million',
         notes: ['Spicy', 'Leather', 'Amber'],
         description: 'Grapefruit, cinnamon, and leather with a patchouli base — pure olfactory gold. Inspired by 1 Million.',
@@ -493,7 +513,7 @@ const products = Object.freeze([
     {
         id: 'paco-invictus-legend', brand: 'Paco Rabanne', name: 'Invictus Legend',
         collection: 'standard', gender: 'men',
-        sizes: STD, image: IMG.premium,
+        sizes: STD, image: IMG.noir,
         imageAlt: 'Arabian Perfume Lab inspired bottle — Invictus Legend',
         notes: ['Woody', 'Spicy', 'Amber'],
         description: 'Neroli, pepper, and earthy vetiver in a bold, masculine drydown. Inspired by Invictus Legend.',
@@ -537,7 +557,7 @@ const products = Object.freeze([
     {
         id: 'azzaro-wanted', brand: 'Azzaro', name: 'Wanted',
         collection: 'standard', gender: 'men',
-        sizes: STD, image: IMG.amber,
+        sizes: STD, image: IMG.gold,
         imageAlt: 'Arabian Perfume Lab inspired bottle — Azzaro Wanted',
         notes: ['Spicy', 'Woody', 'Citrus'],
         description: 'Cardamom, vetiver, and guaiac wood — bold and magnetic. Inspired by Azzaro Wanted.',
@@ -555,8 +575,8 @@ const products = Object.freeze([
     {
         id: 'azzaro-most-wanted', brand: 'Azzaro', name: 'Most Wanted',
         collection: 'standard', gender: 'men',
-        sizes: { '20ml': 299, '50ml': 899, '100ml': 1599 },
-        mrp:   { '20ml': 499, '50ml': 1299, '100ml': 1999 },
+        sizes: { '20ml': 349, '50ml': 549, '100ml': 999 },
+        mrp:   { '20ml': 499, '50ml': 799, '100ml': 1299 },
         image: IMG.azzaroMostWanted,
         searchName: 'Azzaro Most Wanted',
         imageAlt: 'Arabian Perfumer\'s — Azzaro Most Wanted inspired bottle with colourful Arabian art label',
@@ -571,7 +591,7 @@ const products = Object.freeze([
     {
         id: 'bvlgari-man-in-black', brand: 'Bvlgari', name: 'Man in Black',
         collection: 'standard', gender: 'men',
-        sizes: STD, image: IMG.premium,
+        sizes: STD, image: IMG.noir,
         imageAlt: 'Arabian Perfume Lab inspired bottle — Bvlgari Man in Black',
         notes: ['Amber', 'Tobacco', 'Spicy'],
         description: 'Rum, tobacco, and leather in a dark, confident oriental. Inspired by Man in Black.',
@@ -589,7 +609,7 @@ const products = Object.freeze([
     {
         id: 'bvlgari-omnia-crystalline', brand: 'Bvlgari', name: 'Omnia Crystalline',
         collection: 'standard', gender: 'women',
-        sizes: STD, image: IMG.light,
+        sizes: STD, image: IMG.crystal,
         imageAlt: 'Arabian Perfume Lab inspired bottle — Bvlgari Omnia Crystalline',
         notes: ['Floral', 'Fresh', 'Woody'],
         description: 'Bamboo, lotus, and white woods — pure crystalline femininity. Inspired by Omnia Crystalline.',
@@ -629,7 +649,7 @@ const products = Object.freeze([
     {
         id: 'dg-king', brand: 'D&G', name: 'King',
         collection: 'standard', gender: 'men',
-        sizes: STD, image: IMG.amber,
+        sizes: STD, image: IMG.gold,
         imageAlt: 'Arabian Perfume Lab inspired bottle — D&G King',
         notes: ['Tobacco', 'Woody', 'Spicy'],
         description: 'Tobacco flower, sandalwood, and amber — regal and commanding. Inspired by D&G King.',
@@ -678,7 +698,7 @@ const products = Object.freeze([
     {
         id: 'versace-crystal-noir', brand: 'Versace', name: 'Crystal Noir',
         collection: 'standard', gender: 'women',
-        sizes: STD, image: IMG.premium,
+        sizes: STD, image: IMG.noir,
         imageAlt: 'Arabian Perfume Lab inspired bottle — Versace Crystal Noir',
         notes: ['Floral', 'Oriental', 'Musk'],
         description: 'Ginger, cardamom, and gardenia on a musky amber. Inspired by Crystal Noir.',
@@ -691,7 +711,7 @@ const products = Object.freeze([
     {
         id: 'ysl-la-nuit', brand: 'YSL', name: "La Nuit de L'Homme",
         collection: 'standard', gender: 'men',
-        sizes: STD, image: IMG.premium,
+        sizes: STD, image: IMG.noir,
         imageAlt: "Arabian Perfume Lab inspired bottle — YSL La Nuit de L'Homme",
         notes: ['Spicy', 'Woody', 'Cardamom'],
         description: 'Cardamom, cedar, and lavender in a dry, addictive Oriental. Inspired by La Nuit de L\'Homme.',
@@ -709,7 +729,7 @@ const products = Object.freeze([
     {
         id: 'ysl-black-opium', brand: 'YSL', name: 'Black Opium',
         collection: 'standard', gender: 'women',
-        sizes: STD, image: IMG.premium,
+        sizes: STD, image: IMG.noir,
         imageAlt: 'Arabian Perfume Lab inspired bottle — YSL Black Opium',
         notes: ['Coffee', 'Vanilla', 'Floral'],
         description: 'Black coffee, white flowers, and vanilla — edgy and addictive. Inspired by Black Opium.',
@@ -731,7 +751,7 @@ const products = Object.freeze([
     {
         id: 'ck-one', brand: 'CK', name: 'CK One',
         collection: 'standard', gender: 'unisex',
-        sizes: STD, image: IMG.light,
+        sizes: STD, image: IMG.crystal,
         imageAlt: 'Arabian Perfume Lab inspired bottle — CK One',
         notes: ['Citrus', 'Fresh', 'Musk'],
         description: 'Bergamot, cardamom, and jasmine on a clean skin musk. Inspired by CK One.',
@@ -740,7 +760,7 @@ const products = Object.freeze([
     {
         id: 'ck-eternity', brand: 'CK', name: 'Eternity',
         collection: 'standard', gender: 'men',
-        sizes: STD, image: IMG.light,
+        sizes: STD, image: IMG.crystal,
         imageAlt: 'Arabian Perfume Lab inspired bottle — CK Eternity',
         notes: ['Green', 'Floral', 'Woody'],
         description: 'Sage, lavender, and sandalwood — timeless simplicity. Inspired by CK Eternity.',
@@ -762,7 +782,7 @@ const products = Object.freeze([
     {
         id: 'hermes-terre', brand: 'Hermes', name: "Terre d'Hermès",
         collection: 'standard', gender: 'men',
-        sizes: STD, image: IMG.amber,
+        sizes: STD, image: IMG.gold,
         imageAlt: "Arabian Perfume Lab inspired bottle — Terre d'Hermès",
         notes: ['Woody', 'Citrus', 'Earthy'],
         description: 'Orange, cedar, and flint mineral accord — elemental and earthy. Inspired by Terre d\'Hermès.',
@@ -771,7 +791,7 @@ const products = Object.freeze([
     {
         id: 'hermes-voyage', brand: 'Hermes', name: "Voyage d'Hermès",
         collection: 'standard', gender: 'unisex',
-        sizes: STD, image: IMG.light,
+        sizes: STD, image: IMG.crystal,
         imageAlt: "Arabian Perfume Lab inspired bottle — Voyage d'Hermès",
         notes: ['Fresh', 'Citrus', 'Woody'],
         description: 'Citrus, pepper, and woody notes — free and adventurous spirit. Inspired by Voyage d\'Hermès.',
@@ -802,7 +822,7 @@ const products = Object.freeze([
     {
         id: 'issey-leau-women', brand: 'Issey Miyake', name: "L'Eau d'Issey (Women)",
         collection: 'standard', gender: 'women',
-        sizes: STD, image: IMG.light,
+        sizes: STD, image: IMG.crystal,
         imageAlt: "Arabian Perfume Lab inspired bottle — L'Eau d'Issey Women",
         notes: ['Aquatic', 'Floral', 'Musk'],
         description: 'Lotus, peony, and white cedar — pure aquatic femininity. Inspired by L\'Eau d\'Issey Women.',
@@ -824,7 +844,7 @@ const products = Object.freeze([
     {
         id: 'prada-luna-rossa-black', brand: 'Prada', name: 'Luna Rossa Black',
         collection: 'standard', gender: 'men',
-        sizes: STD, image: IMG.premium,
+        sizes: STD, image: IMG.noir,
         imageAlt: 'Arabian Perfume Lab inspired bottle — Prada Luna Rossa Black',
         notes: ['Spicy', 'Woody', 'Amber'],
         description: 'Black iris, angelica, and amber for a darker, more intense masculinity. Inspired by Luna Rossa Black.',
@@ -842,7 +862,7 @@ const products = Object.freeze([
     {
         id: 'prada-paradoxe', brand: 'Prada', name: 'Paradoxe',
         collection: 'standard', gender: 'women',
-        sizes: STD, image: IMG.light,
+        sizes: STD, image: IMG.crystal,
         imageAlt: 'Arabian Perfume Lab inspired bottle — Prada Paradoxe',
         notes: ['Floral', 'Citrus', 'Musk'],
         description: 'Neroli, white musk, and cedarwood — the scent of contradiction. Inspired by Prada Paradoxe.',
@@ -855,7 +875,7 @@ const products = Object.freeze([
     {
         id: 'ch-good-girl', brand: 'Carolina Herrera', name: 'Good Girl',
         collection: 'standard', gender: 'women',
-        sizes: STD, image: IMG.premium,
+        sizes: STD, image: IMG.noir,
         imageAlt: 'Arabian Perfume Lab inspired bottle — Carolina Herrera Good Girl',
         notes: ['Floral', 'Coffee', 'Woody'],
         description: 'Jasmine, tuberose, and roasted tonka in a bold, seductive blend. Inspired by Good Girl.',
@@ -864,7 +884,7 @@ const products = Object.freeze([
     {
         id: 'ch-bad-boy', brand: 'Carolina Herrera', name: 'Bad Boy',
         collection: 'standard', gender: 'men',
-        sizes: STD, image: IMG.premium,
+        sizes: STD, image: IMG.noir,
         imageAlt: 'Arabian Perfume Lab inspired bottle — Carolina Herrera Bad Boy',
         notes: ['Woody', 'Spicy', 'Fresh'],
         description: 'Green sage, vanilla, and cedar — rebellious masculine energy. Inspired by Bad Boy.',
@@ -873,7 +893,7 @@ const products = Object.freeze([
     {
         id: 'ch-212-vip', brand: 'Carolina Herrera', name: '212 VIP',
         collection: 'standard', gender: 'women',
-        sizes: STD, image: IMG.light,
+        sizes: STD, image: IMG.crystal,
         imageAlt: 'Arabian Perfume Lab inspired bottle — Carolina Herrera 212 VIP',
         notes: ['Floral', 'Woody', 'Musk'],
         description: 'Gardenia, peony, and white musk — clubbing-ready glamour. Inspired by 212 VIP.',
@@ -886,7 +906,7 @@ const products = Object.freeze([
     {
         id: 'gucci-guilty', brand: 'Gucci', name: 'Guilty',
         collection: 'standard', gender: 'men',
-        sizes: STD, image: IMG.amber,
+        sizes: STD, image: IMG.gold,
         imageAlt: 'Arabian Perfume Lab inspired bottle — Gucci Guilty',
         notes: ['Citrus', 'Woody', 'Leather'],
         description: 'Lemon, lavender, and patchouli with Italian amber. Inspired by Gucci Guilty.',
@@ -913,8 +933,8 @@ const products = Object.freeze([
     {
         id: 'gucci-flora', brand: 'Gucci', name: 'Flora',
         collection: 'standard', gender: 'women',
-        sizes: { '20ml': 299, '50ml': 999, '100ml': 1599 },
-        mrp:   { '20ml': 499, '50ml': 1499, '100ml': 1999 },
+        sizes: { '20ml': 349, '50ml': 549, '100ml': 999 },
+        mrp:   { '20ml': 499, '50ml': 799, '100ml': 1299 },
         image: IMG.rose,
         searchName: 'Gucci Flora',
         imageAlt: 'Arabian Perfume Lab inspired bottle — Gucci Flora',
@@ -925,7 +945,7 @@ const products = Object.freeze([
     {
         id: 'gucci-guilty-edp', brand: 'Gucci', name: 'Guilty Absolute EDP',
         collection: 'standard', gender: 'men',
-        sizes: STD, image: IMG.premium,
+        sizes: STD, image: IMG.noir,
         imageAlt: 'Arabian Perfume Lab inspired bottle — Gucci Guilty Absolute EDP',
         notes: ['Woody', 'Leather', 'Earthy'],
         description: 'Olibanum, leather, and woody vetiver — intense, raw, and unapologetic. Inspired by Guilty Absolute.',
@@ -938,7 +958,7 @@ const products = Object.freeze([
     {
         id: 'rasasi-la-yuqawam', brand: 'Rasasi', name: 'La Yuqawam',
         collection: 'standard', gender: 'men',
-        sizes: STD, image: IMG.amber,
+        sizes: STD, image: IMG.gold,
         imageAlt: 'Arabian Perfume Lab inspired bottle — Rasasi La Yuqawam',
         notes: ['Oud', 'Amber', 'Spicy'],
         description: 'Precious oud, sandalwood, and saffron in a magnificent Arabian composition. Inspired by La Yuqawam.',
@@ -969,7 +989,7 @@ const products = Object.freeze([
     {
         id: 'montblanc-legend-edp', brand: 'Mont Blanc', name: 'Legend EDP',
         collection: 'standard', gender: 'men',
-        sizes: STD, image: IMG.amber,
+        sizes: STD, image: IMG.gold,
         imageAlt: 'Arabian Perfume Lab inspired bottle — Mont Blanc Legend EDP',
         notes: ['Woody', 'Amber', 'Fougère'],
         description: 'Bergamot, cardamom, and Coumarin with warm amber. Inspired by Legend EDP.',
@@ -978,7 +998,7 @@ const products = Object.freeze([
     {
         id: 'montblanc-explorer', brand: 'Mont Blanc', name: 'Explorer',
         collection: 'standard', gender: 'men',
-        sizes: STD, image: IMG.amber,
+        sizes: STD, image: IMG.gold,
         imageAlt: 'Arabian Perfume Lab inspired bottle — Mont Blanc Explorer',
         notes: ['Woody', 'Earthy', 'Spicy'],
         description: 'Bergamot, vetiver, and Amyris — for the adventurous spirit. Inspired by Explorer.',
@@ -1013,7 +1033,7 @@ const products = Object.freeze([
     {
         id: 'replica-beach-walk', brand: 'Replica', name: 'Beach Walk',
         collection: 'standard', gender: 'unisex',
-        sizes: STD, image: IMG.light,
+        sizes: STD, image: IMG.crystal,
         imageAlt: 'Arabian Perfume Lab inspired bottle — Replica Beach Walk',
         notes: ['Citrus', 'Coconut', 'Musk'],
         description: 'Bergamot, ylang-ylang, and coconut — sunscreen and sea breeze. Inspired by Beach Walk.',
@@ -1022,7 +1042,7 @@ const products = Object.freeze([
     {
         id: 'replica-by-the-fireplace', brand: 'Replica', name: 'By the Fireplace',
         collection: 'standard', gender: 'unisex',
-        sizes: STD, image: IMG.amber,
+        sizes: STD, image: IMG.gold,
         imageAlt: 'Arabian Perfume Lab inspired bottle — Replica By the Fireplace',
         notes: ['Smoky', 'Vanilla', 'Woody'],
         description: 'Chestnut, guaiac wood smoke, and vanilla — the smell of a cosy winter fire. Inspired by By the Fireplace.',
@@ -1031,7 +1051,7 @@ const products = Object.freeze([
     {
         id: 'replica-jazz-club', brand: 'Replica', name: 'Jazz Club',
         collection: 'standard', gender: 'men',
-        sizes: STD, image: IMG.amber,
+        sizes: STD, image: IMG.gold,
         imageAlt: 'Arabian Perfume Lab inspired bottle — Replica Jazz Club',
         notes: ['Tobacco', 'Rum', 'Vanilla'],
         description: 'Musk, rum, and pink pepper — late-night jazz bar atmosphere. Inspired by Jazz Club.',
@@ -1062,7 +1082,7 @@ const products = Object.freeze([
     {
         id: 'diptyque-philosykos', brand: 'Diptyque', name: 'Philosykos',
         collection: 'standard', gender: 'unisex',
-        sizes: STD, image: IMG.light,
+        sizes: STD, image: IMG.crystal,
         imageAlt: 'Arabian Perfume Lab inspired bottle — Diptyque Philosykos',
         notes: ['Fig', 'Green', 'Woody'],
         description: 'Fig leaves, fig bark, and fresh fig — sunshine and a Grecian garden. Inspired by Philosykos.',
@@ -1075,7 +1095,7 @@ const products = Object.freeze([
     {
         id: 'boss-bottled', brand: 'Hugo Boss', name: 'Boss Bottled',
         collection: 'standard', gender: 'men',
-        sizes: STD, image: IMG.amber,
+        sizes: STD, image: IMG.gold,
         imageAlt: 'Arabian Perfume Lab inspired bottle — Boss Bottled',
         notes: ['Spicy', 'Woody', 'Apple'],
         description: 'Apple, cinnamon, and sandalwood — the classic office fragrance. Inspired by Boss Bottled.',
@@ -1119,7 +1139,7 @@ const products = Object.freeze([
     {
         id: 'lacoste-essential', brand: 'Lacoste', name: 'Essential',
         collection: 'standard', gender: 'men',
-        sizes: STD, image: IMG.light,
+        sizes: STD, image: IMG.crystal,
         imageAlt: 'Arabian Perfume Lab inspired bottle — Lacoste Essential',
         notes: ['Green', 'Woody', 'Musk'],
         description: 'Tomato leaf, tagette, and sandalwood — fresh and sporty everyday wear. Inspired by Essential.',
@@ -1128,7 +1148,7 @@ const products = Object.freeze([
     {
         id: 'lacoste-blanc', brand: 'Lacoste', name: 'Blanc',
         collection: 'standard', gender: 'men',
-        sizes: STD, image: IMG.light,
+        sizes: STD, image: IMG.crystal,
         imageAlt: 'Arabian Perfume Lab inspired bottle — Lacoste Blanc',
         notes: ['Fresh', 'Citrus', 'Woody'],
         description: 'White tea, green fig, and petitgrain — clean, minimal freshness. Inspired by Lacoste Blanc.',
@@ -1172,7 +1192,7 @@ const products = Object.freeze([
     {
         id: 'bentley-for-men', brand: 'Bentley', name: 'For Men',
         collection: 'standard', gender: 'men',
-        sizes: STD, image: IMG.amber,
+        sizes: STD, image: IMG.gold,
         imageAlt: 'Arabian Perfume Lab inspired bottle — Bentley For Men',
         notes: ['Leather', 'Woody', 'Spicy'],
         description: 'Clary sage, juniper berry, and leather — prestige behind the wheel. Inspired by Bentley For Men.',
@@ -1181,7 +1201,7 @@ const products = Object.freeze([
     {
         id: 'bentley-intense', brand: 'Bentley', name: 'Intense',
         collection: 'standard', gender: 'men',
-        sizes: STD, image: IMG.premium,
+        sizes: STD, image: IMG.noir,
         imageAlt: 'Arabian Perfume Lab inspired bottle — Bentley Intense',
         notes: ['Woody', 'Amber', 'Spicy'],
         description: 'Pepper, oud, and amber in a more intense, opulent rendition. Inspired by Bentley Intense.',
@@ -1194,7 +1214,7 @@ const products = Object.freeze([
     {
         id: 'penhaligons-halfeti', brand: "Penhaligon's", name: 'Halfeti',
         collection: 'standard', gender: 'unisex',
-        sizes: STD, image: IMG.premium,
+        sizes: STD, image: IMG.noir,
         imageAlt: "Arabian Perfume Lab inspired bottle — Penhaligon's Halfeti",
         notes: ['Rose', 'Oud', 'Amber'],
         description: 'Turkish rose, oud, and amber — inspired by the mystical black rose. Inspired by Halfeti.',
@@ -1207,7 +1227,7 @@ const products = Object.freeze([
     {
         id: 'naseem-rose-oud', brand: 'Naseem', name: 'Rose & Oud',
         collection: 'standard', gender: 'unisex',
-        sizes: STD, image: IMG.amber,
+        sizes: STD, image: IMG.gold,
         imageAlt: 'Arabian Perfume Lab inspired bottle — Naseem Rose & Oud',
         notes: ['Rose', 'Oud', 'Musk'],
         description: 'Authentic Arabian rose and oud in a classic Gulf-style composition. Inspired by Naseem.',
@@ -1216,7 +1236,7 @@ const products = Object.freeze([
     {
         id: 'naseem-gold', brand: 'Naseem', name: 'Gold',
         collection: 'standard', gender: 'unisex',
-        sizes: STD, image: IMG.amber,
+        sizes: STD, image: IMG.gold,
         imageAlt: 'Arabian Perfume Lab inspired bottle — Naseem Gold',
         notes: ['Amber', 'Musk', 'Oud'],
         description: 'Rich amber, musk safi, and precious oud — opulent Arabian luxury. Inspired by Naseem Gold.',
@@ -1229,7 +1249,7 @@ const products = Object.freeze([
     {
         id: 'jaguar-classic', brand: 'Jaguar', name: 'Classic',
         collection: 'standard', gender: 'men',
-        sizes: STD, image: IMG.light,
+        sizes: STD, image: IMG.crystal,
         imageAlt: 'Arabian Perfume Lab inspired bottle — Jaguar Classic',
         notes: ['Fresh', 'Citrus', 'Woody'],
         description: 'Grapefruit, geranium, and cedar — refined British motoring elegance. Inspired by Jaguar Classic.',
@@ -1242,7 +1262,7 @@ const products = Object.freeze([
     {
         id: 'lalique-encre-noire', brand: 'Lalique', name: 'Encre Noire',
         collection: 'standard', gender: 'men',
-        sizes: STD, image: IMG.premium,
+        sizes: STD, image: IMG.noir,
         imageAlt: 'Arabian Perfume Lab inspired bottle — Lalique Encre Noire',
         notes: ['Woody', 'Vetiver', 'Dark'],
         description: 'Pure vetiver, cypriol, and musk — deep, smoky, and hypnotic. Inspired by Encre Noire.',
@@ -1251,7 +1271,7 @@ const products = Object.freeze([
     {
         id: 'lalique-lion', brand: 'Lalique', name: 'Lion',
         collection: 'standard', gender: 'men',
-        sizes: STD, image: IMG.amber,
+        sizes: STD, image: IMG.gold,
         imageAlt: 'Arabian Perfume Lab inspired bottle — Lalique Lion',
         notes: ['Spicy', 'Woody', 'Amber'],
         description: 'Saffron, amber, and sandalwood — regal and powerful. Inspired by Lalique Lion.',
@@ -1264,7 +1284,7 @@ const products = Object.freeze([
     {
         id: 'jomalone-wood-sage-sea-salt', brand: 'Jo Malone', name: 'Wood Sage & Sea Salt',
         collection: 'standard', gender: 'unisex',
-        sizes: STD, image: IMG.light,
+        sizes: STD, image: IMG.crystal,
         imageAlt: 'Arabian Perfume Lab inspired bottle — Jo Malone Wood Sage & Sea Salt',
         notes: ['Aquatic', 'Woody', 'Earthy'],
         description: 'Sea salt, driftwood, and sage — wild coastline in a bottle. Inspired by Wood Sage & Sea Salt.',
@@ -1282,7 +1302,7 @@ const products = Object.freeze([
     {
         id: 'jomalone-lime-basil-mandarin', brand: 'Jo Malone', name: 'Lime Basil & Mandarin',
         collection: 'standard', gender: 'unisex',
-        sizes: STD, image: IMG.light,
+        sizes: STD, image: IMG.crystal,
         imageAlt: 'Arabian Perfume Lab inspired bottle — Jo Malone Lime Basil & Mandarin',
         notes: ['Citrus', 'Herbal', 'Woody'],
         description: 'Lime, basil, and white thyme — crisp, herbal, and utterly British. Inspired by Lime Basil & Mandarin.',
@@ -1295,7 +1315,7 @@ const products = Object.freeze([
     {
         id: 'kilian-angels-share', brand: 'Kilian', name: "Angel's Share",
         collection: 'standard', gender: 'unisex',
-        sizes: STD, image: IMG.amber,
+        sizes: STD, image: IMG.gold,
         imageAlt: "Arabian Perfume Lab inspired bottle — Kilian Angel's Share",
         notes: ['Cognac', 'Vanilla', 'Spicy'],
         description: 'Cognac, cinnamon, and oak wood — the intoxicating spirit of a whisky barrel. Inspired by Angel\'s Share.',
@@ -1304,7 +1324,7 @@ const products = Object.freeze([
     {
         id: 'kilian-black-phantom', brand: 'Kilian', name: 'Black Phantom',
         collection: 'standard', gender: 'unisex',
-        sizes: STD, image: IMG.premium,
+        sizes: STD, image: IMG.noir,
         imageAlt: 'Arabian Perfume Lab inspired bottle — Kilian Black Phantom',
         notes: ['Coffee', 'Rum', 'Vanilla'],
         description: 'Rum, coffee, dark caramel, and guaiac wood — dangerous and delicious. Inspired by Black Phantom.',
@@ -1326,7 +1346,7 @@ const products = Object.freeze([
     {
         id: 'mfk-baccarat-rouge-540', brand: 'MFK', name: 'Baccarat Rouge 540',
         collection: 'standard', gender: 'unisex',
-        sizes: STD, image: IMG.light,
+        sizes: STD, image: IMG.crystal,
         imageAlt: 'Arabian Perfume Lab inspired bottle — MFK Baccarat Rouge 540',
         notes: ['Amber', 'Floral', 'Woody'],
         description: 'Saffron, ambroxan, and cedarwood — the most complimented fragrance of the decade. Inspired by Baccarat Rouge 540.',
@@ -1335,7 +1355,7 @@ const products = Object.freeze([
     {
         id: 'mfk-grand-soir', brand: 'MFK', name: 'Grand Soir',
         collection: 'standard', gender: 'unisex',
-        sizes: STD, image: IMG.amber,
+        sizes: STD, image: IMG.gold,
         imageAlt: 'Arabian Perfume Lab inspired bottle — MFK Grand Soir',
         notes: ['Amber', 'Vanilla', 'Incense'],
         description: 'Amber, benzoin, and tonka — a grand evening dressing. Inspired by Grand Soir.',
@@ -1344,7 +1364,7 @@ const products = Object.freeze([
     {
         id: 'mfk-oud-cashmere-mood', brand: 'MFK', name: 'Oud Cashmere Mood',
         collection: 'standard', gender: 'unisex',
-        sizes: STD, image: IMG.premium,
+        sizes: STD, image: IMG.noir,
         imageAlt: 'Arabian Perfume Lab inspired bottle — MFK Oud Cashmere Mood',
         notes: ['Oud', 'Cashmere', 'Amber'],
         description: 'Oud accord, hazelwood, and cashmere musk — enveloping warmth. Inspired by Oud Cashmere Mood.',
@@ -1357,7 +1377,7 @@ const products = Object.freeze([
     {
         id: 'montale-black-aoud', brand: 'Montale', name: 'Black Aoud',
         collection: 'standard', gender: 'men',
-        sizes: STD, image: IMG.premium,
+        sizes: STD, image: IMG.noir,
         imageAlt: 'Arabian Perfume Lab inspired bottle — Montale Black Aoud',
         notes: ['Oud', 'Rose', 'Amber'],
         description: 'Black aoud, rose, patchouli, and musk — the darkest rose in the garden. Inspired by Black Aoud.',
@@ -1366,7 +1386,7 @@ const products = Object.freeze([
     {
         id: 'montale-intense-cafe', brand: 'Montale', name: 'Intense Café',
         collection: 'standard', gender: 'unisex',
-        sizes: STD, image: IMG.premium,
+        sizes: STD, image: IMG.noir,
         imageAlt: 'Arabian Perfume Lab inspired bottle — Montale Intense Café',
         notes: ['Coffee', 'Rose', 'Vanilla'],
         description: 'Coffee, rose, and vanilla — warm, sensual, and utterly unique. Inspired by Intense Café.',
@@ -1379,7 +1399,7 @@ const products = Object.freeze([
     {
         id: 'burberry-brit', brand: 'Burberry', name: 'Brit',
         collection: 'standard', gender: 'men',
-        sizes: STD, image: IMG.amber,
+        sizes: STD, image: IMG.gold,
         imageAlt: 'Arabian Perfume Lab inspired bottle — Burberry Brit',
         notes: ['Spicy', 'Woody', 'Ginger'],
         description: 'Grapefruit, cardamom, and tonka — British sophistication with a modern edge. Inspired by Brit.',
@@ -1388,7 +1408,7 @@ const products = Object.freeze([
     {
         id: 'burberry-hero', brand: 'Burberry', name: 'Hero',
         collection: 'standard', gender: 'men',
-        sizes: STD, image: IMG.light,
+        sizes: STD, image: IMG.crystal,
         imageAlt: 'Arabian Perfume Lab inspired bottle — Burberry Hero',
         notes: ['Woody', 'Cedar', 'Pepper'],
         description: 'Bergamot, cedar, and black pepper — clean, confident, and ready for anything. Inspired by Hero.',
@@ -1401,7 +1421,7 @@ const products = Object.freeze([
     {
         id: 'pdm-layton', brand: 'Parfums de Marly', name: 'Layton',
         collection: 'standard', gender: 'unisex',
-        sizes: STD, image: IMG.light,
+        sizes: STD, image: IMG.crystal,
         imageAlt: 'Arabian Perfume Lab inspired bottle — Parfums de Marly Layton',
         notes: ['Woody', 'Vanilla', 'Spicy'],
         description: 'Apple, lavender, and vanilla — sophisticated European opulence. Inspired by Layton.',
@@ -1410,7 +1430,7 @@ const products = Object.freeze([
     {
         id: 'pdm-herod', brand: 'Parfums de Marly', name: 'Herod',
         collection: 'standard', gender: 'men',
-        sizes: STD, image: IMG.amber,
+        sizes: STD, image: IMG.gold,
         imageAlt: 'Arabian Perfume Lab inspired bottle — Parfums de Marly Herod',
         notes: ['Tobacco', 'Vanilla', 'Woody'],
         description: 'Tobacco, cinnamon, and sandalwood — baroque grandeur. Inspired by Herod.',
@@ -1419,7 +1439,7 @@ const products = Object.freeze([
     {
         id: 'pdm-percival', brand: 'Parfums de Marly', name: 'Percival',
         collection: 'standard', gender: 'unisex',
-        sizes: STD, image: IMG.light,
+        sizes: STD, image: IMG.crystal,
         imageAlt: 'Arabian Perfume Lab inspired bottle — Parfums de Marly Percival',
         notes: ['Floral', 'Musk', 'Vanilla'],
         description: 'Bergamot, lavender, and white musk — effortless everyday nobility. Inspired by Percival.',
@@ -1450,7 +1470,7 @@ const products = Object.freeze([
     {
         id: 'vr-spicebomb', brand: 'Viktor & Rolf', name: 'Spicebomb',
         collection: 'standard', gender: 'men',
-        sizes: STD, image: IMG.amber,
+        sizes: STD, image: IMG.gold,
         imageAlt: 'Arabian Perfume Lab inspired bottle — Viktor & Rolf Spicebomb',
         notes: ['Spicy', 'Tobacco', 'Leather'],
         description: 'Cinnamon, leather, and vetiver in an explosive oriental. Inspired by Spicebomb.',
@@ -1459,7 +1479,7 @@ const products = Object.freeze([
     {
         id: 'vr-spicebomb-night-vision', brand: 'Viktor & Rolf', name: 'Spicebomb Night Vision',
         collection: 'standard', gender: 'men',
-        sizes: STD, image: IMG.premium,
+        sizes: STD, image: IMG.noir,
         imageAlt: 'Arabian Perfume Lab inspired bottle — Spicebomb Night Vision',
         notes: ['Herbal', 'Spicy', 'Woody'],
         description: 'Mint, cardamom, and vetiver — cool, dark, and electrifying. Inspired by Spicebomb Night Vision.',
@@ -1469,7 +1489,7 @@ const products = Object.freeze([
     {
         id: 'musk-safi', brand: 'Naseem', name: 'Musk Safi',
         collection: 'standard', gender: 'unisex',
-        sizes: STD, image: IMG.light,
+        sizes: STD, image: IMG.crystal,
         imageAlt: 'Arabian Perfume Lab inspired bottle — Musk Safi',
         notes: ['Musk', 'White', 'Powdery'],
         description: 'Pure white musk — clean, intimate, and universally wearable. Traditional Arabian musk composition.',
@@ -1482,7 +1502,7 @@ const products = Object.freeze([
     {
         id: 'premium-paco-phantom', brand: 'Paco Rabanne', name: 'Phantom (Premium EDP)',
         collection: 'premium', gender: 'men',
-        sizes: PRM, image: IMG.premium,
+        sizes: PRM, image: IMG.noir,
         imageAlt: 'Arabian Perfume Lab Premium EDP — Paco Rabanne Phantom',
         notes: ['Woody', 'Spicy', 'Vanilla'],
         description: 'Lavender, ginger, and robot-soul accord — futuristic fougère. Premium inspired EDP.',
@@ -1491,7 +1511,7 @@ const products = Object.freeze([
     {
         id: 'premium-vr-spicebomb-extreme', brand: 'Viktor & Rolf', name: 'Spicebomb Extreme (Premium EDP)',
         collection: 'premium', gender: 'men',
-        sizes: PRM, image: IMG.premium,
+        sizes: PRM, image: IMG.noir,
         imageAlt: 'Arabian Perfume Lab Premium EDP — Spicebomb Extreme',
         notes: ['Spicy', 'Vanilla', 'Tobacco'],
         description: 'Magnified cinnamon, tobacco, and amber — the ultimate cold-weather powerhouse. Premium inspired EDP.',
@@ -1500,7 +1520,7 @@ const products = Object.freeze([
     {
         id: 'premium-moschino-toyboy', brand: 'Moschino', name: 'Toy Boy (Premium EDP)',
         collection: 'premium', gender: 'men',
-        sizes: PRM, image: IMG.premium,
+        sizes: PRM, image: IMG.noir,
         imageAlt: 'Arabian Perfume Lab Premium EDP — Moschino Toy Boy',
         notes: ['Spicy', 'Floral', 'Woody'],
         description: 'Black pepper, vetiver, and rose in a bold, avant-garde composition. Premium inspired EDP.',
@@ -1509,7 +1529,7 @@ const products = Object.freeze([
     {
         id: 'premium-le-labo-bergamot-22', brand: 'Le Labo', name: 'Bergamote 22 (Premium EDP)',
         collection: 'premium', gender: 'unisex',
-        sizes: PRM, image: IMG.light,
+        sizes: PRM, image: IMG.crystal,
         imageAlt: 'Arabian Perfume Lab Premium EDP — Le Labo Bergamote 22',
         notes: ['Citrus', 'Musk', 'Woody'],
         description: 'Bergamot, petitgrain, and neroli on a clean musk — effortlessly cool. Premium inspired EDP.',
@@ -1527,7 +1547,7 @@ const products = Object.freeze([
     {
         id: 'premium-dior-oud-ispahan', brand: 'Dior', name: 'Oud Ispahan (Premium EDP)',
         collection: 'premium', gender: 'unisex',
-        sizes: PRM, image: IMG.amber,
+        sizes: PRM, image: IMG.gold,
         imageAlt: 'Arabian Perfume Lab Premium EDP — Dior Oud Ispahan',
         notes: ['Oud', 'Rose', 'Amber'],
         description: 'Rose, oud, and labdanum — a Persian fantasy of extraordinary depth. Premium inspired EDP.',
@@ -1536,7 +1556,7 @@ const products = Object.freeze([
     {
         id: 'premium-tomford-grey-vetiver', brand: 'Tom Ford', name: 'Grey Vetiver (Premium EDP)',
         collection: 'premium', gender: 'men',
-        sizes: PRM, image: IMG.light,
+        sizes: PRM, image: IMG.crystal,
         imageAlt: 'Arabian Perfume Lab Premium EDP — Tom Ford Grey Vetiver',
         notes: ['Vetiver', 'Woody', 'Earthy'],
         description: 'Vetiver, grapefruit, and white pepper — refined grooming at its peak. Premium inspired EDP.',
@@ -1545,7 +1565,7 @@ const products = Object.freeze([
     {
         id: 'premium-byredo-black-saffron', brand: 'Byredo', name: 'Black Saffron (Premium EDP)',
         collection: 'premium', gender: 'unisex',
-        sizes: PRM, image: IMG.premium,
+        sizes: PRM, image: IMG.noir,
         imageAlt: 'Arabian Perfume Lab Premium EDP — Byredo Black Saffron',
         notes: ['Saffron', 'Leather', 'Woody'],
         description: 'Saffron, violet, and leather with vetiver depth. Premium inspired EDP.',
@@ -1554,7 +1574,7 @@ const products = Object.freeze([
     {
         id: 'premium-hermes-h24', brand: 'Hermes', name: 'H24 (Premium EDP)',
         collection: 'premium', gender: 'men',
-        sizes: PRM, image: IMG.light,
+        sizes: PRM, image: IMG.crystal,
         imageAlt: 'Arabian Perfume Lab Premium EDP — Hermes H24',
         notes: ['Green', 'Woody', 'Floral'],
         description: 'Sage, narcissus, and cedarwood — a modern herbaceous man. Premium inspired EDP.',
@@ -1563,7 +1583,7 @@ const products = Object.freeze([
     {
         id: 'premium-creed-green-irish-tweed', brand: 'Creed', name: 'Green Irish Tweed (Premium EDP)',
         collection: 'premium', gender: 'men',
-        sizes: PRM, image: IMG.light,
+        sizes: PRM, image: IMG.crystal,
         imageAlt: 'Arabian Perfume Lab Premium EDP — Creed Green Irish Tweed',
         notes: ['Green', 'Floral', 'Woody'],
         description: 'Iris, green meadows, and violet leaves on sandalwood. Premium inspired EDP.',
@@ -1572,7 +1592,7 @@ const products = Object.freeze([
     {
         id: 'premium-mancera-red-tobacco', brand: 'Mancera', name: 'Red Tobacco (Premium EDP)',
         collection: 'premium', gender: 'unisex',
-        sizes: PRM, image: IMG.premium,
+        sizes: PRM, image: IMG.noir,
         imageAlt: 'Arabian Perfume Lab Premium EDP — Mancera Red Tobacco',
         notes: ['Tobacco', 'Rose', 'Amber'],
         description: 'Rose, tobacco, and vanilla — warm, opulent, and wonderfully smoky. Premium inspired EDP.',
@@ -1581,7 +1601,7 @@ const products = Object.freeze([
     {
         id: 'premium-gucci-voice-snake', brand: 'Gucci', name: 'Voice of the Snake (Premium EDP)',
         collection: 'premium', gender: 'unisex',
-        sizes: PRM, image: IMG.premium,
+        sizes: PRM, image: IMG.noir,
         imageAlt: 'Arabian Perfume Lab Premium EDP — Gucci Voice of the Snake',
         notes: ['Oriental', 'Floral', 'Amber'],
         description: 'Black rose, vetiver, and amber resin — dark and hypnotic. Premium inspired EDP.',
@@ -1590,7 +1610,7 @@ const products = Object.freeze([
     {
         id: 'premium-creed-royal-oud', brand: 'Creed', name: 'Royal Oud (Premium EDP)',
         collection: 'premium', gender: 'unisex',
-        sizes: PRM, image: IMG.amber,
+        sizes: PRM, image: IMG.gold,
         imageAlt: 'Arabian Perfume Lab Premium EDP — Creed Royal Oud',
         notes: ['Oud', 'Woody', 'Spicy'],
         description: 'Oud, cedar, and coriander — a regal, layered tribute to Arabian tradition. Premium inspired EDP.',
@@ -1608,7 +1628,7 @@ const products = Object.freeze([
     {
         id: 'premium-mancera-black-vanilla', brand: 'Mancera', name: 'Black Vanilla (Premium EDP)',
         collection: 'premium', gender: 'unisex',
-        sizes: PRM, image: IMG.premium,
+        sizes: PRM, image: IMG.noir,
         imageAlt: 'Arabian Perfume Lab Premium EDP — Mancera Black Vanilla',
         notes: ['Vanilla', 'Caramel', 'Woody'],
         description: 'Vanilla, caramel, and amber — the ultimate gourmand luxury. Premium inspired EDP.',
@@ -1617,7 +1637,7 @@ const products = Object.freeze([
     {
         id: 'premium-initio-side-effect', brand: 'Initio', name: 'Side Effect (Premium EDP)',
         collection: 'premium', gender: 'unisex',
-        sizes: PRM, image: IMG.premium,
+        sizes: PRM, image: IMG.noir,
         imageAlt: 'Arabian Perfume Lab Premium EDP — Initio Side Effect',
         notes: ['Vanilla', 'Tobacco', 'Woody'],
         description: 'Rum, tobacco, and vanilla for hedonistic pleasure. Premium inspired EDP.',
@@ -1635,7 +1655,7 @@ const products = Object.freeze([
     {
         id: 'premium-mancera-aoud-lemon-mint', brand: 'Mancera', name: 'Aoud Lemon Mint (Premium EDP)',
         collection: 'premium', gender: 'unisex',
-        sizes: PRM, image: IMG.amber,
+        sizes: PRM, image: IMG.gold,
         imageAlt: 'Arabian Perfume Lab Premium EDP — Mancera Aoud Lemon Mint',
         notes: ['Oud', 'Citrus', 'Mint'],
         description: 'Oud, lemon, and mint in a refreshingly unusual Arabian blend. Premium inspired EDP.',
@@ -1671,7 +1691,7 @@ const products = Object.freeze([
     {
         id: 'premium-creed-millesime-imperial', brand: 'Creed', name: 'Millésime Impérial (Premium EDP)',
         collection: 'premium', gender: 'unisex',
-        sizes: PRM, image: IMG.light,
+        sizes: PRM, image: IMG.crystal,
         imageAlt: 'Arabian Perfume Lab Premium EDP — Creed Millésime Impérial',
         notes: ['Aquatic', 'Citrus', 'Musk'],
         description: 'Sea lavender, ambrette, and iris — the fragrance of royal Mediterranean summers. Premium inspired EDP.',
@@ -1689,7 +1709,7 @@ const products = Object.freeze([
     {
         id: 'premium-fm-promise', brand: 'Frédéric Malle', name: 'Promise (Premium EDP)',
         collection: 'premium', gender: 'unisex',
-        sizes: PRM, image: IMG.light,
+        sizes: PRM, image: IMG.crystal,
         imageAlt: 'Arabian Perfume Lab Premium EDP — Frédéric Malle Promise',
         notes: ['Musk', 'Iris', 'Amber'],
         description: 'Musks, iris, and amber — intimate, hypnotic, and skin-like. Premium inspired EDP.',
@@ -1707,7 +1727,7 @@ const products = Object.freeze([
     {
         id: 'premium-amouage-jubilation', brand: 'Amouage', name: 'Jubilation 25 (Premium EDP)',
         collection: 'premium', gender: 'women',
-        sizes: PRM, image: IMG.amber,
+        sizes: PRM, image: IMG.gold,
         imageAlt: 'Arabian Perfume Lab Premium EDP — Amouage Jubilation 25',
         notes: ['Oriental', 'Woody', 'Floral'],
         description: 'Incense, rose, and olibanum — Omani perfumery royalty. Premium inspired EDP.',
@@ -1716,7 +1736,7 @@ const products = Object.freeze([
     {
         id: 'premium-amouage-reflection', brand: 'Amouage', name: 'Reflection Man (Premium EDP)',
         collection: 'premium', gender: 'men',
-        sizes: PRM, image: IMG.light,
+        sizes: PRM, image: IMG.crystal,
         imageAlt: 'Arabian Perfume Lab Premium EDP — Amouage Reflection Man',
         notes: ['Floral', 'Woody', 'Aromatic'],
         description: 'Neroli, jasmine, and sandalwood — contemplative masculine elegance. Premium inspired EDP.',
@@ -1725,7 +1745,7 @@ const products = Object.freeze([
     {
         id: 'premium-amouage-interlude-53', brand: 'Amouage', name: 'Interlude 53 (Premium EDP)',
         collection: 'premium', gender: 'men',
-        sizes: PRM, image: IMG.premium,
+        sizes: PRM, image: IMG.noir,
         imageAlt: 'Arabian Perfume Lab Premium EDP — Amouage Interlude 53',
         notes: ['Incense', 'Oud', 'Amber'],
         description: 'Oud, incense, and amber — the fragrance equivalent of a Sufi trance. Premium inspired EDP.',
@@ -1734,7 +1754,7 @@ const products = Object.freeze([
     {
         id: 'premium-montale-honey-oud', brand: 'Montale', name: 'Honey Aoud (Premium EDP)',
         collection: 'premium', gender: 'unisex',
-        sizes: PRM, image: IMG.amber,
+        sizes: PRM, image: IMG.gold,
         imageAlt: 'Arabian Perfume Lab Premium EDP — Montale Honey Aoud',
         notes: ['Oud', 'Honey', 'Amber'],
         description: 'Oud, wild honey, and orange blossom — liquid gold. Premium inspired EDP.',
@@ -1743,7 +1763,7 @@ const products = Object.freeze([
     {
         id: 'premium-memo-irish-leather', brand: 'Memo Paris', name: 'Irish Leather (Premium EDP)',
         collection: 'premium', gender: 'unisex',
-        sizes: PRM, image: IMG.premium,
+        sizes: PRM, image: IMG.noir,
         imageAlt: 'Arabian Perfume Lab Premium EDP — Memo Paris Irish Leather',
         notes: ['Leather', 'Woody', 'Green'],
         description: 'Leather, birch, and green accords for a misty Irish countryside. Premium inspired EDP.',
@@ -1752,7 +1772,7 @@ const products = Object.freeze([
     {
         id: 'premium-memo-african-leather', brand: 'Memo Paris', name: 'African Leather (Premium EDP)',
         collection: 'premium', gender: 'unisex',
-        sizes: PRM, image: IMG.premium,
+        sizes: PRM, image: IMG.noir,
         imageAlt: 'Arabian Perfume Lab Premium EDP — Memo Paris African Leather',
         notes: ['Leather', 'Spicy', 'Smoky'],
         description: 'Leather, pepper, and vetiver — raw Africa captured in a bottle. Premium inspired EDP.',
@@ -1770,7 +1790,7 @@ const products = Object.freeze([
     {
         id: 'premium-bono9-bleecker-street', brand: 'Bond No. 9', name: 'Bleecker Street (Premium EDP)',
         collection: 'premium', gender: 'unisex',
-        sizes: PRM, image: IMG.light,
+        sizes: PRM, image: IMG.crystal,
         imageAlt: 'Arabian Perfume Lab Premium EDP — Bond No. 9 Bleecker Street',
         notes: ['Citrus', 'Aromatic', 'Woody'],
         description: 'Bergamot, lavender, and iris root — New York downtown cool. Premium inspired EDP.',
@@ -1779,7 +1799,7 @@ const products = Object.freeze([
     {
         id: 'premium-guerlain-homme-cologne', brand: 'Guerlain', name: "L'Homme Idéal Cologne (Premium EDP)",
         collection: 'premium', gender: 'men',
-        sizes: PRM, image: IMG.light,
+        sizes: PRM, image: IMG.crystal,
         imageAlt: "Arabian Perfume Lab Premium EDP — Guerlain L'Homme Idéal Cologne",
         notes: ['Citrus', 'Herbal', 'Woody'],
         description: 'Lemon, lavender, and cedarwood — fresh French masculine refinement. Premium inspired EDP.',
@@ -1788,7 +1808,7 @@ const products = Object.freeze([
     {
         id: 'premium-valentino-uomo-intense', brand: 'Valentino', name: 'Uomo Intense (Premium EDP)',
         collection: 'premium', gender: 'men',
-        sizes: PRM, image: IMG.amber,
+        sizes: PRM, image: IMG.gold,
         imageAlt: 'Arabian Perfume Lab Premium EDP — Valentino Uomo Intense',
         notes: ['Leather', 'Tobacco', 'Amber'],
         description: 'Leather, tobacco, and iris — Valentino couture in olfactory form. Premium inspired EDP.',
@@ -1797,7 +1817,7 @@ const products = Object.freeze([
     {
         id: 'premium-dunhill-alfred-icon', brand: 'Dunhill', name: 'Alfred Icon Absolute (Premium EDP)',
         collection: 'premium', gender: 'men',
-        sizes: PRM, image: IMG.premium,
+        sizes: PRM, image: IMG.noir,
         imageAlt: 'Arabian Perfume Lab Premium EDP — Dunhill Alfred Icon Absolute',
         notes: ['Woody', 'Amber', 'Tobacco'],
         description: 'Tobacco blossom, amber, and sandalwood — a gentlemanly British classic. Premium inspired EDP.',
@@ -1813,9 +1833,9 @@ const products = Object.freeze([
     {
         id: 'celeb-allu-arjun', brand: 'Creed', name: 'Aventus (Allu Arjun Style)',
         collection: 'celebrity', gender: 'men',
-        sizes: { '20ml': 299, '50ml': 899, '100ml': 1299 },
-        mrp:   { '20ml': 499, '50ml': 1299, '100ml': 1799 },
-        image: IMG.light,
+        sizes: { '20ml': 349, '50ml': 549, '100ml': 999 },
+        mrp:   { '20ml': 499, '50ml': 799, '100ml': 1299 },
+        image: IMG.crystal,
         imageAlt: 'Arabian Perfume Lab celebrity inspired bottle — Allu Arjun style',
         notes: ['Fruity', 'Woody', 'Smoky'],
         description: 'Pineapple, birch, and oakmoss — inspired by the signature scent reportedly favoured by Allu Arjun. Inspired by Creed Aventus.',
@@ -1837,8 +1857,8 @@ const products = Object.freeze([
     {
         id: 'celeb-ronaldo', brand: 'Cristiano Ronaldo', name: 'Ronaldo (CR7 Style)',
         collection: 'celebrity', gender: 'men',
-        sizes: { '20ml': 299, '50ml': 899, '100ml': 1299 },
-        mrp:   { '20ml': 499, '50ml': 1299, '100ml': 1799 },
+        sizes: { '20ml': 349, '50ml': 549, '100ml': 999 },
+        mrp:   { '20ml': 499, '50ml': 799, '100ml': 1299 },
         image: IMG.ronaldo,
         imageAlt: 'Arabian Perfumer\'s — Ronaldo inspired perfume bottle with footballer illustration',
         notes: ['Citrus', 'Fresh', 'Woody'],
@@ -1849,7 +1869,7 @@ const products = Object.freeze([
     {
         id: 'celeb-srk-dunhill', brand: 'Dunhill', name: 'Alfred Icon Absolute (Shah Rukh Khan Style)',
         collection: 'celebrity', gender: 'men',
-        sizes: STD, image: IMG.premium,
+        sizes: STD, image: IMG.noir,
         imageAlt: 'Arabian Perfume Lab celebrity inspired bottle — Shah Rukh Khan Dunhill style',
         notes: ['Woody', 'Amber', 'Tobacco'],
         description: 'Tobacco blossom and amber — an icon\'s choice. Inspired by Dunhill Alfred Icon Absolute.',
@@ -1871,7 +1891,7 @@ const products = Object.freeze([
     {
         id: 'celeb-hrithik-king', brand: 'D&G', name: 'King (Hrithik Roshan Style)',
         collection: 'celebrity', gender: 'men',
-        sizes: STD, image: IMG.amber,
+        sizes: STD, image: IMG.gold,
         imageAlt: 'Arabian Perfume Lab celebrity inspired bottle — Hrithik Roshan style',
         notes: ['Tobacco', 'Woody', 'Spicy'],
         description: 'Tobacco flower and amber — the regal choice. Inspired by D&G King.',
@@ -1882,7 +1902,7 @@ const products = Object.freeze([
     {
         id: 'celeb-harbhajan-musk-safi', brand: 'Naseem', name: 'Musk Safi (Harbhajan Singh Style)',
         collection: 'celebrity', gender: 'unisex',
-        sizes: STD, image: IMG.light,
+        sizes: STD, image: IMG.crystal,
         imageAlt: 'Arabian Perfume Lab celebrity inspired bottle — Harbhajan Singh style',
         notes: ['Musk', 'White', 'Powdery'],
         description: 'Pure white musk — reportedly worn by Harbhajan Singh. Traditional Arabian musk.',
@@ -1893,8 +1913,8 @@ const products = Object.freeze([
     {
         id: 'celeb-virat-viking', brand: 'Creed', name: 'Viking (Virat Kohli Style)',
         collection: 'celebrity', gender: 'men',
-        sizes: { '20ml': 299, '50ml': 999, '100ml': 1299 },
-        mrp:   { '20ml': 499, '50ml': 1299, '100ml': 1799 },
+        sizes: { '20ml': 349, '50ml': 549, '100ml': 999 },
+        mrp:   { '20ml': 499, '50ml': 799, '100ml': 1299 },
         image: IMG.blue,
         imageAlt: 'Arabian Perfume Lab celebrity inspired bottle — Virat Kohli style',
         notes: ['Spicy', 'Woody', 'Fresh'],
@@ -1917,7 +1937,7 @@ const products = Object.freeze([
     {
         id: 'celeb-shahid-green-irish', brand: 'Creed', name: 'Green Irish Tweed (Shahid Kapoor Style)',
         collection: 'celebrity', gender: 'men',
-        sizes: STD, image: IMG.light,
+        sizes: STD, image: IMG.crystal,
         imageAlt: 'Arabian Perfume Lab celebrity inspired bottle — Shahid Kapoor style',
         notes: ['Green', 'Floral', 'Woody'],
         description: 'Iris and violet leaves on sandalwood — clean, iconic, and effortless. Inspired by Creed Green Irish Tweed.',
@@ -1939,7 +1959,7 @@ const products = Object.freeze([
     {
         id: 'celeb-arjun-ombre-leather', brand: 'Tom Ford', name: 'Ombré Leather (Arjun Kapoor Style)',
         collection: 'celebrity', gender: 'men',
-        sizes: STD, image: IMG.amber,
+        sizes: STD, image: IMG.gold,
         imageAlt: 'Arabian Perfume Lab celebrity inspired bottle — Arjun Kapoor style',
         notes: ['Leather', 'Floral', 'Woody'],
         description: 'Bold leather and jasmine — raw masculinity. Inspired by Tom Ford Ombré Leather.',
@@ -1950,7 +1970,7 @@ const products = Object.freeze([
     {
         id: 'celeb-sonam-gypsy-water', brand: 'Byredo', name: 'Gypsy Water (Sonam Kapoor Style)',
         collection: 'celebrity', gender: 'unisex',
-        sizes: STD, image: IMG.light,
+        sizes: STD, image: IMG.crystal,
         imageAlt: 'Arabian Perfume Lab celebrity inspired bottle — Sonam Kapoor style',
         notes: ['Woody', 'Pine', 'Vanilla'],
         description: 'Incense, pine, and vanilla — free-spirited and unforgettable. Inspired by Byredo Gypsy Water.',
@@ -1961,7 +1981,7 @@ const products = Object.freeze([
     {
         id: 'celeb-alia-armani-code', brand: 'Armani', name: 'Code Profumo (Alia Bhatt Style)',
         collection: 'celebrity', gender: 'men',
-        sizes: STD, image: IMG.amber,
+        sizes: STD, image: IMG.gold,
         imageAlt: 'Arabian Perfume Lab celebrity inspired bottle — Alia Bhatt Armani style',
         notes: ['Amber', 'Spicy', 'Tobacco'],
         description: 'Amber and cardamom intensity — inspired by Alia Bhatt\'s noted preference. Inspired by Armani Code Profumo.',
@@ -1983,7 +2003,7 @@ const products = Object.freeze([
     {
         id: 'celeb-beyonce-angels-share', brand: 'Kilian', name: "Angel's Share (Beyoncé Style)",
         collection: 'celebrity', gender: 'unisex',
-        sizes: STD, image: IMG.amber,
+        sizes: STD, image: IMG.gold,
         imageAlt: 'Arabian Perfume Lab celebrity inspired bottle — Beyoncé style',
         notes: ['Cognac', 'Vanilla', 'Spicy'],
         description: 'Cognac, cinnamon, and oak — the spirit of royalty. Inspired by Kilian Angel\'s Share.',
@@ -2049,7 +2069,7 @@ const products = Object.freeze([
     {
         id: 'celeb-ranveer-gucci-guilty', brand: 'Gucci', name: 'Guilty EDP (Ranveer Singh Style)',
         collection: 'celebrity', gender: 'men',
-        sizes: STD, image: IMG.premium,
+        sizes: STD, image: IMG.noir,
         imageAlt: 'Arabian Perfume Lab celebrity inspired bottle — Ranveer Singh style',
         notes: ['Woody', 'Leather', 'Earthy'],
         description: 'Olibanum, leather, and vetiver — bold and unapologetic. Inspired by Gucci Guilty Absolute EDP.',
@@ -2088,7 +2108,7 @@ const products = Object.freeze([
         collection: 'premium', gender: 'unisex',
         sizes: { '50ml': 1199, '100ml': 1899 },
         mrp:   { '50ml': 1499, '100ml': 2299 },
-        image: IMG.amber,
+        image: IMG.gold,
         searchName: 'Madawi Arabian Oud',
         imageAlt: 'Arabian Perfumer\'s — Madawi inspired bottle, deep amber and rose',
         notes: ['Rose', 'Oud', 'Amber', 'Musk'],
@@ -2100,7 +2120,7 @@ const products = Object.freeze([
         collection: 'premium', gender: 'men',
         sizes: { '50ml': 899, '100ml': 1599 },
         mrp:   { '50ml': 1299, '100ml': 1999 },
-        image: IMG.premium,
+        image: IMG.noir,
         imageAlt: 'Arabian Perfumer\'s — Le Homme premium EDP bottle',
         notes: ['Woody', 'Spicy', 'Amber'],
         description: 'A bold masculine signature — cedarwood, black pepper, and warm amber resin. Confident, refined, and built to last. An Arabian Perfumer\'s exclusive.',
@@ -2115,7 +2135,7 @@ const products = Object.freeze([
         id: 'attar-oud-al-hindi', brand: 'Arabian Perfumer\'s', name: 'Oud Al Hindi Attar',
         collection: 'attar', gender: 'unisex',
         sizes: ATTAR,
-        image: IMG.amber,
+        image: IMG.gold,
         imageAlt: 'Arabian Perfumer\'s — Oud Al Hindi pure attar oil',
         notes: ['Oud', 'Woody', 'Earthy'],
         description: 'Pure concentrated Hindi oud attar — raw, earthy, and intensely woody. A traditional Indian agarwood oil that lasts all day on skin.',
@@ -2135,7 +2155,7 @@ const products = Object.freeze([
         id: 'attar-musk-white', brand: 'Arabian Perfumer\'s', name: 'White Musk Attar',
         collection: 'attar', gender: 'unisex',
         sizes: ATTAR,
-        image: IMG.light,
+        image: IMG.crystal,
         imageAlt: 'Arabian Perfumer\'s — White Musk pure attar oil',
         notes: ['Musk', 'Powdery', 'Clean'],
         description: 'Soft white musk in a pure oil carrier — clean, powdery, and skin-like. A versatile everyday attar that blends beautifully with other fragrances.',
@@ -2145,7 +2165,7 @@ const products = Object.freeze([
         id: 'attar-amber-oud', brand: 'Arabian Perfumer\'s', name: 'Amber Oud Attar',
         collection: 'attar', gender: 'unisex',
         sizes: ATTAR,
-        image: IMG.amber,
+        image: IMG.gold,
         imageAlt: 'Arabian Perfumer\'s — Amber Oud pure attar oil',
         notes: ['Amber', 'Oud', 'Vanilla'],
         description: 'Rich amber resin blended with oud oil — warm, golden, and intoxicating. Ideal as a solo scent or layered over a spray perfume.',
@@ -2155,7 +2175,7 @@ const products = Object.freeze([
         id: 'attar-saffron-oud', brand: 'Arabian Perfumer\'s', name: 'Saffron Oud Attar',
         collection: 'attar', gender: 'men',
         sizes: ATTAR,
-        image: IMG.amber,
+        image: IMG.gold,
         imageAlt: 'Arabian Perfumer\'s — Saffron Oud pure attar oil',
         notes: ['Saffron', 'Oud', 'Spicy'],
         description: 'The legendary saffron-oud combination in its purest form — a spicy, leathery, deeply Arabic accord that commands every room.',
@@ -2175,7 +2195,7 @@ const products = Object.freeze([
         id: 'attar-kewda', brand: 'Arabian Perfumer\'s', name: 'Kewda Attar',
         collection: 'attar', gender: 'unisex',
         sizes: ATTAR,
-        image: IMG.light,
+        image: IMG.crystal,
         imageAlt: 'Arabian Perfumer\'s — Kewda pure attar oil',
         notes: ['Floral', 'Green', 'Fresh'],
         description: 'Distilled from the fragrant pandanus flower — uniquely Indian, fresh-floral, with a sweet grassy undertone. A rare traditional attar.',
@@ -2185,7 +2205,7 @@ const products = Object.freeze([
         id: 'attar-sandalwood', brand: 'Arabian Perfumer\'s', name: 'Mysore Sandalwood Attar',
         collection: 'attar', gender: 'unisex',
         sizes: ATTAR,
-        image: IMG.light,
+        image: IMG.crystal,
         imageAlt: 'Arabian Perfumer\'s — Mysore Sandalwood pure attar oil',
         notes: ['Sandalwood', 'Woody', 'Creamy'],
         description: 'Authentic Mysore sandalwood oil — creamy, milky, and deeply meditative. One of the finest traditional Indian attars. Skin-safe and long-lasting.',
@@ -2200,7 +2220,7 @@ const products = Object.freeze([
         id: 'solid-oud-royale', brand: 'Arabian Perfumer\'s', name: 'Oud Royale Solid Perfume',
         collection: 'solid', gender: 'unisex',
         sizes: SOLID,
-        image: IMG.premium,
+        image: IMG.noir,
         imageAlt: 'Arabian Perfumer\'s — Oud Royale solid perfume compact',
         notes: ['Oud', 'Amber', 'Musk'],
         description: 'All the richness of oud and amber in a convenient wax-based solid compact. TSA-friendly, travel-perfect, no spill. Apply directly to pulse points.',
@@ -2220,7 +2240,7 @@ const products = Object.freeze([
         id: 'solid-amber-vanilla', brand: 'Arabian Perfumer\'s', name: 'Amber Vanilla Solid Perfume',
         collection: 'solid', gender: 'unisex',
         sizes: SOLID,
-        image: IMG.amber,
+        image: IMG.gold,
         imageAlt: 'Arabian Perfumer\'s — Amber Vanilla solid perfume compact',
         notes: ['Amber', 'Vanilla', 'Woody'],
         description: 'Warm amber and sweet vanilla in a comforting solid perfume balm. Cozy, gourmand-adjacent, and irresistibly smooth on skin.',

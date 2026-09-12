@@ -181,7 +181,7 @@ function firstSize(product) {
    CATALOGUE STATE
    ========================================================================== */
 const CATALOGUE = {
-    PAGE_SIZE: 24,
+    PAGE_SIZE: 10,
     _page: 1,
     _query: '',
     _collection: 'all',    // 'all' | 'standard' | 'premium' | 'celebrity'
@@ -444,62 +444,36 @@ function buildProductCard(product, index) {
     qvBtn.appendChild(buildIcon('eye'));
     imgWrap.appendChild(qvBtn);
 
-    // Pick SVG fallback based on product type/gender so even missing photos look good
+    // Pick branded bottle SVG fallback based on product type/gender/notes
     const svgFallback = (function() {
-        if (product.collection === 'attar' || product.collection === 'solid') {
-            return product.gender === 'women' ? 'assets/images/products/bottle-rose.svg'
-                 : product.gender === 'men'   ? 'assets/images/products/bottle-amber.svg'
-                 : 'assets/images/products/bottle-light.svg';
-        }
+        const n = (product.notes || []).join(' ').toLowerCase();
         if (product.collection === 'premium') return 'assets/images/products/bottle-premium.svg';
-        if (product.gender === 'women')       return 'assets/images/products/bottle-rose.svg';
-        if (product.gender === 'men') {
-            const n = (product.notes || []).join(' ').toLowerCase();
-            return n.includes('fresh') || n.includes('aquatic') || n.includes('citrus')
-                ? 'assets/images/products/bottle-blue.svg'
-                : 'assets/images/products/bottle-amber.svg';
+        if (product.gender === 'women') {
+            if (n.includes('amber') || n.includes('oriental') || n.includes('warm'))
+                return 'assets/images/products/bottle-rose.svg';
+            if (n.includes('spicy') || n.includes('dark') || n.includes('coffee'))
+                return 'assets/images/products/bottle-rose.svg';
+            return 'assets/images/products/bottle-rose.svg';
         }
+        if (product.gender === 'men') {
+            if (n.includes('fresh') || n.includes('aquatic') || n.includes('citrus'))
+                return 'assets/images/products/bottle-blue.svg';
+            if (n.includes('dark') || n.includes('leather') || n.includes('tobacco') || n.includes('noir'))
+                return 'assets/images/products/bottle-premium.svg';
+            return 'assets/images/products/bottle-amber.svg';
+        }
+        // unisex
+        if (n.includes('oud') || n.includes('amber') || n.includes('resin'))
+            return 'assets/images/products/bottle-amber.svg';
+        if (n.includes('fresh') || n.includes('citrus') || n.includes('aquatic'))
+            return 'assets/images/products/bottle-light.svg';
+        if (n.includes('spicy') || n.includes('dark'))
+            return 'assets/images/products/bottle-premium.svg';
         return 'assets/images/products/bottle-light.svg';
     })();
 
-    // Detect if the product image itself IS one of our SVG bottles (no real photo)
-    const isSvgBottle = !product.image ||
-        product.image.includes('bottle-') ||
-        product.image.includes('placeholder');
-
     const img = buildImg(product.image, product.imageAlt || product.name, 400, 530, 'product-img', svgFallback);
     imgWrap.appendChild(img);
-
-    // Overlay the perfume name on the SVG bottle label
-    if (isSvgBottle) {
-        const nameOverlay = document.createElement('div');
-        nameOverlay.className = 'bottle-name-overlay';
-        nameOverlay.setAttribute('aria-hidden', 'true');
-
-        const brandLine = document.createElement('span');
-        brandLine.className = 'bottle-name-brand';
-        brandLine.textContent = product.brand.toUpperCase();
-        nameOverlay.appendChild(brandLine);
-
-        // Split name into up to 2 short lines for the label
-        const words   = product.name.toUpperCase().split(' ');
-        const midPt   = Math.ceil(words.length / 2);
-        const line1   = words.slice(0, midPt).join(' ');
-        const line2   = words.slice(midPt).join(' ');
-
-        const nl1 = document.createElement('span');
-        nl1.className = 'bottle-name-line';
-        nl1.textContent = line1;
-        nameOverlay.appendChild(nl1);
-
-        if (line2) {
-            const nl2 = document.createElement('span');
-            nl2.className = 'bottle-name-line';
-            nl2.textContent = line2;
-            nameOverlay.appendChild(nl2);
-        }
-        imgWrap.appendChild(nameOverlay);
-    }
 
     /* --- Body --- */
     const body = document.createElement('div');
@@ -558,6 +532,15 @@ function buildProductCard(product, index) {
 
     const sizes = product.sizes ? Object.entries(product.sizes) : [];
 
+    // Determine if this is an enquiry/wholesale product (no purchasable price)
+    const isEnquiry = product.productType === 'enquiry' ||
+                      product.productType === 'wholesale' ||
+                      sizes.length === 0;
+
+    // Hoist price/mrp elements so the size selector click handler can update them
+    let priceAmt = null;
+    let mrpSpan  = null;
+
     // Size selector — built and appended to body BEFORE footer
     let selectedSize = firstSize(product);
 
@@ -576,7 +559,7 @@ function buildProductCard(product, index) {
                 sizeRow.querySelectorAll('.size-chip').forEach(sc => {
                     sc.classList.toggle('active', sc.textContent === sizeKey);
                 });
-                priceAmt.textContent = formatINR(sizePrice);
+                if (priceAmt) priceAmt.textContent = formatINR(sizePrice);
                 // Update MRP strikethrough
                 const mrpVal = getMrp(product, sizeKey);
                 if (mrpSpan) {
@@ -591,11 +574,6 @@ function buildProductCard(product, index) {
         body.appendChild(sizeRow);
     }
 
-    // Determine if this is an enquiry/wholesale product (no purchasable price)
-    const isEnquiry = product.productType === 'enquiry' ||
-                      product.productType === 'wholesale' ||
-                      sizes.length === 0;
-
     if (isEnquiry) {
         // Show "Enquire on WhatsApp" price line + MOQ if set
         const enquireLabel = document.createElement('span');
@@ -609,14 +587,14 @@ function buildProductCard(product, index) {
             priceWrap.appendChild(moqSpan);
         }
     } else {
-        const priceAmt = document.createElement('span');
+        priceAmt = document.createElement('span');
         priceAmt.className = 'product-price-amount';
         priceAmt.textContent = formatINR(sizes.length ? sizes[0][1] : 0);
         priceWrap.appendChild(priceAmt);
 
         // MRP strikethrough (shown only if product has mrp data)
         const firstMrp = sizes.length ? getMrp(product, sizes[0][0]) : null;
-        const mrpSpan = document.createElement('span');
+        mrpSpan = document.createElement('span');
         mrpSpan.className = 'product-price-mrp';
         mrpSpan.textContent = firstMrp ? formatINR(firstMrp) : '';
         mrpSpan.style.display = firstMrp ? '' : 'none';
