@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="50%" r="60%">
+      <stop offset="0%" stop-color="#0d1205"/>
+      <stop offset="100%" stop-color="#0b0c0e"/>
+    </radialGradient>
+    <linearGradient id="soapGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f5c48a"/>
+      <stop offset="40%" stop-color="#e8a050"/>
+      <stop offset="100%" stop-color="#b05820"/>
+    </linearGradient>
+    <linearGradient id="soapTop" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f8d8a0"/>
+      <stop offset="100%" stop-color="#d08030"/>
+    </linearGradient>
+    <linearGradient id="foam" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="rgba(255,255,255,0.9)"/>
+      <stop offset="100%" stop-color="rgba(255,255,255,0.3)"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="10" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+    <filter id="shadow">
+      <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#5a2800" flood-opacity="0.5"/>
+    </filter>
+  </defs>
+
+  <rect width="400" height="400" fill="url(#bg)"/>
+  <ellipse cx="200" cy="200" rx="130" ry="100" fill="#8aba3c" opacity="0.12" filter="url(#glow)"/>
+  <ellipse cx="200" cy="360" rx="90" ry="16" fill="#000" opacity="0.4"/>
+
+  <g filter="url(#shadow)">
+    <!-- SOAP BAR BODY — slightly rounded rectangle, 3D perspective -->
+    <!-- Bottom face (depth) -->
+    <path d="M110 310 L290 310 L310 340 L90 340 Z" fill="#9a4c10" opacity="0.7"/>
+    <!-- Side face (right depth) -->
+    <path d="M290 190 L310 220 L310 340 L290 310 Z" fill="#b05820" opacity="0.5"/>
+    <!-- Main top face -->
+    <rect x="110" y="190" width="180" height="120" rx="20" fill="url(#soapGrad)"/>
+    <!-- Top face shine -->
+    <ellipse cx="165" cy="210" rx="35" ry="12" fill="rgba(255,255,255,0.30)" transform="rotate(-10 165 210)"/>
+
+    <!-- Embossed oval on soap -->
+    <ellipse cx="200" cy="250" rx="65" ry="35" fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="1.5"/>
+    <ellipse cx="200" cy="250" rx="55" ry="28" fill="rgba(0,0,0,0.12)"/>
+
+    <!-- Soap text -->
+    <text x="200" y="244" text-anchor="middle" fill="rgba(255,255,255,0.70)" font-family="Georgia,serif" font-size="9" letter-spacing="2">ARABIAN</text>
+    <text x="200" y="256" text-anchor="middle" fill="rgba(255,255,255,0.70)" font-family="Georgia,serif" font-size="9" letter-spacing="2">PERFUMER'S</text>
+    <text x="200" y="268" text-anchor="middle" fill="rgba(255,220,100,0.75)" font-family="Arial,sans-serif" font-size="7" letter-spacing="1.5">HERBAL SOAP</text>
+
+    <!-- Foam bubbles on top -->
+    <circle cx="155" cy="195" r="12" fill="url(#foam)" opacity="0.7"/>
+    <circle cx="175" cy="187" r="8" fill="url(#foam)" opacity="0.6"/>
+    <circle cx="195" cy="192" r="10" fill="url(#foam)" opacity="0.65"/>
+    <circle cx="215" cy="186" r="7" fill="url(#foam)" opacity="0.55"/>
+    <circle cx="232" cy="193" r="11" fill="url(#foam)" opacity="0.6"/>
+    <circle cx="249" cy="188" r="7" fill="url(#foam)" opacity="0.5"/>
+    <!-- Inner foam highlights -->
+    <circle cx="156" cy="192" r="4" fill="rgba(255,255,255,0.5)"/>
+    <circle cx="195" cy="189" r="3" fill="rgba(255,255,255,0.5)"/>
+    <circle cx="233" cy="190" r="3.5" fill="rgba(255,255,255,0.5)"/>
+
+    <!-- Leaf sprig decoration -->
+    <ellipse cx="130" cy="230" rx="12" ry="6" fill="#6ab820" opacity="0.6" transform="rotate(-30 130 230)"/>
+    <ellipse cx="270" cy="230" rx="12" ry="6" fill="#6ab820" opacity="0.6" transform="rotate(30 270 230)"/>
+    <line x1="128" y1="232" x2="140" y2="244" stroke="#6ab820" stroke-width="1.2" opacity="0.6"/>
+    <line x1="272" y1="232" x2="260" y2="244" stroke="#6ab820" stroke-width="1.2" opacity="0.6"/>
+  </g>
+
+  <!-- Ingredient chips below -->
+  <text x="200" y="370" text-anchor="middle" fill="#8aba3c" font-family="Arial,sans-serif" font-size="8" letter-spacing="1.5" opacity="0.8">NEEM · TULSI · ALOE VERA · PAPAYA</text>
+
+  <!-- Base ornament -->
+  <text x="200" y="392" text-anchor="middle" fill="#d4af37" font-size="9" opacity="0.3">✦</text>
+</svg>

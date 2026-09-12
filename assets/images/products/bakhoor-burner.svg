@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 460" width="400" height="460">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="45%" r="60%">
+      <stop offset="0%" stop-color="#1a0d02"/>
+      <stop offset="100%" stop-color="#0b0c0e"/>
+    </radialGradient>
+    <linearGradient id="woodGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#8B4513"/>
+      <stop offset="30%" stop-color="#C8762A"/>
+      <stop offset="60%" stop-color="#D4874A"/>
+      <stop offset="100%" stop-color="#7A3010"/>
+    </linearGradient>
+    <linearGradient id="woodTop" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#D4874A"/>
+      <stop offset="100%" stop-color="#8B4513"/>
+    </linearGradient>
+    <linearGradient id="bowlGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#5a3008"/>
+      <stop offset="100%" stop-color="#2a1004"/>
+    </linearGradient>
+    <radialGradient id="coal" cx="50%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#ff6600" stop-opacity="0.9"/>
+      <stop offset="50%" stop-color="#cc3300" stop-opacity="0.7"/>
+      <stop offset="100%" stop-color="#330000" stop-opacity="0.95"/>
+    </radialGradient>
+    <filter id="smokeGlow">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+    <filter id="emberGlow">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+    <filter id="shadow">
+      <feDropShadow dx="0" dy="10" stdDeviation="14" flood-color="#3a1800" flood-opacity="0.6"/>
+    </filter>
+  </defs>
+
+  <rect width="400" height="460" fill="url(#bg)"/>
+
+  <!-- Background ember glow on surface -->
+  <ellipse cx="200" cy="310" rx="140" ry="60" fill="#ff6600" opacity="0.08" filter="url(#smokeGlow)"/>
+
+  <!-- Smoke wisps rising -->
+  <path d="M185 140 Q175 110 185 85 Q195 60 180 35" fill="none" stroke="rgba(180,160,130,0.35)" stroke-width="3" stroke-linecap="round"/>
+  <path d="M200 130 Q210 100 200 75 Q190 50 202 25" fill="none" stroke="rgba(180,160,130,0.28)" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M215 140 Q225 110 215 85 Q205 60 218 35" fill="none" stroke="rgba(180,160,130,0.22)" stroke-width="2" stroke-linecap="round"/>
+
+  <g filter="url(#shadow)">
+    <!-- BASE PLATFORM -->
+    <ellipse cx="200" cy="370" rx="110" ry="22" fill="#4a2400"/>
+    <rect x="90" y="350" width="220" height="20" rx="4" fill="url(#woodGrad)"/>
+    <ellipse cx="200" cy="350" rx="110" ry="22" fill="url(#woodTop)"/>
+    <!-- Platform wood grain lines -->
+    <line x1="100" y1="356" x2="300" y2="356" stroke="rgba(0,0,0,0.2)" stroke-width="1"/>
+    <line x1="105" y1="363" x2="295" y2="363" stroke="rgba(0,0,0,0.15)" stroke-width="0.8"/>
+    <!-- Decorative carved border on platform -->
+    <ellipse cx="200" cy="350" rx="106" ry="18" fill="none" stroke="#d4af37" stroke-width="0.8" opacity="0.5"/>
+
+    <!-- PEDESTAL / STAND -->
+    <rect x="175" y="280" width="50" height="72" rx="6" fill="url(#woodGrad)"/>
+    <!-- Pedestal highlight -->
+    <rect x="180" y="285" width="10" height="60" rx="5" fill="rgba(255,255,255,0.12)"/>
+    <!-- Pedestal carved band -->
+    <rect x="172" y="310" width="56" height="8" rx="2" fill="#8B4513"/>
+    <rect x="172" y="310" width="56" height="8" rx="2" fill="none" stroke="#d4af37" stroke-width="0.6" opacity="0.5"/>
+
+    <!-- BOWL / BURNER CUP -->
+    <!-- Bowl outer -->
+    <path d="M130 280 Q130 230 200 225 Q270 230 270 280 Q265 300 200 305 Q135 300 130 280 Z" fill="url(#woodGrad)"/>
+    <!-- Bowl inner dark -->
+    <path d="M145 275 Q145 242 200 238 Q255 242 255 275 Q252 290 200 294 Q148 290 145 275 Z" fill="url(#bowlGrad)"/>
+    <!-- Bowl rim highlight -->
+    <path d="M130 278 Q130 232 200 226" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="2" stroke-linecap="round"/>
+
+    <!-- GLOWING COAL / BAKHOOR -->
+    <ellipse cx="200" cy="265" rx="42" ry="16" fill="url(#coal)" filter="url(#emberGlow)"/>
+    <!-- Ember hot spots -->
+    <ellipse cx="195" cy="263" rx="15" ry="7" fill="#ff8800" opacity="0.8"/>
+    <ellipse cx="210" cy="266" rx="10" ry="5" fill="#ffaa00" opacity="0.7"/>
+    <!-- Bakhoor texture dots -->
+    <circle cx="188" cy="265" r="3" fill="#cc4400" opacity="0.9"/>
+    <circle cx="200" cy="260" r="4" fill="#dd5500" opacity="0.8"/>
+    <circle cx="212" cy="266" r="3" fill="#cc4400" opacity="0.9"/>
+    <!-- Orange glow bloom -->
+    <ellipse cx="200" cy="260" rx="55" ry="25" fill="#ff6600" opacity="0.12" filter="url(#smokeGlow)"/>
+  </g>
+
+  <!-- LABEL AREA -->
+  <text x="200" y="418" text-anchor="middle" fill="#f7e7b4" font-family="Georgia,serif" font-size="9" letter-spacing="2">ARABIAN PERFUMER'S</text>
+  <line x1="130" y1="424" x2="270" y2="424" stroke="#d4af37" stroke-width="0.6" opacity="0.5"/>
+  <text x="200" y="440" text-anchor="middle" fill="#d4af37" font-family="Georgia,serif" font-size="12" font-weight="bold" letter-spacing="1">WOODEN BAKHOOR</text>
+  <text x="200" y="454" text-anchor="middle" fill="#d4af37" font-family="Georgia,serif" font-size="11" letter-spacing="1">BURNER</text>
+</svg>

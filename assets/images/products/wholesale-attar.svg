@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 460" width="400" height="460">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="50%" r="60%">
+      <stop offset="0%" stop-color="#0a0a05"/>
+      <stop offset="100%" stop-color="#0b0c0e"/>
+    </radialGradient>
+    <linearGradient id="canGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="rgba(160,130,40,0.35)"/>
+      <stop offset="30%" stop-color="rgba(220,190,90,0.65)"/>
+      <stop offset="65%" stop-color="rgba(240,210,110,0.75)"/>
+      <stop offset="100%" stop-color="rgba(140,110,30,0.35)"/>
+    </linearGradient>
+    <linearGradient id="canTop" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#e8c858"/>
+      <stop offset="100%" stop-color="#9a7a18"/>
+    </linearGradient>
+    <linearGradient id="canLiquid" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="rgba(210,160,20,0.7)"/>
+      <stop offset="100%" stop-color="rgba(100,60,0,0.9)"/>
+    </linearGradient>
+    <linearGradient id="handleGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#d4af37"/>
+      <stop offset="100%" stop-color="#7a5808"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="10" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+    <filter id="shadow">
+      <feDropShadow dx="0" dy="12" stdDeviation="14" flood-color="#3a2800" flood-opacity="0.55"/>
+    </filter>
+  </defs>
+
+  <rect width="400" height="460" fill="url(#bg)"/>
+  <ellipse cx="200" cy="280" rx="150" ry="100" fill="#d4af37" opacity="0.09" filter="url(#glow)"/>
+  <ellipse cx="200" cy="425" rx="110" ry="16" fill="#000" opacity="0.4"/>
+
+  <g filter="url(#shadow)">
+    <!-- LARGE DRUM / CAN for wholesale attar -->
+
+    <!-- Can shadow -->
+    <ellipse cx="200" cy="416" rx="105" ry="17" fill="#000" opacity="0.3"/>
+
+    <!-- Can body -->
+    <rect x="90" y="200" width="220" height="218" rx="16" fill="url(#canGrad)"/>
+    <!-- Can liquid inside -->
+    <rect x="98" y="210" width="204" height="200" rx="12" fill="url(#canLiquid)" opacity="0.82"/>
+    <!-- Can glass left highlight -->
+    <rect x="98" y="225" width="20" height="180" rx="10" fill="rgba(255,255,255,0.18)"/>
+    <!-- Can right sheen -->
+    <rect x="282" y="235" width="10" height="155" rx="5" fill="rgba(255,255,255,0.08)"/>
+    <!-- Can bottom rim -->
+    <rect x="90" y="395" width="220" height="24" rx="8" fill="rgba(160,130,40,0.25)" opacity="0.6"/>
+    <!-- Can top face (ellipse) -->
+    <ellipse cx="200" cy="200" rx="110" ry="28" fill="url(#canTop)"/>
+    <!-- Top lid ring -->
+    <ellipse cx="200" cy="200" rx="106" ry="24" fill="none" stroke="#d4af37" stroke-width="1.2" opacity="0.55"/>
+
+    <!-- POUR SPOUT on top -->
+    <rect x="240" y="172" width="38" height="34" rx="8" fill="url(#canTop)"/>
+    <ellipse cx="259" cy="172" rx="19" ry="7" fill="#c8a028"/>
+    <!-- Spout lid (open) -->
+    <rect x="238" y="164" width="42" height="12" rx="5" fill="url(#handleGrad)"/>
+
+    <!-- CARRY HANDLE arc -->
+    <path d="M130 200 Q130 150 200 145 Q270 150 270 200" fill="none" stroke="url(#handleGrad)" stroke-width="10" stroke-linecap="round"/>
+    <path d="M130 200 Q130 152 200 147 Q270 152 270 200" fill="none" stroke="rgba(255,255,255,0.18)" stroke-width="3" stroke-linecap="round"/>
+    <!-- Handle grip -->
+    <rect x="174" y="136" width="52" height="22" rx="8" fill="url(#handleGrad)"/>
+    <rect x="178" y="140" width="20" height="14" rx="5" fill="rgba(255,255,255,0.22)"/>
+
+    <!-- Measurement markers on can -->
+    <line x1="88" y1="260" x2="96" y2="260" stroke="#d4af37" stroke-width="1.2" opacity="0.5"/>
+    <line x1="88" y1="300" x2="96" y2="300" stroke="#d4af37" stroke-width="1.2" opacity="0.5"/>
+    <line x1="88" y1="340" x2="96" y2="340" stroke="#d4af37" stroke-width="1.2" opacity="0.5"/>
+    <line x1="88" y1="380" x2="96" y2="380" stroke="#d4af37" stroke-width="1.2" opacity="0.5"/>
+  </g>
+
+  <!-- LABEL on can front -->
+  <rect x="115" y="248" width="170" height="120" rx="5" fill="rgba(0,0,0,0.30)"/>
+  <rect x="118" y="251" width="164" height="114" rx="4" fill="none" stroke="#d4af37" stroke-width="0.9" opacity="0.6"/>
+  <text x="200" y="271" text-anchor="middle" fill="#f7e7b4" font-family="Georgia,serif" font-size="8.5" letter-spacing="2">ARABIAN PERFUMER'S</text>
+  <line x1="125" y1="278" x2="275" y2="278" stroke="#d4af37" stroke-width="0.6" opacity="0.55"/>
+  <text x="200" y="296" text-anchor="middle" fill="#d4af37" font-family="Georgia,serif" font-size="14" font-weight="bold" letter-spacing="1">WHOLESALE</text>
+  <text x="200" y="313" text-anchor="middle" fill="#f7e7b4" font-family="Georgia,serif" font-size="11" letter-spacing="1">PURE ATTAR</text>
+  <line x1="125" y1="320" x2="275" y2="320" stroke="#d4af37" stroke-width="0.6" opacity="0.45"/>
+  <text x="200" y="334" text-anchor="middle" fill="#d4af37" font-family="Arial,sans-serif" font-size="8" letter-spacing="1.5" opacity="0.85">RAW MATERIAL</text>
+  <text x="200" y="348" text-anchor="middle" fill="#888" font-family="Arial,sans-serif" font-size="7.5" letter-spacing="1" opacity="0.75">100g – 50 kg · ENQUIRE ON WHATSAPP</text>
+  <!-- Arabic ornament on label -->
+  <text x="200" y="360" text-anchor="middle" fill="#d4af37" font-size="10" opacity="0.4">✦</text>
+
+  <!-- Bottom text -->
+  <text x="200" y="442" text-anchor="middle" fill="#f7e7b4" font-family="Georgia,serif" font-size="8.5" letter-spacing="2">ARABIAN PERFUMER'S</text>
+  <line x1="120" y1="448" x2="280" y2="448" stroke="#d4af37" stroke-width="0.5" opacity="0.5"/>
+  <text x="200" y="458" text-anchor="middle" fill="#d4af37" font-family="Georgia,serif" font-size="9" font-weight="bold">WHOLESALE ATTAR SUPPLY</text>
+</svg>

@@ -1,0 +1,413 @@
+/* ==========================================================================
+   ARABIAN PERFUME LAB — RESPONSIVE STYLES
+   Mobile-first breakpoints: 320 → 480 → 768 → 1024 → 1280 → 1440 → 1920px
+   No external dependencies.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   BASE MOBILE — everything ≤ 479px
+   All layouts are single-column. Max-width not needed at this scale.
+   -------------------------------------------------------------------------- */
+
+/* Announcement bar — hide secondary links on small screens */
+@media (max-width: 479px) {
+    /* Pricing cards: 2 columns at small mobile */
+    .pricing-cards { grid-template-columns: repeat(2, 1fr); }
+    .pricing-card { padding: var(--sp-md) var(--sp-sm); }
+    .pricing-card-icon { font-size: 1.4rem; }
+    .pricing-card-price span { font-size: 1.15rem; }
+
+    /* Catalogue controls: stack fully on tiny screens */
+    .catalogue-filters { flex-direction: column; align-items: stretch; }
+    .filter-group { width: 100%; }
+    .filter-select { width: 100%; }
+    .filter-clear-btn { width: 100%; }
+
+    .announce-links { display: none; }
+    .announce-text {
+        text-align: center;
+        width: 100%;
+        font-size: 0.72rem;
+    }
+
+    /* Container padding tightened */
+    .container { padding-inline: var(--sp-md); }
+
+    /* Header */
+    .nav-links { display: none; }
+    .hamburger-btn { display: flex; }
+    .nav-action-btn .btn-label { display: none; }
+    .nav-logo-main { font-size: 0.88rem; letter-spacing: 0.14em; }
+    .nav-logo-sub { display: none; }
+
+    /* Hero */
+    .hero-content-wrap {
+        grid-template-columns: 1fr;
+        padding-block: var(--sp-2xl);
+        min-height: calc(100svh - var(--announce-h) - var(--header-h));
+    }
+    .hero-visual { display: none; } /* bottle hidden on very small screens */
+    .hero-title { font-size: 2rem; }
+    .hero-sub { font-size: 0.88rem; }
+    .hero-cta { gap: var(--sp-sm); }
+    .hero-cta .btn { width: 100%; justify-content: center; }
+    .hero-notes { display: none; } /* too tight at 320px */
+
+    /* Product grid: 1 column */
+    .product-grid { grid-template-columns: 1fr; }
+
+    /* Ingredients: 1 column */
+    .ingredients-grid { grid-template-columns: 1fr; }
+
+    /* Collections: 1 column */
+    .collections-grid { grid-template-columns: 1fr; }
+    .collection-img-wrap { aspect-ratio: 3/2; }
+
+    /* Testimonials: 1 column */
+    .testimonials-grid { grid-template-columns: 1fr; }
+
+    /* Intro: 1 column */
+    .intro-grid { grid-template-columns: 1fr; }
+    .visual-card { display: none; }
+
+    /* Stats: 3 cols still fit at 320 */
+    .stats-grid { grid-template-columns: repeat(3, 1fr); gap: var(--sp-sm); }
+    .stat-num { font-size: 1.3rem; }
+
+    /* Timeline: 1 column */
+    .timeline {
+        grid-template-columns: 1fr;
+        gap: var(--sp-xl);
+    }
+    .timeline::before { display: none; }
+
+    /* About: 1 column */
+    .about-grid { grid-template-columns: 1fr; }
+
+    /* Visit us: 1 column */
+    .visit-grid { grid-template-columns: 1fr; }
+
+    /* Contact: 1 column */
+    .contact-grid { grid-template-columns: 1fr; }
+
+    /* Instagram grid: 3 columns */
+    .insta-grid { grid-template-columns: repeat(3, 1fr); }
+
+    /* Footer: 1 column */
+    .footer-grid { grid-template-columns: 1fr; gap: var(--sp-xl); }
+
+    /* Modal: full screen */
+    .modal-dialog { border-radius: 0; max-height: 100svh; }
+    .modal-layout { grid-template-columns: 1fr; }
+    .modal-img-side { min-height: 240px; max-height: 280px; }
+    .modal-info-side { padding: var(--sp-lg); }
+
+    /* Cart: full screen */
+    .cart-drawer { width: 100%; border-left: none; }
+
+    /* Float badge — disable position on mobile */
+    .float-badge { display: none; }
+
+    /* Section spacing tighter */
+    .section-spacing { padding-block: var(--sp-2xl); }
+
+    /* philosophy section */
+    .philosophy-section { padding-block: var(--sp-2xl); }
+
+    /* sticky bar — always show on mobile */
+    .sticky-order-bar { display: flex; }
+
+    /* add bottom padding to body so sticky bar doesn't overlap footer */
+    body { padding-bottom: 64px; }
+
+    /* Float WhatsApp — sit above sticky bar */
+    .float-whatsapp { bottom: 80px; right: var(--sp-md); }
+}
+
+/* --------------------------------------------------------------------------
+   480px — 2-column product grid, visual card shown
+   -------------------------------------------------------------------------- */
+@media (min-width: 480px) and (max-width: 767px) {
+    /* Pricing cards: 3 columns on larger mobile */
+    .pricing-cards { grid-template-columns: repeat(3, 1fr); }
+
+    /* Catalogue filters: 2 per row */
+    .catalogue-filters { gap: var(--sp-sm); }
+    .filter-group { flex: 1 1 calc(50% - var(--sp-sm)); min-width: 120px; }
+
+    /* Still no desktop nav */
+    .nav-links { display: none; }
+    .hamburger-btn { display: flex; }
+    .nav-logo-sub { display: none; }
+
+    /* Hero */
+    .hero-content-wrap {
+        grid-template-columns: 1fr;
+        min-height: calc(100svh - var(--announce-h) - var(--header-h));
+        padding-block: var(--sp-2xl);
+    }
+    .hero-visual { display: none; }
+    .hero-title { font-size: clamp(2rem, 7vw, 2.8rem); }
+
+    /* Products: 2 columns */
+    .product-grid { grid-template-columns: repeat(2, 1fr); }
+
+    /* Ingredients: 2 columns */
+    .ingredients-grid { grid-template-columns: repeat(2, 1fr); }
+
+    /* Collections: 1 column (portrait image cards) */
+    .collections-grid { grid-template-columns: 1fr; }
+    .collection-img-wrap { aspect-ratio: 16/9; }
+
+    /* Testimonials: 1 column */
+    .testimonials-grid { grid-template-columns: 1fr; }
+
+    /* Intro: 1 column */
+    .intro-grid { grid-template-columns: 1fr; }
+    .visual-card { display: none; }
+
+    /* Timeline: 2 columns */
+    .timeline {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--sp-xl);
+    }
+    .timeline::before { display: none; }
+
+    /* About: 1 column */
+    .about-grid { grid-template-columns: 1fr; }
+
+    /* Visit + Contact: 1 column */
+    .visit-grid { grid-template-columns: 1fr; }
+    .contact-grid { grid-template-columns: repeat(2, 1fr); }
+
+    /* Instagram: 3 columns */
+    .insta-grid { grid-template-columns: repeat(3, 1fr); }
+
+    /* Footer: 2 columns */
+    .footer-grid { grid-template-columns: 1fr 1fr; gap: var(--sp-xl); }
+
+    /* Modal: full screen */
+    .modal-layout { grid-template-columns: 1fr; }
+    .modal-img-side { min-height: 260px; }
+    .modal-info-side { padding: var(--sp-lg) var(--sp-xl); }
+
+    /* Cart: full screen */
+    .cart-drawer { width: 100%; border-left: none; }
+
+    /* Sticky bar visible on mobile */
+    .sticky-order-bar { display: flex; }
+    body { padding-bottom: 64px; }
+    .float-whatsapp { bottom: 80px; right: var(--sp-md); }
+
+    /* Float badge */
+    .float-badge { display: none; }
+
+    .section-spacing { padding-block: var(--sp-3xl); }
+}
+
+/* --------------------------------------------------------------------------
+   768px (tablet) — desktop nav starts, 2-col product, side cart
+   -------------------------------------------------------------------------- */
+@media (min-width: 768px) and (max-width: 1023px) {
+    /* Catalogue filters: wrap naturally */
+    .catalogue-filters { gap: var(--sp-sm); }
+    .filter-group { flex: 1 1 auto; }
+
+    /* Nav */
+    .nav-links { display: none; } /* still collapse nav at tablet */
+    .hamburger-btn { display: flex; }
+    .nav-logo-sub { display: none; }
+
+    /* Hero */
+    .hero-content-wrap {
+        grid-template-columns: 1fr 1fr;
+        min-height: calc(100svh - var(--announce-h) - var(--header-h));
+    }
+    .hero-visual { display: flex; }
+    .hero-bottle-img { width: min(260px, 35vw); }
+    .hero-title { font-size: clamp(2rem, 5vw, 3rem); }
+
+    /* Product grid: 2 columns */
+    .product-grid { grid-template-columns: repeat(2, 1fr); }
+
+    /* Ingredients: 2 columns */
+    .ingredients-grid { grid-template-columns: repeat(2, 1fr); }
+
+    /* Collections: 2 columns (one card per row effectively 3 → 2) */
+    .collections-grid { grid-template-columns: repeat(2, 1fr); }
+    .collection-img-wrap { aspect-ratio: 3/4; }
+
+    /* Testimonials: 2 columns */
+    .testimonials-grid { grid-template-columns: repeat(2, 1fr); }
+
+    /* Intro: 2 columns */
+    .intro-grid { grid-template-columns: 1fr 1fr; gap: var(--sp-xl); }
+    .visual-card { display: block; }
+    .float-badge { display: none; } /* too narrow */
+
+    /* Timeline: 2 columns */
+    .timeline {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--sp-xl);
+    }
+    .timeline::before { display: none; }
+
+    /* About: 1 column stacked */
+    .about-grid { grid-template-columns: 1fr; }
+
+    /* Visit + Contact */
+    .visit-grid { grid-template-columns: 1fr 1fr; }
+    .contact-grid { grid-template-columns: repeat(2, 1fr); }
+
+    /* Instagram: 4 columns */
+    .insta-grid { grid-template-columns: repeat(4, 1fr); }
+
+    /* Footer: 2 columns */
+    .footer-grid { grid-template-columns: 1fr 1fr; gap: var(--sp-xl); }
+
+    /* Modal: side by side */
+    .modal-layout { grid-template-columns: 1fr 1.1fr; }
+    .modal-img-side { min-height: 380px; }
+
+    /* Cart drawer: proper slide-out (narrower) */
+    .cart-drawer { width: min(380px, 90vw); }
+
+    /* Sticky bar — hide on tablet+ (has real header cart) */
+    .sticky-order-bar { display: none; }
+    body { padding-bottom: 0; }
+
+    .float-whatsapp { bottom: var(--sp-xl); right: var(--sp-xl); }
+}
+
+/* --------------------------------------------------------------------------
+   1024px (desktop small) — full desktop nav, 3-col products
+   -------------------------------------------------------------------------- */
+@media (min-width: 1024px) {
+    /* Full nav visible */
+    .nav-links { display: flex; }
+    .hamburger-btn { display: none; }
+    .nav-logo-sub { display: block; }
+    .announce-links { display: flex; }
+
+    /* Hero */
+    .hero-content-wrap { grid-template-columns: 1fr 1fr; }
+    .hero-visual { display: flex; }
+    .hero-bottle-img { width: min(300px, 32vw); }
+
+    /* Product grid: 3 columns */
+    .product-grid { grid-template-columns: repeat(3, 1fr); }
+
+    /* Ingredients: 3 columns */
+    .ingredients-grid { grid-template-columns: repeat(3, 1fr); }
+
+    /* Collections: 3 columns */
+    .collections-grid { grid-template-columns: repeat(3, 1fr); }
+
+    /* Testimonials: 3 columns */
+    .testimonials-grid { grid-template-columns: repeat(3, 1fr); }
+
+    /* Intro: 2 columns with float badge */
+    .intro-grid { grid-template-columns: 1fr 1fr; gap: var(--sp-3xl); }
+    .visual-card { display: block; }
+    .float-badge { display: flex; }
+
+    /* Timeline: 4 columns */
+    .timeline { grid-template-columns: repeat(4, 1fr); }
+    .timeline::before { display: block; }
+
+    /* About: 2 columns */
+    .about-grid { grid-template-columns: 1fr 1fr; }
+
+    /* Visit + Contact: 2 columns */
+    .visit-grid { grid-template-columns: 1fr 1fr; }
+    .contact-grid { grid-template-columns: repeat(2, 1fr); }
+
+    /* Instagram: 6 columns */
+    .insta-grid { grid-template-columns: repeat(6, 1fr); }
+
+    /* Footer: 4 columns */
+    .footer-grid { grid-template-columns: 2fr 1fr 1fr 1fr; }
+
+    /* Modal */
+    .modal-layout { grid-template-columns: 1fr 1.2fr; }
+
+    /* Sticky bar: hidden on desktop */
+    .sticky-order-bar { display: none; }
+    body { padding-bottom: 0; }
+}
+
+/* --------------------------------------------------------------------------
+   1280px — 4-column products, larger type
+   -------------------------------------------------------------------------- */
+@media (min-width: 1280px) {
+    /* Product grid: 4 columns */
+    .product-grid { grid-template-columns: repeat(4, 1fr); }
+
+    /* Hero bottle larger */
+    .hero-bottle-img { width: min(340px, 28vw); }
+
+    .hero-title { font-size: 4rem; }
+}
+
+/* --------------------------------------------------------------------------
+   1440px — max-width container fully applied
+   -------------------------------------------------------------------------- */
+@media (min-width: 1440px) {
+    :root { --max-width: 1320px; }
+
+    .hero-title { font-size: clamp(3.5rem, 4vw, 5rem); }
+    .section-title { font-size: clamp(2.2rem, 3vw, 3.2rem); }
+}
+
+/* --------------------------------------------------------------------------
+   1920px+ — ultra-wide, lock container, prevent stretching
+   -------------------------------------------------------------------------- */
+@media (min-width: 1920px) {
+    :root { --max-width: 1440px; }
+
+    .hero-title { font-size: 5.5rem; }
+    .hero-sub { font-size: 1.05rem; }
+    .section-title { font-size: 3.5rem; }
+    .product-grid { grid-template-columns: repeat(4, 1fr); }
+}
+
+/* --------------------------------------------------------------------------
+   TOUCH DEVICES — disable hover-dependent 3D card tilt
+   -------------------------------------------------------------------------- */
+@media (hover: none) {
+    /* Cards still show badge / quick view via focus */
+    .quick-view-btn { opacity: 1; transform: none; }
+    /* Remove 3D perspective tilt on touch */
+    .product-card { transform: none !important; }
+    /* Product image zoom: use tap state via :active */
+    .product-card:active .product-img { transform: scale(1.03); }
+}
+
+/* --------------------------------------------------------------------------
+   HIGH CONTRAST / FORCED COLORS
+   -------------------------------------------------------------------------- */
+@media (forced-colors: active) {
+    .btn-gold { border: 2px solid ButtonText; }
+    .cart-count { border: 1px solid ButtonText; }
+    :focus-visible { outline: 3px solid Highlight; }
+}
+
+/* --------------------------------------------------------------------------
+   PRINT — minimal cleanup
+   -------------------------------------------------------------------------- */
+@media print {
+    .site-header,
+    .announce-bar,
+    .mobile-drawer,
+    .cart-drawer,
+    .cart-overlay,
+    .modal-backdrop,
+    .sticky-order-bar,
+    .float-whatsapp,
+    .toast,
+    .hero-canvas,
+    .bg-geo-pattern { display: none !important; }
+    body { background: #fff; color: #000; padding-top: 0; }
+    .hero { min-height: auto; padding-top: var(--sp-xl); }
+    a[href]::after { content: " (" attr(href) ")"; font-size: 0.7em; }
+}

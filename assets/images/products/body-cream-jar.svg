@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="50%" r="60%">
+      <stop offset="0%" stop-color="#120a0a"/>
+      <stop offset="100%" stop-color="#0b0c0e"/>
+    </radialGradient>
+    <linearGradient id="lidTop" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f5e6c8"/>
+      <stop offset="50%" stop-color="#d4af37"/>
+      <stop offset="100%" stop-color="#9a7a1a"/>
+    </linearGradient>
+    <linearGradient id="jarBody" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f0e0b0"/>
+      <stop offset="40%" stop-color="#c8a830"/>
+      <stop offset="100%" stop-color="#7a5a08"/>
+    </linearGradient>
+    <linearGradient id="jarSide" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="rgba(255,255,255,0.25)"/>
+      <stop offset="30%" stop-color="rgba(255,255,255,0.05)"/>
+      <stop offset="70%" stop-color="rgba(0,0,0,0.1)"/>
+      <stop offset="100%" stop-color="rgba(0,0,0,0.3)"/>
+    </linearGradient>
+    <radialGradient id="cream" cx="50%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#fff8f0"/>
+      <stop offset="100%" stop-color="#f0d8b0"/>
+    </radialGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+    <filter id="shadow">
+      <feDropShadow dx="0" dy="10" stdDeviation="14" flood-color="#4a2800" flood-opacity="0.5"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="400" height="400" fill="url(#bg)"/>
+
+  <!-- Ambient glow -->
+  <ellipse cx="200" cy="220" rx="110" ry="90" fill="#d4af37" opacity="0.15" filter="url(#glow)"/>
+
+  <!-- Shadow under jar -->
+  <ellipse cx="200" cy="360" rx="80" ry="14" fill="#000" opacity="0.4"/>
+
+  <g filter="url(#shadow)">
+    <!-- JAR BODY -->
+    <ellipse cx="200" cy="330" rx="100" ry="28" fill="url(#jarBody)"/>
+    <rect x="100" y="200" width="200" height="132" fill="url(#jarBody)"/>
+    <ellipse cx="200" cy="200" rx="100" ry="28" fill="#d4af37"/>
+    <!-- Side shine -->
+    <rect x="100" y="200" width="200" height="132" fill="url(#jarSide)"/>
+
+    <!-- LID -->
+    <!-- Lid rim band -->
+    <rect x="96" y="168" width="208" height="38" rx="4" fill="#b8900a"/>
+    <rect x="96" y="168" width="208" height="38" rx="4" fill="url(#jarSide)"/>
+    <!-- Lid top face -->
+    <ellipse cx="200" cy="168" rx="104" ry="30" fill="url(#lidTop)"/>
+    <!-- Lid top shine -->
+    <ellipse cx="175" cy="155" rx="40" ry="10" fill="rgba(255,255,255,0.35)" transform="rotate(-15 175 155)"/>
+
+    <!-- Cream visible at top -->
+    <ellipse cx="200" cy="196" rx="90" ry="22" fill="url(#cream)" opacity="0.9"/>
+  </g>
+
+  <!-- LABEL on jar side -->
+  <rect x="130" y="220" width="140" height="80" rx="4" fill="rgba(0,0,0,0.28)"/>
+  <rect x="133" y="223" width="134" height="74" rx="3" fill="none" stroke="#d4af37" stroke-width="0.8" opacity="0.6"/>
+  <text x="200" y="243" text-anchor="middle" fill="#f7e7b4" font-family="Georgia,serif" font-size="7.5" letter-spacing="2">ARABIAN PERFUMER'S</text>
+  <line x1="140" y1="249" x2="260" y2="249" stroke="#d4af37" stroke-width="0.5" opacity="0.5"/>
+  <text x="200" y="267" text-anchor="middle" fill="#f7e7b4" font-family="Georgia,serif" font-size="12" font-weight="bold" letter-spacing="1">BODY</text>
+  <text x="200" y="281" text-anchor="middle" fill="#f7e7b4" font-family="Georgia,serif" font-size="12" font-weight="bold" letter-spacing="1">CREAM</text>
+  <line x1="140" y1="287" x2="260" y2="287" stroke="#d4af37" stroke-width="0.5" opacity="0.4"/>
+  <text x="200" y="298" text-anchor="middle" fill="#d4af37" font-family="Arial,sans-serif" font-size="6.5" letter-spacing="1.5" opacity="0.8">PERSONAL CARE</text>
+
+  <!-- Decorative flora motif on lid -->
+  <text x="200" y="172" text-anchor="middle" fill="#0b0c0e" font-size="14" opacity="0.4">✿</text>
+
+  <!-- Base ornament -->
+  <text x="200" y="388" text-anchor="middle" fill="#d4af37" font-size="9" opacity="0.35">✦</text>
+</svg>

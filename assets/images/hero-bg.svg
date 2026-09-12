@@ -1,0 +1,19 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080">
+  <defs>
+    <radialGradient id="h1" cx="30%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#2c1a0e" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#0b0c0e" stop-opacity="1"/>
+    </radialGradient>
+    <radialGradient id="h2" cx="70%" cy="40%" r="40%">
+      <stop offset="0%" stop-color="#d4af37" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#d4af37" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1920" height="1080" fill="#0b0c0e"/>
+  <rect width="1920" height="1080" fill="url(#h1)"/>
+  <rect width="1920" height="1080" fill="url(#h2)"/>
+  <!-- Subtle geometric pattern -->
+  <path d="M960 0 L1920 540 L960 1080 L0 540 Z" fill="none" stroke="#d4af37" stroke-width="0.5" opacity="0.04"/>
+  <circle cx="960" cy="540" r="300" fill="none" stroke="#d4af37" stroke-width="0.5" opacity="0.03"/>
+  <circle cx="960" cy="540" r="500" fill="none" stroke="#d4af37" stroke-width="0.5" opacity="0.02"/>
+</svg>

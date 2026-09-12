@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 560" width="400" height="560">
+  <defs>
+    <radialGradient id="bgB" cx="50%" cy="50%" r="60%">
+      <stop offset="0%" stop-color="#101318"/>
+      <stop offset="100%" stop-color="#080a0d"/>
+    </radialGradient>
+    <linearGradient id="bottleB" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="rgba(160,180,200,0.2)"/>
+      <stop offset="35%" stop-color="rgba(210,230,250,0.55)"/>
+      <stop offset="65%" stop-color="rgba(240,250,255,0.75)"/>
+      <stop offset="100%" stop-color="rgba(160,180,200,0.2)"/>
+    </linearGradient>
+    <linearGradient id="liquidB" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#e8f4f8" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#b8d8e8" stop-opacity="0.95"/>
+    </linearGradient>
+    <linearGradient id="capB" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f7e7b4"/>
+      <stop offset="40%" stop-color="#d4af37"/>
+      <stop offset="100%" stop-color="#8a6b10"/>
+    </linearGradient>
+    <filter id="glowB">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+    <filter id="shadowB">
+      <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#002840" flood-opacity="0.45"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="400" height="560" fill="url(#bgB)"/>
+
+  <!-- Ambient glow behind bottle -->
+  <ellipse cx="200" cy="300" rx="120" ry="150" fill="#a8d8f0" opacity="0.18" filter="url(#glowB)"/>
+
+  <!-- Bottle shadow on surface -->
+  <ellipse cx="200" cy="510" rx="65" ry="14" fill="#000" opacity="0.35"/>
+
+  <!-- === MAIN BOTTLE BODY === -->
+  <g filter="url(#shadowB)">
+    <!-- Bottle body rounded rect -->
+    <rect x="120" y="210" width="160" height="270" rx="24" fill="url(#bottleB)"/>
+    <!-- Liquid fill inside bottle -->
+    <rect x="127" y="218" width="146" height="255" rx="20" fill="url(#liquidB)" opacity="0.88"/>
+    <!-- Glass highlight left -->
+    <rect x="127" y="230" width="18" height="230" rx="9" fill="rgba(255,255,255,0.22)"/>
+    <!-- Glass highlight right -->
+    <rect x="255" y="240" width="10" height="200" rx="5" fill="rgba(255,255,255,0.10)"/>
+    <!-- Bottle bottom rim -->
+    <rect x="120" y="456" width="160" height="24" rx="8" fill="rgba(160,180,200,0.2)" opacity="0.6"/>
+
+    <!-- Bottle neck -->
+    <rect x="158" y="160" width="84" height="58" rx="10" fill="url(#bottleB)"/>
+    <!-- Neck highlight -->
+    <rect x="164" y="166" width="12" height="46" rx="6" fill="rgba(255,255,255,0.2)"/>
+
+    <!-- === DECORATIVE CAP === -->
+    <!-- Cap base band -->
+    <rect x="148" y="148" width="104" height="18" rx="4" fill="url(#capB)"/>
+    <!-- Cap main body - ornate hexagonal shape -->
+    <rect x="155" y="82" width="90" height="72" rx="12" fill="url(#capB)"/>
+    <!-- Cap top dome -->
+    <path d="M155 94 Q200 68 245 94 L245 82 Q200 55 155 82 Z" fill="#f7e7b4" opacity="0.7"/>
+    <!-- Cap decorative band mid -->
+    <rect x="155" y="128" width="90" height="8" rx="2" fill="#8a6b10" opacity="0.5"/>
+    <!-- Cap engraving lines -->
+    <line x1="175" y1="92" x2="175" y2="148" stroke="rgba(0,0,0,0.15)" stroke-width="1"/>
+    <line x1="200" y1="88" x2="200" y2="148" stroke="rgba(0,0,0,0.1)" stroke-width="1"/>
+    <line x1="225" y1="92" x2="225" y2="148" stroke="rgba(0,0,0,0.15)" stroke-width="1"/>
+    <!-- Cap top knob -->
+    <ellipse cx="200" cy="82" rx="16" ry="10" fill="url(#capB)"/>
+    <ellipse cx="200" cy="78" rx="8" ry="5" fill="#f7e7b4" opacity="0.8"/>
+  </g>
+
+  <!-- === LABEL === -->
+  <rect x="135" y="268" width="130" height="110" rx="4" fill="rgba(0,0,0,0.30)"/>
+  <rect x="138" y="271" width="124" height="104" rx="3" fill="none" stroke="#a8d8f0" stroke-width="0.8" opacity="0.6"/>
+  <text x="200" y="292" text-anchor="middle" fill="#f0f8ff" font-family="Georgia,serif" font-size="8.5" letter-spacing="2" font-weight="normal">ARABIAN PERFUMER'S</text>
+  <line x1="148" y1="298" x2="252" y2="298" stroke="#a8d8f0" stroke-width="0.5" opacity="0.5"/>
+  <text x="200" y="324" text-anchor="middle" fill="#f0f8ff" font-family="Georgia,serif" font-size="14" letter-spacing="1" font-weight="bold">INSPIRED</text>
+  <text x="200" y="342" text-anchor="middle" fill="#f0f8ff" font-family="Georgia,serif" font-size="13" letter-spacing="1">FRAGRANCE</text>
+  <line x1="148" y1="349" x2="252" y2="349" stroke="#a8d8f0" stroke-width="0.5" opacity="0.4"/>
+  <text x="200" y="364" text-anchor="middle" fill="#a8d8f0" font-family="Arial,sans-serif" font-size="7" letter-spacing="1.5" opacity="0.75">ARABIAN PERFUME LAB</text>
+
+  <!-- Base gold star ornament -->
+  <text x="200" y="508" text-anchor="middle" fill="#a8d8f0" font-size="10" opacity="0.4">✦</text>
+</svg>

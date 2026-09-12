@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 420" width="400" height="420">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="50%" r="60%">
+      <stop offset="0%" stop-color="#16080a"/>
+      <stop offset="100%" stop-color="#0b0c0e"/>
+    </radialGradient>
+    <linearGradient id="powderGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#e8c870"/>
+      <stop offset="50%" stop-color="#c8a030"/>
+      <stop offset="100%" stop-color="#8a6010"/>
+    </linearGradient>
+    <linearGradient id="bagGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f0c860"/>
+      <stop offset="50%" stop-color="#d4a020"/>
+      <stop offset="100%" stop-color="#8a6000"/>
+    </linearGradient>
+    <linearGradient id="tieGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#e84060"/>
+      <stop offset="100%" stop-color="#8a1828"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="10" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+    <filter id="shadow">
+      <feDropShadow dx="0" dy="10" stdDeviation="14" flood-color="#4a2800" flood-opacity="0.5"/>
+    </filter>
+  </defs>
+
+  <rect width="400" height="420" fill="url(#bg)"/>
+  <ellipse cx="200" cy="220" rx="120" ry="90" fill="#d4af37" opacity="0.12" filter="url(#glow)"/>
+  <ellipse cx="200" cy="380" rx="80" ry="14" fill="#000" opacity="0.4"/>
+
+  <g filter="url(#shadow)">
+    <!-- POUCH / CLOTH BAG for Jawadhu -->
+    <!-- Bag body -->
+    <path d="M120 200 Q115 170 130 155 Q160 140 200 138 Q240 140 270 155 Q285 170 280 200 L280 310 Q280 340 200 345 Q120 340 120 310 Z" fill="url(#bagGrad)"/>
+    <!-- Bag texture lines (fabric) -->
+    <path d="M135 170 Q200 158 265 170" fill="none" stroke="rgba(180,140,0,0.3)" stroke-width="1"/>
+    <path d="M128 200 Q200 188 272 200" fill="none" stroke="rgba(180,140,0,0.25)" stroke-width="1"/>
+    <path d="M125 230 Q200 218 275 230" fill="none" stroke="rgba(180,140,0,0.25)" stroke-width="1"/>
+    <path d="M124 260 Q200 248 276 260" fill="none" stroke="rgba(180,140,0,0.2)" stroke-width="1"/>
+    <path d="M124 290 Q200 278 276 290" fill="none" stroke="rgba(180,140,0,0.2)" stroke-width="1"/>
+    <!-- Bag highlight left -->
+    <path d="M130 160 Q122 185 125 240" fill="none" stroke="rgba(255,255,255,0.20)" stroke-width="3" stroke-linecap="round"/>
+
+    <!-- TIE at top of bag -->
+    <path d="M165 138 Q200 120 235 138 Q220 128 200 125 Q180 128 165 138 Z" fill="url(#tieGrad)"/>
+    <path d="M170 135 Q200 118 230 135" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>
+    <!-- Bow knot -->
+    <ellipse cx="180" cy="126" rx="16" ry="9" fill="url(#tieGrad)" transform="rotate(-25 180 126)"/>
+    <ellipse cx="220" cy="126" rx="16" ry="9" fill="url(#tieGrad)" transform="rotate(25 220 126)"/>
+    <circle cx="200" cy="125" r="8" fill="#e84060"/>
+    <circle cx="200" cy="125" r="4" fill="#ff6080" opacity="0.6"/>
+
+    <!-- POWDER spill at bottom of bag -->
+    <ellipse cx="200" cy="340" rx="80" ry="12" fill="url(#powderGrad)" opacity="0.7"/>
+    <ellipse cx="175" cy="343" rx="20" ry="5" fill="url(#powderGrad)" opacity="0.5"/>
+    <ellipse cx="225" cy="342" rx="15" ry="4" fill="url(#powderGrad)" opacity="0.5"/>
+  </g>
+
+  <!-- Label on bag -->
+  <rect x="145" y="200" width="110" height="80" rx="4" fill="rgba(0,0,0,0.25)"/>
+  <rect x="148" y="203" width="104" height="74" rx="3" fill="none" stroke="#d4af37" stroke-width="0.8" opacity="0.55"/>
+  <text x="200" y="221" text-anchor="middle" fill="#f7e7b4" font-family="Georgia,serif" font-size="7.5" letter-spacing="1.5">ARABIAN PERFUMER'S</text>
+  <line x1="155" y1="227" x2="245" y2="227" stroke="#d4af37" stroke-width="0.5" opacity="0.5"/>
+  <text x="200" y="244" text-anchor="middle" fill="#f7e7b4" font-family="Georgia,serif" font-size="11" font-weight="bold">JAWADHU</text>
+  <text x="200" y="258" text-anchor="middle" fill="#f7e7b4" font-family="Georgia,serif" font-size="11" font-weight="bold">POWDER</text>
+  <line x1="155" y1="264" x2="245" y2="264" stroke="#d4af37" stroke-width="0.5" opacity="0.4"/>
+  <text x="200" y="275" text-anchor="middle" fill="#d4af37" font-family="Arial,sans-serif" font-size="6.5" letter-spacing="1.5">10 GRAMS · ₹150</text>
+
+  <!-- Spice dots decoration -->
+  <circle cx="148" cy="310" r="3" fill="#d4af37" opacity="0.4"/>
+  <circle cx="158" cy="318" r="2" fill="#d4af37" opacity="0.3"/>
+  <circle cx="240" cy="312" r="2.5" fill="#d4af37" opacity="0.35"/>
+  <circle cx="252" cy="320" r="2" fill="#d4af37" opacity="0.3"/>
+
+  <text x="200" y="408" text-anchor="middle" fill="#d4af37" font-size="9" opacity="0.35">✦</text>
+</svg>

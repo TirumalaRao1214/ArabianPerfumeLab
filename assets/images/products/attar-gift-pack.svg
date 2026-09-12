@@ -1,0 +1,111 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 460" width="400" height="460">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="50%" r="60%">
+      <stop offset="0%" stop-color="#0a0c18"/>
+      <stop offset="100%" stop-color="#0b0c0e"/>
+    </radialGradient>
+    <linearGradient id="giftBoxGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#2a1c04"/>
+      <stop offset="100%" stop-color="#100a00"/>
+    </linearGradient>
+    <linearGradient id="giftBoxTop" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#3a2a08"/>
+      <stop offset="100%" stop-color="#1a1002"/>
+    </linearGradient>
+    <linearGradient id="ribbonGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f0c830"/>
+      <stop offset="50%" stop-color="#d4af37"/>
+      <stop offset="100%" stop-color="#8a6010"/>
+    </linearGradient>
+    <linearGradient id="attarLiquid" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#d4a010" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#7c4800" stop-opacity="0.95"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="9" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+    <filter id="shadow">
+      <feDropShadow dx="0" dy="10" stdDeviation="14" flood-color="#1a0800" flood-opacity="0.55"/>
+    </filter>
+  </defs>
+
+  <rect width="400" height="460" fill="url(#bg)"/>
+  <ellipse cx="200" cy="300" rx="150" ry="90" fill="#d4af37" opacity="0.10" filter="url(#glow)"/>
+  <ellipse cx="200" cy="428" rx="130" ry="16" fill="#000" opacity="0.4"/>
+
+  <g filter="url(#shadow)">
+    <!-- GIFT BOX body -->
+    <rect x="80" y="270" width="240" height="150" rx="6" fill="url(#giftBoxGrad)"/>
+    <!-- Box side depth (right) -->
+    <path d="M320 270 L340 252 L340 422 L320 420 Z" fill="#1a1000" opacity="0.7"/>
+    <!-- Box top face -->
+    <path d="M80 270 L100 252 L340 252 L320 270 Z" fill="url(#giftBoxTop)"/>
+    <!-- Box border gold -->
+    <rect x="80" y="270" width="240" height="150" rx="6" fill="none" stroke="#d4af37" stroke-width="1" opacity="0.4"/>
+
+    <!-- BOX LID (offset slightly up) -->
+    <rect x="76" y="230" width="248" height="48" rx="6" fill="#2a1a04"/>
+    <path d="M76 230 L96 214 L344 214 L324 230 Z" fill="#3a2808"/>
+    <rect x="76" y="230" width="248" height="48" rx="6" fill="none" stroke="#d4af37" stroke-width="0.8" opacity="0.45"/>
+
+    <!-- RIBBON vertical -->
+    <rect x="188" y="214" width="24" height="210" fill="url(#ribbonGrad)" opacity="0.85"/>
+    <!-- Ribbon horizontal -->
+    <rect x="80" y="248" width="240" height="16" fill="url(#ribbonGrad)" opacity="0.75"/>
+    <!-- Ribbon diagonal stripes for sheen -->
+    <rect x="188" y="214" width="8" height="210" fill="rgba(255,255,255,0.15)"/>
+    <rect x="80" y="248" width="240" height="5" fill="rgba(255,255,255,0.12)"/>
+
+    <!-- BOW on top of box -->
+    <!-- Left loop -->
+    <path d="M170 214 Q145 185 165 170 Q185 158 195 185 Q200 200 195 214 Z" fill="url(#ribbonGrad)"/>
+    <path d="M173 210 Q152 184 168 173 Q183 163 192 185" fill="none" stroke="rgba(255,255,255,0.20)" stroke-width="1.5"/>
+    <!-- Right loop -->
+    <path d="M230 214 Q255 185 235 170 Q215 158 205 185 Q200 200 205 214 Z" fill="url(#ribbonGrad)"/>
+    <path d="M227 210 Q248 184 232 173 Q217 163 208 185" fill="none" stroke="rgba(255,255,255,0.20)" stroke-width="1.5"/>
+    <!-- Knot center -->
+    <ellipse cx="200" cy="206" rx="15" ry="12" fill="#f0c830"/>
+    <ellipse cx="200" cy="204" rx="8" ry="6" fill="#f7e7b4" opacity="0.5"/>
+    <!-- Ribbon tails hanging down -->
+    <path d="M195 214 Q185 235 178 260" fill="none" stroke="url(#ribbonGrad)" stroke-width="8" stroke-linecap="round"/>
+    <path d="M205 214 Q215 235 222 260" fill="none" stroke="url(#ribbonGrad)" stroke-width="8" stroke-linecap="round"/>
+
+    <!-- THREE SMALL ATTAR BOTTLES shown in front of box -->
+    <!-- Bottle left 3ml -->
+    <rect x="118" y="295" width="26" height="86" rx="7" fill="rgba(220,200,140,0.55)"/>
+    <rect x="122" y="302" width="18" height="74" rx="5" fill="url(#attarLiquid)" opacity="0.85"/>
+    <rect x="122" y="310" width="5" height="60" rx="3" fill="rgba(255,255,255,0.20)"/>
+    <rect x="123" y="278" width="16" height="22" rx="4" fill="rgba(200,170,90,0.5)"/>
+    <rect x="117" y="268" width="28" height="14" rx="4" fill="url(#ribbonGrad)"/>
+    <text x="131" y="348" text-anchor="middle" fill="#d4af37" font-family="Arial,sans-serif" font-size="5" font-weight="bold">3ML</text>
+
+    <!-- Bottle center 6ml (taller) -->
+    <rect x="185" y="282" width="30" height="100" rx="8" fill="rgba(230,210,150,0.60)"/>
+    <rect x="189" y="290" width="22" height="87" rx="6" fill="url(#attarLiquid)" opacity="0.85"/>
+    <rect x="189" y="298" width="6" height="72" rx="3" fill="rgba(255,255,255,0.22)"/>
+    <rect x="190" y="263" width="18" height="24" rx="4" fill="rgba(200,170,90,0.5)"/>
+    <rect x="184" y="252" width="32" height="15" rx="5" fill="url(#ribbonGrad)"/>
+    <text x="200" y="348" text-anchor="middle" fill="#d4af37" font-family="Arial,sans-serif" font-size="5" font-weight="bold">6ML</text>
+
+    <!-- Bottle right 12ml (tallest) -->
+    <rect x="248" y="272" width="34" height="110" rx="9" fill="rgba(230,210,150,0.55)"/>
+    <rect x="253" y="280" width="24" height="96" rx="7" fill="url(#attarLiquid)" opacity="0.83"/>
+    <rect x="253" y="288" width="7" height="80" rx="4" fill="rgba(255,255,255,0.20)"/>
+    <rect x="254" y="252" width="20" height="26" rx="5" fill="rgba(200,170,90,0.5)"/>
+    <rect x="247" y="240" width="36" height="16" rx="5" fill="url(#ribbonGrad)"/>
+    <text x="265" y="348" text-anchor="middle" fill="#d4af37" font-family="Arial,sans-serif" font-size="5" font-weight="bold">12ML</text>
+  </g>
+
+  <!-- Label on box front -->
+  <rect x="105" y="310" width="70" height="50" rx="3" fill="rgba(0,0,0,0.3)"/>
+  <rect x="108" y="313" width="64" height="44" rx="2" fill="none" stroke="#d4af37" stroke-width="0.6" opacity="0.55"/>
+  <text x="140" y="328" text-anchor="middle" fill="#f7e7b4" font-family="Georgia,serif" font-size="5.5" letter-spacing="0.8">ARABIAN</text>
+  <text x="140" y="338" text-anchor="middle" fill="#f7e7b4" font-family="Arial,sans-serif" font-size="5" letter-spacing="0.5">PERFUMER'S</text>
+  <text x="140" y="350" text-anchor="middle" fill="#d4af37" font-family="Georgia,serif" font-size="6" font-weight="bold">GIFT PACK</text>
+
+  <!-- Bottom -->
+  <text x="200" y="443" text-anchor="middle" fill="#f7e7b4" font-family="Georgia,serif" font-size="8.5" letter-spacing="2">ARABIAN PERFUMER'S</text>
+  <line x1="120" y1="449" x2="280" y2="449" stroke="#d4af37" stroke-width="0.5" opacity="0.5"/>
+  <text x="200" y="456" text-anchor="middle" fill="#d4af37" font-family="Georgia,serif" font-size="8" font-weight="bold">ATTAR GIFT PACK · 3ML / 6ML / 12ML</text>
+</svg>

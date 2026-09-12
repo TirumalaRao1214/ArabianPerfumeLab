@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 420" width="400" height="420">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="50%" r="65%">
+      <stop offset="0%" stop-color="#0d0800"/>
+      <stop offset="100%" stop-color="#0b0c0e"/>
+    </radialGradient>
+    <linearGradient id="carBottleGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="rgba(100,80,200,0.3)"/>
+      <stop offset="35%" stop-color="rgba(160,140,240,0.6)"/>
+      <stop offset="65%" stop-color="rgba(200,180,255,0.75)"/>
+      <stop offset="100%" stop-color="rgba(80,60,180,0.3)"/>
+    </linearGradient>
+    <linearGradient id="liquidCar" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="rgba(100,180,255,0.7)"/>
+      <stop offset="100%" stop-color="rgba(40,80,160,0.9)"/>
+    </linearGradient>
+    <linearGradient id="stringGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#d4af37"/>
+      <stop offset="100%" stop-color="#8a6010"/>
+    </linearGradient>
+    <linearGradient id="capCar" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f7e7b4"/>
+      <stop offset="100%" stop-color="#9a7010"/>
+    </linearGradient>
+    <filter id="glowCar">
+      <feGaussianBlur stdDeviation="10" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+    <filter id="shadow">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#0a0060" flood-opacity="0.45"/>
+    </filter>
+  </defs>
+
+  <rect width="400" height="420" fill="url(#bg)"/>
+  <ellipse cx="200" cy="250" rx="100" ry="80" fill="#8060ff" opacity="0.10" filter="url(#glowCar)"/>
+
+  <!-- HANGING STRING -->
+  <!-- Hook at top -->
+  <path d="M200 30 Q220 10 230 25 Q232 35 220 38" fill="none" stroke="url(#stringGrad)" stroke-width="3" stroke-linecap="round"/>
+  <!-- String down to bottle -->
+  <line x1="200" y1="38" x2="200" y2="100" stroke="url(#stringGrad)" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- Decorative tassels on string -->
+  <circle cx="200" cy="70" r="4" fill="#d4af37"/>
+  <circle cx="200" cy="55" r="3" fill="#d4af37" opacity="0.7"/>
+
+  <g filter="url(#shadow)">
+    <!-- TEARDROP / SHIELD shaped hanging perfume bottle -->
+    <!-- Bottle shape: teardrop — wide bottom, narrows to top -->
+    <path d="M200 100 Q155 130 145 200 Q140 270 200 300 Q260 270 255 200 Q245 130 200 100 Z" fill="url(#carBottleGrad)"/>
+    <!-- Liquid fill -->
+    <path d="M200 108 Q162 136 153 202 Q149 264 200 290 Q251 264 247 202 Q238 136 200 108 Z" fill="url(#liquidCar)" opacity="0.82"/>
+    <!-- Glass left highlight -->
+    <path d="M158 155 Q151 195 154 245" fill="none" stroke="rgba(255,255,255,0.28)" stroke-width="6" stroke-linecap="round"/>
+    <!-- Glass right sheen -->
+    <path d="M242 165 Q248 205 245 250" fill="none" stroke="rgba(255,255,255,0.10)" stroke-width="4" stroke-linecap="round"/>
+    <!-- Bottom rim glint -->
+    <path d="M165 285 Q200 298 235 285" fill="none" stroke="rgba(255,255,255,0.20)" stroke-width="2"/>
+
+    <!-- TOP CAP / NECK -->
+    <rect x="183" y="88" width="34" height="18" rx="5" fill="url(#capCar)"/>
+    <!-- Cap eye-hole for hanging -->
+    <ellipse cx="200" cy="88" rx="6" ry="4" fill="#3a2c08"/>
+    <ellipse cx="200" cy="88" rx="3" ry="2" fill="url(#stringGrad)"/>
+  </g>
+
+  <!-- LABEL on bottle -->
+  <rect x="162" y="175" width="76" height="80" rx="5" fill="rgba(0,0,0,0.28)"/>
+  <rect x="165" y="178" width="70" height="74" rx="4" fill="none" stroke="#d4af37" stroke-width="0.8" opacity="0.55"/>
+  <text x="200" y="195" text-anchor="middle" fill="#f7e7b4" font-family="Georgia,serif" font-size="6" letter-spacing="1">ARABIAN</text>
+  <text x="200" y="207" text-anchor="middle" fill="#f7e7b4" font-family="Georgia,serif" font-size="6" letter-spacing="1">PERFUMER'S</text>
+  <line x1="170" y1="212" x2="230" y2="212" stroke="#d4af37" stroke-width="0.5" opacity="0.5"/>
+  <text x="200" y="226" text-anchor="middle" fill="#f7e7b4" font-family="Georgia,serif" font-size="8.5" font-weight="bold">CAR</text>
+  <text x="200" y="237" text-anchor="middle" fill="#f7e7b4" font-family="Georgia,serif" font-size="8.5" font-weight="bold">PERFUME</text>
+  <line x1="170" y1="242" x2="230" y2="242" stroke="#d4af37" stroke-width="0.5" opacity="0.4"/>
+  <text x="200" y="250" text-anchor="middle" fill="#d4af37" font-family="Arial,sans-serif" font-size="5.5" letter-spacing="1" opacity="0.75">HANGING</text>
+
+  <!-- Bottom label text -->
+  <text x="200" y="340" text-anchor="middle" fill="#f7e7b4" font-family="Georgia,serif" font-size="8.5" letter-spacing="2">ARABIAN PERFUMER'S</text>
+  <line x1="130" y1="346" x2="270" y2="346" stroke="#d4af37" stroke-width="0.5" opacity="0.4"/>
+  <text x="200" y="362" text-anchor="middle" fill="#d4af37" font-family="Georgia,serif" font-size="10" font-weight="bold">CAR HANGING</text>
+  <text x="200" y="375" text-anchor="middle" fill="#d4af37" font-family="Georgia,serif" font-size="10">PERFUMES</text>
+  <text x="200" y="388" text-anchor="middle" fill="#888" font-family="Arial,sans-serif" font-size="7" letter-spacing="1.2" opacity="0.7">ENQUIRE ON WHATSAPP</text>
+  <text x="200" y="412" text-anchor="middle" fill="#d4af37" font-size="9" opacity="0.3">✦</text>
+</svg>

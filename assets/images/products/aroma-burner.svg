@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 460" width="400" height="460">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="50%" r="60%">
+      <stop offset="0%" stop-color="#0a0508"/>
+      <stop offset="100%" stop-color="#0b0c0e"/>
+    </radialGradient>
+    <linearGradient id="drumGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="rgba(180,140,40,0.3)"/>
+      <stop offset="35%" stop-color="rgba(240,200,100,0.65)"/>
+      <stop offset="65%" stop-color="rgba(255,230,140,0.75)"/>
+      <stop offset="100%" stop-color="rgba(160,120,30,0.3)"/>
+    </linearGradient>
+    <linearGradient id="drumTop" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f0d880"/>
+      <stop offset="100%" stop-color="#c8a030"/>
+    </linearGradient>
+    <linearGradient id="drumSide" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#c8a030"/>
+      <stop offset="50%" stop-color="#9a7010"/>
+      <stop offset="100%" stop-color="#5a3a00"/>
+    </linearGradient>
+    <linearGradient id="aromaBase" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#3a2808"/>
+      <stop offset="100%" stop-color="#1a0e00"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="10" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+    <filter id="shadow">
+      <feDropShadow dx="0" dy="10" stdDeviation="14" flood-color="#3a1800" flood-opacity="0.55"/>
+    </filter>
+  </defs>
+
+  <rect width="400" height="460" fill="url(#bg)"/>
+  <ellipse cx="200" cy="280" rx="140" ry="100" fill="#d4af37" opacity="0.10" filter="url(#glow)"/>
+  <ellipse cx="200" cy="428" rx="110" ry="16" fill="#000" opacity="0.4"/>
+
+  <g filter="url(#shadow)">
+    <!-- AROMA BURNER — decorative bowl on stand -->
+
+    <!-- STAND BASE platform -->
+    <ellipse cx="200" cy="388" rx="100" ry="22" fill="#2a1800"/>
+    <rect x="100" y="366" width="200" height="22" rx="4" fill="url(#drumSide)"/>
+    <ellipse cx="200" cy="366" rx="100" ry="22" fill="url(#drumTop)"/>
+    <!-- Platform ornate border -->
+    <ellipse cx="200" cy="366" rx="96" ry="18" fill="none" stroke="#d4af37" stroke-width="1" opacity="0.5"/>
+    <!-- Platform inscription -->
+    <text x="200" y="370" text-anchor="middle" fill="rgba(0,0,0,0.5)" font-family="Georgia,serif" font-size="7" letter-spacing="2">✦ ARABIAN ✦</text>
+
+    <!-- MIDDLE PEDESTAL column -->
+    <rect x="174" y="280" width="52" height="90" rx="8" fill="url(#drumSide)"/>
+    <rect x="180" y="286" width="12" height="78" rx="6" fill="rgba(255,255,255,0.12)"/>
+    <!-- Pedestal carved rings -->
+    <rect x="170" y="308" width="60" height="7" rx="2" fill="#6a4008"/>
+    <rect x="170" y="338" width="60" height="7" rx="2" fill="#6a4008"/>
+    <rect x="170" y="308" width="60" height="7" rx="2" fill="none" stroke="#d4af37" stroke-width="0.6" opacity="0.45"/>
+    <rect x="170" y="338" width="60" height="7" rx="2" fill="none" stroke="#d4af37" stroke-width="0.5" opacity="0.4"/>
+
+    <!-- BOWL body (slightly flared) -->
+    <path d="M110 280 Q108 235 200 228 Q292 235 290 280 Q288 308 200 315 Q112 308 110 280 Z" fill="url(#drumGrad)"/>
+    <!-- Bowl inner dark -->
+    <path d="M125 276 Q123 243 200 237 Q277 243 275 276 Q273 300 200 306 Q127 300 125 276 Z" fill="url(#aromaBase)"/>
+    <!-- Bowl outer rim highlight -->
+    <path d="M110 278 Q108 237 200 229" fill="none" stroke="rgba(255,255,255,0.18)" stroke-width="2.5" stroke-linecap="round"/>
+    <!-- Bowl ornamental band -->
+    <ellipse cx="200" cy="280" rx="90" ry="18" fill="none" stroke="#d4af37" stroke-width="1" opacity="0.45"/>
+
+    <!-- ARABIC GEOMETRIC PATTERN on bowl (simplified) -->
+    <g opacity="0.35">
+      <path d="M155 275 L165 260 L175 275 L165 290 Z" fill="none" stroke="#d4af37" stroke-width="0.8"/>
+      <path d="M188 272 L198 258 L208 272 L198 287 Z" fill="none" stroke="#d4af37" stroke-width="0.8"/>
+      <path d="M221 275 L231 260 L241 275 L231 290 Z" fill="none" stroke="#d4af37" stroke-width="0.8"/>
+    </g>
+
+    <!-- GLOWING OIL inside bowl -->
+    <ellipse cx="200" cy="250" rx="60" ry="18" fill="#ff8800" opacity="0.22" filter="url(#glow)"/>
+    <ellipse cx="200" cy="250" rx="52" ry="14" fill="url(#drumTop)" opacity="0.6"/>
+    <ellipse cx="190" cy="247" rx="18" ry="6" fill="#ffdd88" opacity="0.35"/>
+
+    <!-- SMALL CANDLE / TEA LIGHT under bowl (visible at base of pedestal) -->
+    <ellipse cx="200" cy="366" rx="18" ry="6" fill="#ffe0a0" opacity="0.5"/>
+    <rect x="192" y="350" width="16" height="18" rx="3" fill="#ffe8c0" opacity="0.7"/>
+    <!-- Flame -->
+    <path d="M200 345 Q196 336 200 330 Q204 336 200 345 Z" fill="#ffaa00" opacity="0.9"/>
+    <path d="M200 342 Q198 336 200 333 Q202 336 200 342 Z" fill="#fff0aa" opacity="0.7"/>
+  </g>
+
+  <!-- Bottom label -->
+  <text x="200" y="413" text-anchor="middle" fill="#f7e7b4" font-family="Georgia,serif" font-size="8.5" letter-spacing="2">ARABIAN PERFUMER'S</text>
+  <line x1="120" y1="419" x2="280" y2="419" stroke="#d4af37" stroke-width="0.5" opacity="0.5"/>
+  <text x="200" y="434" text-anchor="middle" fill="#d4af37" font-family="Georgia,serif" font-size="12" font-weight="bold" letter-spacing="1">AROMA BURNER</text>
+  <text x="200" y="448" text-anchor="middle" fill="#888" font-family="Arial,sans-serif" font-size="7.5" letter-spacing="1.5" opacity="0.75">WHOLESALE · MOQ 32 PIECES</text>
+  <text x="200" y="458" text-anchor="middle" fill="#d4af37" font-size="8" opacity="0.3">✦</text>
+</svg>

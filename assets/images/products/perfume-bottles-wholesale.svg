@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 460" width="400" height="460">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="50%" r="60%">
+      <stop offset="0%" stop-color="#0a0810"/>
+      <stop offset="100%" stop-color="#0b0c0e"/>
+    </radialGradient>
+    <linearGradient id="bottleWholesale" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="rgba(180,200,240,0.2)"/>
+      <stop offset="35%" stop-color="rgba(220,235,255,0.50)"/>
+      <stop offset="65%" stop-color="rgba(240,248,255,0.65)"/>
+      <stop offset="100%" stop-color="rgba(160,180,230,0.2)"/>
+    </linearGradient>
+    <linearGradient id="liquidWholesale" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="rgba(255,220,80,0.6)"/>
+      <stop offset="100%" stop-color="rgba(160,100,10,0.85)"/>
+    </linearGradient>
+    <linearGradient id="capWholesale" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#d4af37"/>
+      <stop offset="100%" stop-color="#5a3c08"/>
+    </linearGradient>
+    <linearGradient id="boxGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#3a2808"/>
+      <stop offset="100%" stop-color="#1a1000"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="9" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+    <filter id="shadow">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000820" flood-opacity="0.5"/>
+    </filter>
+  </defs>
+
+  <rect width="400" height="460" fill="url(#bg)"/>
+  <ellipse cx="200" cy="280" rx="150" ry="100" fill="#d4af37" opacity="0.08" filter="url(#glow)"/>
+  <ellipse cx="200" cy="418" rx="150" ry="18" fill="#000" opacity="0.35"/>
+
+  <!-- SHIPPING / WHOLESALE BOX (back) -->
+  <g filter="url(#shadow)">
+    <!-- Box back -->
+    <rect x="60" y="310" width="180" height="100" rx="5" fill="#1a1000"/>
+    <rect x="60" y="310" width="180" height="100" rx="5" fill="none" stroke="#d4af37" stroke-width="0.8" opacity="0.4"/>
+    <!-- Box top face -->
+    <path d="M60 310 L80 290 L260 290 L240 310 Z" fill="url(#boxGrad)"/>
+    <path d="M60 310 L80 290 L260 290 L240 310 Z" fill="none" stroke="#d4af37" stroke-width="0.6" opacity="0.35"/>
+    <!-- Box right face -->
+    <path d="M240 310 L260 290 L260 390 L240 410 Z" fill="#2a1c04"/>
+    <path d="M240 310 L260 290 L260 390 L240 410 Z" fill="none" stroke="#d4af37" stroke-width="0.5" opacity="0.3"/>
+    <!-- Box tape stripe -->
+    <rect x="60" y="348" width="180" height="8" rx="2" fill="#d4af37" opacity="0.25"/>
+    <text x="150" y="360" text-anchor="middle" fill="#d4af37" font-family="Arial,sans-serif" font-size="7" letter-spacing="1.5" opacity="0.6">WHOLESALE · MOQ 2 BOXES</text>
+
+    <!-- FOUR PERFUME BOTTLES standing in a row -->
+    <!-- Bottle 1 — 100ml -->
+    <rect x="75" y="195" width="38" height="120" rx="9" fill="url(#bottleWholesale)"/>
+    <rect x="80" y="202" width="28" height="108" rx="7" fill="url(#liquidWholesale)" opacity="0.8"/>
+    <rect x="80" y="210" width="7" height="94" rx="4" fill="rgba(255,255,255,0.22)"/>
+    <rect x="82" y="175" width="26" height="26" rx="5" fill="url(#bottleWholesale)"/>
+    <rect x="76" y="162" width="38" height="17" rx="5" fill="url(#capWholesale)"/>
+    <ellipse cx="95" cy="162" rx="19" ry="5.5" fill="#f7e7b4" opacity="0.55"/>
+    <!-- Label -->
+    <rect x="80" y="232" width="28" height="42" rx="2" fill="rgba(0,0,0,0.25)"/>
+    <text x="94" y="247" text-anchor="middle" fill="#f7e7b4" font-family="Arial,sans-serif" font-size="5.5" letter-spacing="0.3">ARABIAN</text>
+    <text x="94" y="256" text-anchor="middle" fill="#d4af37" font-family="Georgia,serif" font-size="6.5" font-weight="bold">100ML</text>
+    <text x="94" y="267" text-anchor="middle" fill="#888" font-family="Arial,sans-serif" font-size="4.5">₹130</text>
+
+    <!-- Bottle 2 — 50ml -->
+    <rect x="128" y="215" width="34" height="100" rx="8" fill="url(#bottleWholesale)"/>
+    <rect x="133" y="222" width="24" height="88" rx="6" fill="url(#liquidWholesale)" opacity="0.78"/>
+    <rect x="133" y="230" width="6" height="74" rx="3" fill="rgba(255,255,255,0.20)"/>
+    <rect x="134" y="196" width="22" height="24" rx="4" fill="url(#bottleWholesale)"/>
+    <rect x="129" y="184" width="32" height="16" rx="5" fill="url(#capWholesale)"/>
+    <ellipse cx="145" cy="184" rx="16" ry="5" fill="#f7e7b4" opacity="0.5"/>
+    <!-- Label -->
+    <rect x="133" y="248" width="24" height="38" rx="2" fill="rgba(0,0,0,0.25)"/>
+    <text x="145" y="261" text-anchor="middle" fill="#f7e7b4" font-family="Arial,sans-serif" font-size="5" letter-spacing="0.3">ARABIAN</text>
+    <text x="145" y="271" text-anchor="middle" fill="#d4af37" font-family="Georgia,serif" font-size="6" font-weight="bold">50ML</text>
+    <text x="145" y="280" text-anchor="middle" fill="#888" font-family="Arial,sans-serif" font-size="4.5">₹100</text>
+
+    <!-- Bottle 3 — 30ml -->
+    <rect x="178" y="230" width="28" height="84" rx="7" fill="url(#bottleWholesale)"/>
+    <rect x="182" y="237" width="20" height="72" rx="5" fill="url(#liquidWholesale)" opacity="0.75"/>
+    <rect x="182" y="244" width="5" height="60" rx="3" fill="rgba(255,255,255,0.20)"/>
+    <rect x="183" y="213" width="18" height="22" rx="4" fill="url(#bottleWholesale)"/>
+    <rect x="178" y="202" width="28" height="15" rx="4" fill="url(#capWholesale)"/>
+    <ellipse cx="192" cy="202" rx="14" ry="4.5" fill="#f7e7b4" opacity="0.5"/>
+    <!-- Label -->
+    <rect x="182" y="255" width="20" height="34" rx="2" fill="rgba(0,0,0,0.25)"/>
+    <text x="192" y="265" text-anchor="middle" fill="#d4af37" font-family="Georgia,serif" font-size="5.5" font-weight="bold">30ML</text>
+    <text x="192" y="274" text-anchor="middle" fill="#888" font-family="Arial,sans-serif" font-size="4">₹90</text>
+
+    <!-- Bottle 4 — repeat 100ml (tall) in back -->
+    <rect x="220" y="190" width="40" height="125" rx="9" fill="url(#bottleWholesale)" opacity="0.8"/>
+    <rect x="226" y="197" width="28" height="113" rx="7" fill="url(#liquidWholesale)" opacity="0.7"/>
+    <rect x="226" y="206" width="7" height="98" rx="4" fill="rgba(255,255,255,0.18)"/>
+    <rect x="226" y="170" width="28" height="25" rx="5" fill="url(#bottleWholesale)" opacity="0.8"/>
+    <rect x="220" y="157" width="40" height="17" rx="5" fill="url(#capWholesale)"/>
+    <ellipse cx="240" cy="157" rx="20" ry="5.5" fill="#f7e7b4" opacity="0.5"/>
+  </g>
+
+  <!-- Bottom text -->
+  <text x="200" y="435" text-anchor="middle" fill="#f7e7b4" font-family="Georgia,serif" font-size="8.5" letter-spacing="2">ARABIAN PERFUMER'S</text>
+  <line x1="115" y1="441" x2="285" y2="441" stroke="#d4af37" stroke-width="0.5" opacity="0.5"/>
+  <text x="200" y="454" text-anchor="middle" fill="#d4af37" font-family="Georgia,serif" font-size="11" font-weight="bold" letter-spacing="1">PERFUME BOTTLES</text>
+  <text x="200" y="458" text-anchor="middle" fill="#d4af37" font-size="7" opacity="0.3">✦</text>
+</svg>
