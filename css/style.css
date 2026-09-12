@@ -90,6 +90,17 @@ html {
     -webkit-text-size-adjust: 100%;
 }
 
+/* --------------------------------------------------------------------------
+   PERFUME BOTTLE CURSOR
+   SVG encoded as data URI — no external requests.
+   Hot-spot is set to 10 16 (tip of the bottle base).
+   -------------------------------------------------------------------------- */
+:root {
+    --cursor-default: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='40' viewBox='0 0 28 40'%3E%3C!-- neck --%3E%3Crect x='10' y='0' width='8' height='6' rx='2' fill='%23d4af37'/%3E%3C!-- collar --%3E%3Crect x='8' y='5' width='12' height='4' rx='1' fill='%23f0d882'/%3E%3C!-- bottle body --%3E%3Crect x='4' y='9' width='20' height='24' rx='5' fill='%23d4af37'/%3E%3C!-- liquid fill --%3E%3Crect x='6' y='14' width='16' height='16' rx='3' fill='%23997d1e'/%3E%3C!-- shine highlight --%3E%3Cellipse cx='10' cy='17' rx='3' ry='5' fill='%23f7e7b4' opacity='0.35'/%3E%3C!-- base --%3E%3Crect x='4' y='33' width='20' height='5' rx='3' fill='%23997d1e'/%3E%3C!-- cap top --%3E%3Crect x='11' y='-1' width='6' height='3' rx='1.5' fill='%23f0d882'/%3E%3C/svg%3E") 10 16, auto;
+
+    --cursor-pointer: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='40' viewBox='0 0 28 40'%3E%3C!-- neck --%3E%3Crect x='10' y='0' width='8' height='6' rx='2' fill='%23f0d882'/%3E%3C!-- collar --%3E%3Crect x='8' y='5' width='12' height='4' rx='1' fill='%23f7e7b4'/%3E%3C!-- bottle body --%3E%3Crect x='4' y='9' width='20' height='24' rx='5' fill='%23f0d882'/%3E%3C!-- liquid fill --%3E%3Crect x='6' y='14' width='16' height='16' rx='3' fill='%23d4af37'/%3E%3C!-- shine highlight --%3E%3Cellipse cx='10' cy='17' rx='3' ry='5' fill='%23ffffff' opacity='0.4'/%3E%3C!-- base --%3E%3Crect x='4' y='33' width='20' height='5' rx='3' fill='%23d4af37'/%3E%3C!-- cap top --%3E%3Crect x='11' y='-1' width='6' height='3' rx='1.5' fill='%23f7e7b4'/%3E%3C/svg%3E") 10 16, pointer;
+}
+
 body {
     font-family: var(--f-body);
     background: var(--c-black);
@@ -100,6 +111,16 @@ body {
     -moz-osx-font-smoothing: grayscale;
     /* Space for fixed announce bar + header */
     padding-top: calc(var(--announce-h) + var(--header-h));
+    cursor: var(--cursor-default);
+}
+
+/* Pointer-style cursor on interactive elements */
+a, button, [role="button"],
+input[type="submit"], input[type="button"], input[type="reset"],
+select, label[for],
+.product-card, .btn, .nav-link, .cart-toggle, .filter-btn,
+[data-action], [tabindex]:not([tabindex="-1"]) {
+    cursor: var(--cursor-pointer);
 }
 
 
