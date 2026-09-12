@@ -34,6 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initHeroCartBtn();
     initNavWhatsApp();
     initScentFinderQuiz();    // 5-step scent quiz with product recommendations
+    initSprayEffect();        // perfume spray particles on click
 
     Cart.onChange(updateAllCartIndicators);
     updateAllCartIndicators();
@@ -1832,4 +1833,86 @@ function initScentFinderQuiz() {
 
     // Expose for footer/inline links
     window.openQuizModal = openQuizModal;
+}
+
+/* ==========================================================================
+   PERFUME SPRAY EFFECT
+   On every click a burst of golden mist droplets fans out from the cursor
+   position, physics-animate, then remove themselves from the DOM.
+   ========================================================================== */
+function initSprayEffect() {
+    // Colours cycle through the brand gold palette
+    const COLOURS = ['#d4af37', '#f0d882', '#f7e7b4', '#997d1e', '#c8a020', '#ffe066'];
+    // Number of droplets per burst
+    const PARTICLE_COUNT = 18;
+
+    document.addEventListener('click', sprayBurst);
+
+    function sprayBurst(e) {
+        const x = e.clientX;
+        const y = e.clientY;
+
+        for (let i = 0; i < PARTICLE_COUNT; i++) {
+            createDroplet(x, y, i);
+        }
+    }
+
+    function createDroplet(originX, originY, index) {
+        const el = document.createElement('span');
+        el.className = 'spray-droplet';
+
+        // Random angle spread — skewed slightly upward (spray cone)
+        const angleBase = -90; // pointing upward
+        const spread    = 110; // ± degrees
+        const angle     = angleBase + (Math.random() * spread - spread / 2);
+        const rad       = angle * (Math.PI / 180);
+
+        // Random travel distance
+        const dist = 40 + Math.random() * 90;
+        const tx   = Math.cos(rad) * dist;
+        const ty   = Math.sin(rad) * dist;
+
+        // Random size: small mist dots
+        const size = 3 + Math.random() * 7;
+
+        // Random colour from palette
+        const colour = COLOURS[Math.floor(Math.random() * COLOURS.length)];
+
+        // Slight stagger so they don't all launch simultaneously
+        const delay = index * 12;
+
+        // Duration varies so some droplets linger
+        const duration = 500 + Math.random() * 400;
+
+        el.style.cssText = [
+            'position:fixed',
+            'pointer-events:none',
+            'z-index:99999',
+            'border-radius:50%',
+            'will-change:transform,opacity',
+            `left:${originX}px`,
+            `top:${originY}px`,
+            `width:${size}px`,
+            `height:${size}px`,
+            `background:${colour}`,
+            `box-shadow:0 0 ${size * 1.5}px ${colour}`,
+            `opacity:0.9`,
+            `transition:transform ${duration}ms cubic-bezier(0.22,1,0.36,1) ${delay}ms,`
+                + `opacity ${duration * 0.6}ms ease ${delay + duration * 0.3}ms`,
+            'transform:translate(-50%,-50%)',
+        ].join(';');
+
+        document.body.appendChild(el);
+
+        // Trigger animation on next frame
+        requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+                el.style.transform = `translate(calc(-50% + ${tx}px), calc(-50% + ${ty}px)) scale(0.4)`;
+                el.style.opacity   = '0';
+            });
+        });
+
+        // Remove from DOM after animation completes
+        setTimeout(() => el.remove(), delay + duration + 100);
+    }
 }
