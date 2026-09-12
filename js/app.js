@@ -18,6 +18,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     injectIconSprite();
     initFallbackImages();     // wire data-fallback on static HTML images
+    initLogoFallbacks();      // CSP-safe logo error fallback (no onerror= attrs)
     initAnnounceBar();
     initHeader();
     initMobileDrawer();
@@ -105,6 +106,35 @@ function initFallbackImages() {
             applyFallback();
         }
     });
+}
+
+/* ==========================================================================
+   LOGO FALLBACKS — no inline onerror handlers; CSP-safe JS fallback
+   ========================================================================== */
+function initLogoFallbacks() {
+    // Nav header logo
+    const navLogo = document.getElementById('nav-logo-img');
+    const navFallback = document.getElementById('nav-logo-fallback');
+    if (navLogo && navFallback) {
+        const applyNavFallback = () => {
+            navLogo.style.display = 'none';
+            navFallback.style.display = 'flex';
+        };
+        navLogo.addEventListener('error', applyNavFallback);
+        if (navLogo.complete && navLogo.naturalWidth === 0) applyNavFallback();
+    }
+
+    // Mobile drawer logo
+    const drawerLogo = document.getElementById('drawer-logo-img');
+    const drawerFallback = document.getElementById('drawer-logo-fallback');
+    if (drawerLogo && drawerFallback) {
+        const applyDrawerFallback = () => {
+            drawerLogo.style.display = 'none';
+            drawerFallback.style.display = 'inline';
+        };
+        drawerLogo.addEventListener('error', applyDrawerFallback);
+        if (drawerLogo.complete && drawerLogo.naturalWidth === 0) applyDrawerFallback();
+    }
 }
 
 /** Safe image with fallback on error */

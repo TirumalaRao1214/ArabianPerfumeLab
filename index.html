@@ -22,6 +22,20 @@
   <meta name="twitter:title"       content="Arabian Perfume Lab">
   <meta name="twitter:description" content="Premium Arabian-inspired fragrances. Order via WhatsApp.">
 
+  <!-- ============================================================
+       SECURITY HEADERS (meta fallback — authoritative headers are
+       in _headers / netlify.toml / vercel.json for the host)
+       ============================================================ -->
+  <!-- Content-Security-Policy: restrict to self + data URIs only -->
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none';">
+
+  <!-- Prevent MIME-type sniffing -->
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+
+  <!-- Referrer policy — only send origin on cross-origin requests -->
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+
   <!-- Stylesheets — local only, no CDN -->
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/responsive.css">
@@ -91,9 +105,10 @@
       <img src="assets/images/arabian-perfumers-logo.svg"
            alt="Arabian Perfumer's — Your Favourite Perfume Is Here"
            class="nav-logo-img"
-           width="160" height="67"
-           onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-      <span class="nav-logo-fallback" style="display:none;flex-direction:column;align-items:center;">
+           id="nav-logo-img"
+           width="160" height="67">
+      <span class="nav-logo-fallback" id="nav-logo-fallback" aria-hidden="true"
+            style="display:none;flex-direction:column;align-items:center;">
         <span class="nav-logo-main">ARABIAN PERFUME LAB</span>
         <span class="nav-logo-sub">Maison de Haute Parfumerie</span>
       </span>
@@ -147,9 +162,9 @@
       <img src="assets/images/arabian-perfumers-logo.svg"
            alt="Arabian Perfumer's"
            class="drawer-logo-img"
-           width="120" height="54"
-           onerror="this.style.display='none';this.nextElementSibling.style.display='inline';">
-      <span style="display:none;">ARABIAN PERFUME LAB</span>
+           id="drawer-logo-img"
+           width="120" height="54">
+      <span id="drawer-logo-fallback" style="display:none;">ARABIAN PERFUME LAB</span>
     </span>
     <button class="drawer-close" id="drawer-close" aria-label="Close navigation menu">
       <svg class="icon" aria-hidden="true" focusable="false"><use href="assets/icons/icons.svg#icon-close"></use></svg>
@@ -1577,14 +1592,16 @@
     </div>
 
     <p class="cart-disclaimer">
-      <strong>Note:</strong> Prices are subject to confirmation by Arabian Perfume Lab.
-      Final order will be confirmed via WhatsApp.
+      <strong>Order Request Only.</strong>
+      Prices shown are based on the current catalogue.
+      Final price, availability and delivery charges will be confirmed by
+      Arabian Perfume Lab through WhatsApp.
     </p>
 
     <div class="cart-actions">
       <button class="btn btn-gold btn-full" id="cart-order-btn">
         <svg class="icon icon-sm" aria-hidden="true" focusable="false"><use href="assets/icons/icons.svg#icon-whatsapp"></use></svg>
-        <span>Order on WhatsApp</span>
+        <span>Send Order Request</span>
       </button>
       <div style="display:flex; gap:0.5rem;">
         <button class="btn btn-outline btn-full" id="cart-shop-btn">

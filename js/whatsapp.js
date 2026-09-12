@@ -25,46 +25,55 @@ const WhatsApp = (() => {
 
     /**
      * Build the plain-text order message from current cart contents.
-     * All prices are sourced from Cart.getItems() → products.js.
-     * @param {Array} cartItems  — result of Cart.getItems()
+     * All prices are sourced from Cart.getItems() → products.js — never from
+     * DOM values, URL parameters, or any client-supplied source.
+     *
+     * The message is labelled "ORDER REQUEST" (not "Order Confirmed") to make
+     * clear that Arabian Perfume Lab must confirm price and availability.
+     *
+     * @param {Array}  cartItems — result of Cart.getItems()
      * @param {number} total     — result of Cart.getTotal()
      * @returns {string}
      */
     function _buildMessage(cartItems, total) {
-        const separator = '------------------------';
+        const separator = '─────────────────────────';
 
-        // Header
+        // Header — clearly labelled as a REQUEST, not a confirmed order
         const lines = [
             'Hello ' + BUSINESS.name + ',',
             '',
-            'I would like to place an order.',
+            '🛒 ORDER REQUEST',
+            '(This is a request — not a confirmed order.)',
             '',
             'ORDER DETAILS',
             separator
         ];
 
-        // Line items
+        // Line items — prices from catalogue (products.js) only
         cartItems.forEach((item, index) => {
             const p         = item.product;
-            const unitPrice = _formatPrice(item.unitPrice);   // from catalog
+            const unitPrice = _formatPrice(item.unitPrice);   // from catalogue
             const lineTot   = _formatPrice(item.lineTotal);   // unitPrice × qty
 
-            lines.push((index + 1) + '. ' + p.brand + ' — ' + p.name);
-            lines.push(item.size + ' \u00D7 ' + item.qty);   // e.g. 50ml × 2
-            lines.push(unitPrice + ' \u00D7 ' + item.qty + ' = ' + lineTot);
+            lines.push((index + 1) + '. ' + p.brand + ' \u2014 ' + p.name);
+            lines.push('   Size: ' + item.size);
+            lines.push('   ' + unitPrice + ' \u00D7 ' + item.qty + ' = ' + lineTot);
             lines.push('');
         });
 
         // Totals block
         lines.push(separator);
-        lines.push('TOTAL: ' + _formatPrice(total));
+        lines.push('CATALOGUE TOTAL: ' + _formatPrice(total));
         lines.push(separator);
         lines.push('');
 
-        // Confirmation note — spec §14 / §6
-        lines.push('Note: Prices are subject to confirmation by ' + BUSINESS.name + '.');
+        // Mandatory price disclaimer — §9 of the security specification
+        lines.push('IMPORTANT:');
+        lines.push('Prices shown are based on the current catalogue.');
+        lines.push('Final price, availability and delivery charges will');
+        lines.push('be confirmed by ' + BUSINESS.name + ' through WhatsApp.');
         lines.push('');
-        lines.push('Please confirm my order.');
+        lines.push('Please confirm availability and final price.');
         lines.push('');
         lines.push('Thank you.');
 
