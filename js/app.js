@@ -1266,60 +1266,134 @@ function initHeroCanvas() {
     window.addEventListener('resize', () => {
         W = canvas.width  = canvas.parentElement.offsetWidth;
         H = canvas.height = canvas.parentElement.offsetHeight;
+        stars.forEach(s => s.reset());
     }, { passive: true });
 
-    class Smoke {
-        constructor() { this.reset(); }
-        reset() {
-            this.x = Math.random() * W;
-            this.y = H + Math.random() * 60;
-            this.r = Math.random() * 80 + 50;
-            this.vx = (Math.random() - 0.5) * 0.4;
-            this.vy = -(Math.random() * 0.5 + 0.3);
-            this.a  = Math.random() * 0.045 + 0.01;
-            const p = ['212,175,55', '245,158,11', '180,83,9'];
-            this.col = p[Math.floor(Math.random() * p.length)];
+    /* ── Sand grain — drifts horizontally across dune area ── */
+    class SandGrain {
+        constructor() { this.reset(true); }
+        reset(initial) {
+            // Start off left edge (or random position on init)
+            this.x   = initial ? Math.random() * W : -4;
+            this.y   = H * 0.62 + Math.random() * H * 0.38; // lower 38% = dune zone
+            this.sz  = Math.random() * 2.2 + 0.4;
+            this.vx  = Math.random() * 1.1 + 0.35;          // blowing right
+            this.vy  = (Math.random() - 0.5) * 0.18;        // slight vertical drift
+            this.op  = Math.random() * 0.38 + 0.06;
+            // warm sand colour: amber/gold range
+            const r  = 190 + Math.floor(Math.random() * 40);
+            const g  = 120 + Math.floor(Math.random() * 50);
+            const b  = 20  + Math.floor(Math.random() * 30);
+            this.col = `${r},${g},${b}`;
         }
         update() {
-            this.x += this.vx; this.y += this.vy;
-            if (this.y < H * 0.25) this.a -= 0.0003;
-            if (this.y < -this.r || this.a <= 0) this.reset();
+            this.x += this.vx;
+            this.y += this.vy;
+            if (this.x > W + 6) this.reset(false);
         }
         draw() {
-            const g = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.r);
-            g.addColorStop(0, `rgba(${this.col},${this.a})`);
-            g.addColorStop(1, `rgba(${this.col},0)`);
-            ctx.save(); ctx.fillStyle = g;
-            ctx.beginPath(); ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
-            ctx.fill(); ctx.restore();
-        }
-    }
-
-    class Dust {
-        constructor() { this.reset(); }
-        reset() {
-            this.x  = Math.random() * W;
-            this.y  = Math.random() * H;
-            this.sz = Math.random() * 1.8 + 0.4;
-            this.vy = -(Math.random() * 0.22 + 0.1);
-            this.vx = (Math.random() - 0.5) * 0.2;
-            this.op = Math.random() * 0.6 + 0.2;
-        }
-        update() { this.y += this.vy; this.x += this.vx; if (this.y < 0) this.reset(); }
-        draw() {
-            ctx.fillStyle = `rgba(212,175,55,${this.op})`;
-            ctx.beginPath(); ctx.arc(this.x, this.y, this.sz, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(${this.col},${this.op})`;
+            ctx.beginPath();
+            ctx.ellipse(this.x, this.y, this.sz, this.sz * 0.5, 0.2, 0, Math.PI * 2);
             ctx.fill();
         }
     }
 
-    const smokes = Array.from({ length: 25 }, () => { const s = new Smoke(); s.y = Math.random() * H; return s; });
-    const dusts  = Array.from({ length: 40 }, () => new Dust());
+    /* ── Sand wisp — a soft blowing streak of fine sand ── */
+    class SandWisp {
+        constructor() { this.reset(true); }
+        reset(initial) {
+            this.x   = initial ? Math.random() * W : -30;
+            this.y   = H * 0.55 + Math.random() * H * 0.3;
+            this.len = Math.random() * 55 + 20;
+            this.vx  = Math.random() * 0.9 + 0.5;
+            this.a   = Math.random() * 0.07 + 0.02;
+            this.w   = Math.random() * 1.8 + 0.5;
+        }
+        update() {
+            this.x += this.vx;
+            if (this.x > W + this.len) this.reset(false);
+        }
+        draw() {
+            const g = ctx.createLinearGradient(this.x, this.y, this.x + this.len, this.y);
+            g.addColorStop(0,   `rgba(212,168,55,0)`);
+            g.addColorStop(0.3, `rgba(212,168,55,${this.a})`);
+            g.addColorStop(0.7, `rgba(212,168,55,${this.a * 0.6})`);
+            g.addColorStop(1,   `rgba(212,168,55,0)`);
+            ctx.strokeStyle = g;
+            ctx.lineWidth   = this.w;
+            ctx.beginPath();
+            ctx.moveTo(this.x, this.y);
+            ctx.lineTo(this.x + this.len, this.y + (Math.random() - 0.5) * 3);
+            ctx.stroke();
+        }
+    }
+
+    /* ── Twinkling star — subtle pulse in the upper sky zone ── */
+    class StarTwinkle {
+        constructor() { this.reset(); }
+        reset() {
+            this.x    = Math.random() * W;
+            this.y    = Math.random() * H * 0.48;   // sky zone only
+            this.r    = Math.random() * 1.4 + 0.4;
+            this.op   = Math.random() * 0.5 + 0.1;
+            this.dop  = (Math.random() * 0.006 + 0.002) * (Math.random() < 0.5 ? 1 : -1);
+            this.minO = 0.05;
+            this.maxO = 0.72;
+        }
+        update() {
+            this.op += this.dop;
+            if (this.op >= this.maxO || this.op <= this.minO) this.dop *= -1;
+        }
+        draw() {
+            ctx.fillStyle = `rgba(247,228,160,${this.op})`;
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+            ctx.fill();
+        }
+    }
+
+    /* ── Embers / incense sparks — rise slowly from lower centre ── */
+    class Ember {
+        constructor() { this.reset(true); }
+        reset(initial) {
+            this.x   = W * 0.35 + (Math.random() - 0.5) * W * 0.25;
+            this.y   = initial ? Math.random() * H : H + 10;
+            this.r   = Math.random() * 1.5 + 0.4;
+            this.vx  = (Math.random() - 0.5) * 0.35;
+            this.vy  = -(Math.random() * 0.55 + 0.2);
+            this.a   = Math.random() * 0.5 + 0.1;
+            this.da  = 0.0012 + Math.random() * 0.001;
+        }
+        update() {
+            this.x  += this.vx + Math.sin(this.y * 0.04) * 0.18;
+            this.y  += this.vy;
+            this.a  -= this.da;
+            if (this.a <= 0 || this.y < H * 0.1) this.reset(false);
+        }
+        draw() {
+            const g = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.r * 3);
+            g.addColorStop(0,   `rgba(255,200,80,${this.a})`);
+            g.addColorStop(0.5, `rgba(212,140,30,${this.a * 0.4})`);
+            g.addColorStop(1,   `rgba(212,100,10,0)`);
+            ctx.fillStyle = g;
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.r * 3, 0, Math.PI * 2);
+            ctx.fill();
+        }
+    }
+
+    const grains = Array.from({ length: 80 },  () => new SandGrain());
+    const wisps  = Array.from({ length: 18 },  () => new SandWisp());
+    const stars  = Array.from({ length: 55 },  () => new StarTwinkle());
+    const embers = Array.from({ length: 18 },  () => new Ember());
 
     function frame() {
         ctx.clearRect(0, 0, W, H);
-        smokes.forEach(s => { s.update(); s.draw(); });
-        dusts.forEach(d  => { d.update(); d.draw(); });
+        stars.forEach(s  => { s.update(); s.draw(); });
+        wisps.forEach(w  => { w.update(); w.draw(); });
+        grains.forEach(g => { g.update(); g.draw(); });
+        embers.forEach(e => { e.update(); e.draw(); });
         requestAnimationFrame(frame);
     }
     frame();
