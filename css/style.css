@@ -2876,9 +2876,10 @@ ul, ol { list-style: none; }
 }
 /* Pricing card with a real photo background */
 .pricing-card-img-bg {
-    background-image: var(--card-bg-img);
+    background-color: transparent !important;
+    background-image: var(--card-bg-img) !important;
     background-size: cover;
-    background-position: center top;
+    background-position: center center;
     background-repeat: no-repeat;
     overflow: hidden;
 }
@@ -2888,12 +2889,13 @@ ul, ol { list-style: none; }
     inset: 0;
     background: linear-gradient(
         to bottom,
-        rgba(11,12,14,0.55) 0%,
-        rgba(11,12,14,0.72) 55%,
-        rgba(11,12,14,0.92) 100%
+        rgba(11,12,14,0.15) 0%,
+        rgba(11,12,14,0.35) 50%,
+        rgba(11,12,14,0.75) 100%
     );
     border-radius: inherit;
     pointer-events: none;
+    z-index: 0;
 }
 .pricing-card-img-bg > * {
     position: relative;
@@ -2903,6 +2905,10 @@ ul, ol { list-style: none; }
 .pricing-card-highlight {
     border-color: var(--c-gold-dim);
     background: linear-gradient(160deg, var(--c-card) 60%, rgba(212,175,55,0.05) 100%);
+}
+/* When highlight card also has a bg image, let the image show */
+.pricing-card-highlight.pricing-card-img-bg {
+    background: none !important;
 }
 .pricing-card-highlight:hover {
     border-color: var(--c-gold);
