@@ -2220,53 +2220,53 @@ const products = Object.freeze([
        =========================================================== */
     {
         id: 'solid-oud-royale', brand: 'Arabian Perfumer\'s', name: 'Oud Royale Solid Perfume',
-        collection: 'solid', gender: 'unisex',
+        collection: 'personal-care', gender: 'unisex',
         sizes: SOLID,
-        image: IMG.noir,
-        imageAlt: 'Arabian Perfumer\'s â€” Oud Royale solid perfume compact',
+        image: IMG.bodyCream,
+        imageAlt: "Arabian Perfumer's — Oud Royale solid perfume compact",
         notes: ['Oud', 'Amber', 'Musk'],
         description: 'All the richness of oud and amber in a convenient wax-based solid compact. TSA-friendly, travel-perfect, no spill. Apply directly to pulse points.',
-        badge: 'SOLID PERFUME'
+        badge: 'SOLID PERFUME CREAM'
     },
     {
         id: 'solid-rose-musk', brand: 'Arabian Perfumer\'s', name: 'Rose Musk Solid Perfume',
-        collection: 'solid', gender: 'women',
+        collection: 'personal-care', gender: 'women',
         sizes: SOLID,
-        image: IMG.perfumeBottle,
-        imageAlt: 'Arabian Perfumer\'s â€” Rose Musk solid perfume compact',
+        image: IMG.bodyCream,
+        imageAlt: "Arabian Perfumer's — Rose Musk solid perfume compact",
         notes: ['Rose', 'Musk', 'Floral'],
         description: 'A blooming rose heart softened by white musk in a silky solid balm. Perfect for a subtle daytime scent. Fits in any pocket or purse.',
-        badge: 'SOLID PERFUME'
+        badge: 'SOLID PERFUME CREAM'
     },
     {
         id: 'solid-amber-vanilla', brand: 'Arabian Perfumer\'s', name: 'Amber Vanilla Solid Perfume',
-        collection: 'solid', gender: 'unisex',
+        collection: 'personal-care', gender: 'unisex',
         sizes: SOLID,
-        image: IMG.perfumeBottle,
-        imageAlt: 'Arabian Perfumer\'s â€” Amber Vanilla solid perfume compact',
+        image: IMG.bodyCream,
+        imageAlt: "Arabian Perfumer's — Amber Vanilla solid perfume compact",
         notes: ['Amber', 'Vanilla', 'Woody'],
         description: 'Warm amber and sweet vanilla in a comforting solid perfume balm. Cozy, gourmand-adjacent, and irresistibly smooth on skin.',
-        badge: 'SOLID PERFUME'
+        badge: 'SOLID PERFUME CREAM'
     },
     {
         id: 'solid-fresh-citrus', brand: 'Arabian Perfumer\'s', name: 'Fresh Citrus Solid Perfume',
-        collection: 'solid', gender: 'unisex',
+        collection: 'personal-care', gender: 'unisex',
         sizes: SOLID,
-        image: IMG.perfumeBottle,
-        imageAlt: 'Arabian Perfumer\'s â€” Fresh Citrus solid perfume compact',
+        image: IMG.bodyCream,
+        imageAlt: "Arabian Perfumer's — Fresh Citrus solid perfume compact",
         notes: ['Citrus', 'Fresh', 'Woody'],
         description: 'Bergamot, lemon, and cedar in a clean solid format. Light, refreshing, and perfect for the office or daytime wear.',
-        badge: 'SOLID PERFUME'
+        badge: 'SOLID PERFUME CREAM'
     },
     {
         id: 'solid-jasmine-sandalwood', brand: 'Arabian Perfumer\'s', name: 'Jasmine Sandalwood Solid Perfume',
-        collection: 'solid', gender: 'women',
+        collection: 'personal-care', gender: 'women',
         sizes: SOLID,
-        image: IMG.perfumeBottle,
-        imageAlt: 'Arabian Perfumer\'s â€” Jasmine Sandalwood solid perfume compact',
+        image: IMG.bodyCream,
+        imageAlt: "Arabian Perfumer's — Jasmine Sandalwood solid perfume compact",
         notes: ['Jasmine', 'Sandalwood', 'Floral'],
         description: 'Heady jasmine blooms grounded by creamy Mysore sandalwood. A classic Indian floral accord in convenient solid form.',
-        badge: 'SOLID PERFUME'
+        badge: 'SOLID PERFUME CREAM'
     },
 
     /* ===========================================================
