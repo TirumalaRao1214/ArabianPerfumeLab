@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Arabian Perfume Lab â€” Complete Product Catalogue
  *
  * SINGLE SOURCE OF TRUTH for all product data including prices.
@@ -81,7 +81,7 @@ const IMG = {
     tobaccoOudhi:      'assets/images/products/bottle-amber.svg',
 
     /* ---- Non-perfume product illustrations (SVGs) ---- */
-    bodyCream:          'assets/images/products/body-cream-jar.svg',
+    bodyCream:          'assets/images/products/Body-cream.png',
     herbalSoap:         'assets/images/products/herbal-soap.svg',
     bakhoorBurner:      'assets/images/products/bakhoor-burner.svg',
     jawadhuPowder:      'assets/images/products/jawadhu-powder.svg',
@@ -2280,7 +2280,7 @@ const products = Object.freeze([
         sizes: { '1 unit': 100 },
         mrp:   { '1 unit': 280 },
         image: IMG.bodyCream,
-        imageAlt: 'Arabian Perfumer\'s â€” Solid Perfume Body Cream',
+        imageAlt: "Arabian Perfumer's — Solid Perfume Body Cream",
         notes: ['Floral', 'Musk', 'Fresh'],
         description: 'Rich moisturising body cream infused with our signature fragrance blends. Available in multiple fragrance types. Sale â‚¹100 Â· MRP â‚¹280.',
         badge: 'PERSONAL CARE'
@@ -2293,7 +2293,7 @@ const products = Object.freeze([
         sizes: { '1 unit': 100 },
         mrp:   { '1 unit': 299 },
         image: IMG.bodyCream,
-        imageAlt: 'Arabian Perfumer\'s â€” Mogra Body Cream in rose fragrance',
+        imageAlt: "Arabian Perfumer's — Mogra Body Cream in rose fragrance",
         notes: ['Jasmine', 'Floral', 'Fresh'],
         description: 'Luxurious body cream with the intoxicating scent of fresh Mogra (jasmine) blooms. Sale â‚¹100 Â· MRP â‚¹299.',
         badge: 'PERSONAL CARE'
@@ -2317,7 +2317,7 @@ const products = Object.freeze([
         productType: 'enquiry',
         sizes: {},
         image: IMG.bodyCream,
-        imageAlt: 'Arabian Perfumer\'s â€” Crack Cream',
+        imageAlt: "Arabian Perfumer's — Crack Cream",
         notes: ['Herbal', 'Fresh'],
         description: 'Intensive heel and crack repair cream. Enquire on WhatsApp for pricing and availability.',
         badge: 'ENQUIRE',
