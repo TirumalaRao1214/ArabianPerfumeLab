@@ -2878,11 +2878,12 @@ ul, ol { list-style: none; }
    background-image is set directly via inline style on the element.
    This class just ensures size/position/repeat and text legibility. */
 .pricing-card-img-bg {
-    background-color: transparent;
-    background-size: cover;
-    background-position: center center;
-    background-repeat: no-repeat;
+    background-color: transparent !important;
+    background-size: cover !important;
+    background-position: center center !important;
+    background-repeat: no-repeat !important;
     overflow: hidden;
+    min-height: 220px;
 }
 .pricing-card-img-bg > * {
     position: relative;
@@ -2894,7 +2895,7 @@ ul, ol { list-style: none; }
     background-color: var(--c-card);
 }
 .pricing-card-highlight.pricing-card-img-bg {
-    background-color: transparent;
+    background-color: transparent !important;
 }
 .pricing-card-highlight:hover {
     border-color: var(--c-gold);
