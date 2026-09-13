@@ -2858,7 +2858,7 @@ ul, ol { list-style: none; }
 }
 .pricing-card {
     position: relative;
-    background: var(--c-card);
+    background-color: var(--c-card);
     border: 1px solid var(--c-border);
     border-radius: 6px;
     padding: var(--sp-lg) var(--sp-md);
@@ -2891,7 +2891,7 @@ ul, ol { list-style: none; }
 
 .pricing-card-highlight {
     border-color: var(--c-gold-dim);
-    background: linear-gradient(160deg, var(--c-card) 60%, rgba(212,175,55,0.05) 100%);
+    background-color: var(--c-card);
 }
 .pricing-card-highlight.pricing-card-img-bg {
     background-color: transparent;
