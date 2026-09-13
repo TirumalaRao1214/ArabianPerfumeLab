@@ -2874,6 +2874,32 @@ ul, ol { list-style: none; }
     transform: translateY(-3px);
     box-shadow: 0 8px 28px rgba(0,0,0,0.35), 0 0 20px rgba(212,175,55,0.06);
 }
+/* Pricing card with a real photo background */
+.pricing-card-img-bg {
+    background-image: var(--card-bg-img);
+    background-size: cover;
+    background-position: center top;
+    background-repeat: no-repeat;
+    overflow: hidden;
+}
+.pricing-card-img-bg::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to bottom,
+        rgba(11,12,14,0.55) 0%,
+        rgba(11,12,14,0.72) 55%,
+        rgba(11,12,14,0.92) 100%
+    );
+    border-radius: inherit;
+    pointer-events: none;
+}
+.pricing-card-img-bg > * {
+    position: relative;
+    z-index: 1;
+}
+
 .pricing-card-highlight {
     border-color: var(--c-gold-dim);
     background: linear-gradient(160deg, var(--c-card) 60%, rgba(212,175,55,0.05) 100%);
