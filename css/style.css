@@ -359,43 +359,35 @@ ul, ol { list-style: none; }
     background: var(--c-amber);
     border-bottom: 1px solid var(--c-border);
     z-index: 1000;
+    overflow: hidden;
     display: flex;
     align-items: center;
 }
-.announce-inner {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--sp-md);
+.announce-ticker-wrap {
     width: 100%;
+    overflow: hidden;
 }
-.announce-text {
+.announce-ticker {
+    display: flex;
+    white-space: nowrap;
+    animation: ticker-scroll 28s linear infinite;
+}
+.announce-ticker:hover {
+    animation-play-state: paused;
+}
+.announce-ticker-item {
     font-family: var(--f-serif);
     font-style: italic;
     font-size: 0.78rem;
     letter-spacing: 0.06em;
     color: var(--c-gold-light);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-.announce-links {
-    display: flex;
-    align-items: center;
-    gap: var(--sp-lg);
+    padding-right: 2rem;
     flex-shrink: 0;
 }
-.announce-link {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 0.72rem;
-    letter-spacing: 0.08em;
-    color: var(--c-ivory-muted);
-    transition: color var(--t-fast);
+@keyframes ticker-scroll {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
 }
-.announce-link:hover { color: var(--c-gold); }
-.announce-link .icon { width: 12px; height: 12px; }
 
 /* --------------------------------------------------------------------------
    8. HEADER / NAVIGATION
