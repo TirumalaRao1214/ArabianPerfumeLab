@@ -2874,20 +2874,15 @@ ul, ol { list-style: none; }
     transform: translateY(-3px);
     box-shadow: 0 8px 28px rgba(0,0,0,0.35), 0 0 20px rgba(212,175,55,0.06);
 }
-/* Pricing card with a real photo background
-   background-image is set directly via inline style on the element.
-   This class just ensures size/position/repeat and text legibility. */
+/* Pricing card — pure image tile, no content */
 .pricing-card-img-bg {
     background-color: transparent !important;
     background-size: cover !important;
     background-position: center center !important;
     background-repeat: no-repeat !important;
     overflow: hidden;
-    min-height: 220px;
-}
-.pricing-card-img-bg > * {
-    position: relative;
-    z-index: 1;
+    height: 260px;
+    padding: 0 !important;
 }
 
 .pricing-card-highlight {
