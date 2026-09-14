@@ -159,36 +159,69 @@ function buildImg(src, alt, w, h, cls, svgFallback) {
     return img;
 }
 
-/** Return the first price value for a product (cheapest size) */
+/** Return the lowest price across all variants of a product */
 function lowestPrice(product) {
     if (!product.sizes) return 0;
-    const vals = Object.values(product.sizes);
+    const vals = Object.values(product.sizes).map(v => (typeof v === 'object' ? v.price : v));
     return vals.length ? Math.min(...vals) : 0;
 }
 
-/** Return the MRP for a given size key (or null if no mrp defined) */
-function getMrp(product, sizeKey) {
-    if (!product.mrp) return null;
-    return product.mrp[sizeKey] || null;
-}
-
-/** Return first size key for a product */
+/** Return first size key for a product (first non-solid variant if possible) */
 function firstSize(product) {
     if (!product.sizes) return '';
-    return Object.keys(product.sizes)[0] || '';
+    // Prefer first attar or perfume variant over solid
+    const keys = Object.keys(product.sizes);
+    const nonSolid = keys.find(k => !k.startsWith('solid:'));
+    return nonSolid || keys[0] || '';
+}
+
+/** Return first type available on a product ('attar'|'perfume'|'solid') */
+function firstType(product) {
+    const key = firstSize(product);
+    if (!key) return 'attar';
+    return key.split(':')[0];
+}
+
+/**
+ * Return the unique product types available on a product.
+ * Ordered: attar → perfume → solid
+ */
+function getProductTypes(product) {
+    if (!product.sizes) return [];
+    const typeSet = new Set();
+    Object.values(product.sizes).forEach(v => { if (v && v.type) typeSet.add(v.type); });
+    const order = ['attar', 'perfume', 'solid'];
+    return order.filter(t => typeSet.has(t));
+}
+
+/** Return all size variants for a given type on a product */
+function getVariantsForType(product, type) {
+    if (!product.sizes) return [];
+    return Object.entries(product.sizes)
+        .filter(([, v]) => v && v.type === type)
+        .map(([key, v]) => ({ key, ...v }));
+}
+
+/**
+ * Format a composite size key like "attar:3ml" into a human-readable label.
+ * Used in the cart drawer display.
+ */
+function formatSizeKey(sizeKey) {
+    if (!sizeKey) return sizeKey;
+    const [type, size] = sizeKey.split(':');
+    const typeLabel = type === 'attar' ? 'Attar' : type === 'perfume' ? 'Perfume' : 'Solid';
+    return typeLabel + ' · ' + (size || '');
 }
 
 /* ==========================================================================
    CATALOGUE STATE
    ========================================================================== */
 const CATALOGUE = {
-    PAGE_SIZE: 10,
+    PAGE_SIZE: 12,
     _page: 1,
     _query: '',
-    _collection: 'all',    // 'all' | 'standard' | 'premium' | 'celebrity'
-    _gender: 'all',        // 'all' | 'men' | 'women' | 'unisex'
+    _collection: 'all',    // 'all' | exact category string
     _notes: 'all',         // any note chip text
-    _brand: 'all',         // 'all' | exact brand name
     _sort: 'default',      // 'default' | 'price-asc' | 'price-desc' | 'az' | 'za'
     _filtered: []
 };
@@ -197,19 +230,9 @@ const CATALOGUE = {
 function filterProducts() {
     let list = Array.from(products); // products is frozen array from products.js
 
-    // Collection filter
+    // Category filter (matches product.category exactly)
     if (CATALOGUE._collection !== 'all') {
-        list = list.filter(p => p.collection === CATALOGUE._collection);
-    }
-
-    // Gender filter
-    if (CATALOGUE._gender !== 'all') {
-        list = list.filter(p => p.gender === CATALOGUE._gender || p.gender === 'unisex');
-    }
-
-    // Brand filter
-    if (CATALOGUE._brand !== 'all') {
-        list = list.filter(p => p.brand === CATALOGUE._brand);
+        list = list.filter(p => p.category === CATALOGUE._collection);
     }
 
     // Notes/family filter
@@ -224,12 +247,7 @@ function filterProducts() {
         list = list.filter(p => {
             return (
                 p.name.toLowerCase().includes(q) ||
-                p.brand.toLowerCase().includes(q) ||
-                p.collection.toLowerCase().includes(q) ||
-                (p.searchName && p.searchName.toLowerCase().includes(q)) ||
-                (p.gender && p.gender.toLowerCase().includes(q)) ||
-                (p.celebrity && p.celebrity.toLowerCase().includes(q)) ||
-                (p.inspiration && p.inspiration.toLowerCase().includes(q)) ||
+                p.category.toLowerCase().includes(q) ||
                 (p.notes && p.notes.some(n => n.toLowerCase().includes(q))) ||
                 (p.description && p.description.toLowerCase().includes(q))
             );
@@ -266,7 +284,7 @@ function initCatalogueSection() {
     }
 
     // Wire filter selects
-    ['collection', 'gender', 'notes', 'sort'].forEach(key => {
+    ['collection', 'notes', 'sort'].forEach(key => {
         const el = document.getElementById('filter-' + key);
         if (el) {
             el.addEventListener('change', () => {
@@ -283,14 +301,12 @@ function initCatalogueSection() {
         clearBtn.addEventListener('click', () => {
             CATALOGUE._query      = '';
             CATALOGUE._collection = 'all';
-            CATALOGUE._gender     = 'all';
             CATALOGUE._notes      = 'all';
-            CATALOGUE._brand      = 'all';
             CATALOGUE._sort       = 'default';
             CATALOGUE._page       = 1;
             // Reset UI controls
             if (searchInput) searchInput.value = '';
-            ['collection', 'gender', 'notes', 'brand', 'sort'].forEach(key => {
+            ['collection', 'notes', 'sort'].forEach(key => {
                 const el = document.getElementById('filter-' + key);
                 if (el) el.value = key === 'sort' ? 'default' : 'all';
             });
@@ -298,29 +314,12 @@ function initCatalogueSection() {
         });
     }
 
-    // Populate brand options from products
-    populateBrandFilter();
-
     // Initial render
     renderGrid();
 }
 
-function populateBrandFilter() {
-    const el = document.getElementById('filter-brand');
-    if (!el) return;
-    const brands = [...new Set(products.map(p => p.brand))].sort();
-    brands.forEach(brand => {
-        const opt = document.createElement('option');
-        opt.value = brand;
-        opt.textContent = brand;
-        el.appendChild(opt);
-    });
-    el.addEventListener('change', () => {
-        CATALOGUE._brand = el.value; // 'all' or exact brand name
-        CATALOGUE._page  = 1;
-        renderGrid();
-    });
-}
+/** No-op: brand filter removed; categories replace it */
+function populateBrandFilter() {}
 
 /** Full grid render based on current filter/page state */
 function renderGrid() {
@@ -422,245 +421,219 @@ function buildProductCard(product, index) {
 
     const article = document.createElement('article');
     article.className = 'product-card reveal ' + delayClass;
-    article.setAttribute('data-id',         product.id);
-    article.setAttribute('data-category',   product.collection);
-    article.setAttribute('tabindex',        '0');
-    article.setAttribute('role',            'button');
-    article.setAttribute('aria-label',      'View details for ' + product.brand + ' ' + product.name);
+    article.setAttribute('data-id',       product.id);
+    article.setAttribute('data-category', product.category || '');
+    article.setAttribute('tabindex',      '0');
+    article.setAttribute('role',          'button');
+    article.setAttribute('aria-label',    'View details for ' + product.name);
 
-    /* --- Image --- */
-    const imgWrap = document.createElement('div');
-    imgWrap.className = 'product-img-wrap';
+    /* ---- Determine initial state ---- */
+    const types    = getProductTypes(product);
+    let selType    = types[0] || 'attar';
+    let selVariants = getVariantsForType(product, selType);
+    let selKey     = selVariants.length ? selVariants[0].key : firstSize(product);
+    let selVariant = product.sizes[selKey];
 
-    if (product.badge) {
-        const badge = document.createElement('span');
-        badge.className = 'product-badge';
-        badge.textContent = product.badge;
-        imgWrap.appendChild(badge);
-    }
+    /* ---- Image area (fixed height container) ---- */
+    const imgContainer = document.createElement('div');
+    imgContainer.className = 'product-img-container';
 
     const qvBtn = document.createElement('button');
     qvBtn.className = 'quick-view-btn';
     qvBtn.setAttribute('aria-label', 'Quick view ' + product.name);
     qvBtn.appendChild(buildIcon('eye'));
-    imgWrap.appendChild(qvBtn);
+    imgContainer.appendChild(qvBtn);
 
-    // Pick branded bottle SVG fallback based on product type/gender/notes
-    const svgFallback = (function() {
-        const n = (product.notes || []).join(' ').toLowerCase();
-        if (product.collection === 'premium') return 'assets/images/products/bottle-premium.svg';
-        if (product.gender === 'women') {
-            if (n.includes('amber') || n.includes('oriental') || n.includes('warm'))
-                return 'assets/images/products/bottle-rose.svg';
-            if (n.includes('spicy') || n.includes('dark') || n.includes('coffee'))
-                return 'assets/images/products/bottle-rose.svg';
-            return 'assets/images/products/bottle-rose.svg';
-        }
-        if (product.gender === 'men') {
-            if (n.includes('fresh') || n.includes('aquatic') || n.includes('citrus'))
-                return 'assets/images/products/bottle-blue.svg';
-            if (n.includes('dark') || n.includes('leather') || n.includes('tobacco') || n.includes('noir'))
-                return 'assets/images/products/bottle-premium.svg';
-            return 'assets/images/products/bottle-amber.svg';
-        }
-        // unisex
-        if (n.includes('oud') || n.includes('amber') || n.includes('resin'))
-            return 'assets/images/products/bottle-amber.svg';
-        if (n.includes('fresh') || n.includes('citrus') || n.includes('aquatic'))
-            return 'assets/images/products/bottle-light.svg';
-        if (n.includes('spicy') || n.includes('dark'))
-            return 'assets/images/products/bottle-premium.svg';
-        return 'assets/images/products/bottle-light.svg';
-    })();
+    const img = document.createElement('img');
+    img.className = 'product-img-bottle';
+    img.alt = product.name;
+    img.loading = 'lazy';
+    img.width = 200;
+    img.height = 260;
 
-    const img = buildImg(product.image, product.imageAlt || product.name, 400, 530, 'product-img', svgFallback);
-    imgWrap.appendChild(img);
+    function _updateImage() {
+        img.src = getProductImage(selType);
+        const scale = selVariant ? selVariant.scale : 1;
+        img.style.transform = 'scale(' + scale + ')';
+    }
+    _updateImage();
+    imgContainer.appendChild(img);
 
-    /* --- Body --- */
+    /* ---- Body ---- */
     const body = document.createElement('div');
     body.className = 'product-body';
 
-    // Brand + collection row
-    const cat = document.createElement('p');
-    cat.className = 'product-cat';
-    const collLabel = product.collection === 'premium'        ? 'Premium EDP' :
-                      product.collection === 'celebrity'      ? 'Celebrity Inspired' :
-                      product.collection === 'attar'          ? 'Pure Attar' :
-                      product.collection === 'solid'          ? 'Solid Perfume' :
-                      product.collection === 'personal-care'  ? 'Personal Care' :
-                      product.collection === 'home-fragrance' ? 'Home Fragrance' :
-                      product.collection === 'packaging'      ? 'Bottles & Packaging' :
-                      product.collection === 'wholesale'      ? 'Wholesale' :
-                      'Inspired Fragrance';
-    cat.textContent = product.brand + ' · ' + collLabel;
-    body.appendChild(cat);
+    const catEl = document.createElement('p');
+    catEl.className = 'product-cat';
+    catEl.textContent = product.category || '';
+    body.appendChild(catEl);
 
-    const name = document.createElement('h3');
-    name.className = 'product-name';
-    name.textContent = product.name;
-    body.appendChild(name);
+    const nameEl = document.createElement('h3');
+    nameEl.className = 'product-name';
+    nameEl.textContent = product.name;
+    body.appendChild(nameEl);
 
-    // Celebrity line
-    if (product.celebrity) {
-        const celLine = document.createElement('p');
-        celLine.className = 'product-celebrity';
-        celLine.textContent = 'Inspired by: ' + product.celebrity;
-        body.appendChild(celLine);
+    /* ---- Type selector ---- */
+    if (types.length > 1) {
+        const typeLabel = document.createElement('p');
+        typeLabel.className = 'variant-label';
+        typeLabel.textContent = 'Type:';
+        body.appendChild(typeLabel);
+
+        const typeRow = document.createElement('div');
+        typeRow.className = 'card-type-selector';
+
+        const TYPE_LABELS = { attar: 'Attar', perfume: 'Perfume', solid: 'Solid' };
+
+        types.forEach(t => {
+            const btn = document.createElement('button');
+            btn.className = 'type-chip' + (t === selType ? ' active' : '');
+            btn.dataset.type = t;
+            btn.textContent = TYPE_LABELS[t] || t;
+            btn.setAttribute('aria-label', 'Select ' + (TYPE_LABELS[t] || t));
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                selType     = t;
+                selVariants = getVariantsForType(product, selType);
+                selKey      = selVariants.length ? selVariants[0].key : selKey;
+                selVariant  = product.sizes[selKey];
+                // Update active type button
+                typeRow.querySelectorAll('.type-chip').forEach(c =>
+                    c.classList.toggle('active', c.textContent === (TYPE_LABELS[t] || t))
+                );
+                _rebuildSizeRow();
+                _updateImage();
+                _updatePrice();
+            });
+            typeRow.appendChild(btn);
+        });
+        body.appendChild(typeRow);
     }
 
-    // Notes chips
-    const notesRow = document.createElement('div');
-    notesRow.className = 'product-notes-row';
-    (product.notes || []).slice(0, 3).forEach(note => {
-        const chip = document.createElement('span');
-        chip.className = 'note-chip';
-        chip.textContent = note;
-        notesRow.appendChild(chip);
-    });
-    body.appendChild(notesRow);
+    /* ---- Size selector ---- */
+    const sizeLabelEl = document.createElement('p');
+    sizeLabelEl.className = 'variant-label';
+    sizeLabelEl.textContent = 'Size:';
+    body.appendChild(sizeLabelEl);
 
-    const desc = document.createElement('p');
-    desc.className = 'product-desc';
-    desc.textContent = product.description;
-    body.appendChild(desc);
+    const sizeRow = document.createElement('div');
+    sizeRow.className = 'card-size-selector';
+    body.appendChild(sizeRow);
 
-    /* --- Footer: size selector + price + add to cart --- */
+    function _rebuildSizeRow() {
+        while (sizeRow.firstChild) sizeRow.removeChild(sizeRow.firstChild);
+        const variants = getVariantsForType(product, selType);
+        variants.forEach(v => {
+            const btn = document.createElement('button');
+            btn.className = 'size-chip' + (v.key === selKey ? ' active' : '');
+            btn.textContent = v.label;
+            btn.setAttribute('aria-label', 'Select size ' + v.label);
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                selKey     = v.key;
+                selVariant = product.sizes[selKey];
+                sizeRow.querySelectorAll('.size-chip').forEach(sc =>
+                    sc.classList.toggle('active', sc.textContent === v.label)
+                );
+                _updateImage();
+                _updatePrice();
+            });
+            sizeRow.appendChild(btn);
+        });
+    }
+    _rebuildSizeRow();
+
+    /* ---- Price ---- */
     const footer = document.createElement('div');
     footer.className = 'product-footer';
 
     const priceWrap = document.createElement('div');
     priceWrap.className = 'product-price';
 
-    const sizes = product.sizes ? Object.entries(product.sizes) : [];
-
-    // Determine if this is an enquiry/wholesale product (no purchasable price)
-    const isEnquiry = product.productType === 'enquiry' ||
-                      product.productType === 'wholesale' ||
-                      sizes.length === 0;
-
-    // Hoist price/mrp elements so the size selector click handler can update them
-    let priceAmt = null;
-    let mrpSpan  = null;
-
-    // Size selector — built and appended to body BEFORE footer
-    let selectedSize = firstSize(product);
-
-    if (sizes.length > 1) {
-        const sizeRow = document.createElement('div');
-        sizeRow.className = 'card-size-selector';
-
-        sizes.forEach(([sizeKey, sizePrice]) => {
-            const sizeBtn = document.createElement('button');
-            sizeBtn.className = 'size-chip' + (sizeKey === selectedSize ? ' active' : '');
-            sizeBtn.textContent = sizeKey;
-            sizeBtn.setAttribute('aria-label', 'Select size ' + sizeKey);
-            sizeBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                selectedSize = sizeKey;
-                sizeRow.querySelectorAll('.size-chip').forEach(sc => {
-                    sc.classList.toggle('active', sc.textContent === sizeKey);
-                });
-                if (priceAmt) priceAmt.textContent = formatINR(sizePrice);
-                // Update MRP strikethrough
-                const mrpVal = getMrp(product, sizeKey);
-                if (mrpSpan) {
-                    mrpSpan.textContent = mrpVal ? formatINR(mrpVal) : '';
-                    mrpSpan.style.display = mrpVal ? '' : 'none';
-                }
-            });
-            sizeRow.appendChild(sizeBtn);
-        });
-
-        // Append size row to body directly — footer not yet in body here
-        body.appendChild(sizeRow);
-    }
-
-    if (isEnquiry) {
-        // Show "Enquire on WhatsApp" price line + MOQ if set
-        const enquireLabel = document.createElement('span');
-        enquireLabel.className = 'product-price-amount product-price-enquire';
-        enquireLabel.textContent = 'Enquire on WhatsApp';
-        priceWrap.appendChild(enquireLabel);
-        if (product.moq) {
-            const moqSpan = document.createElement('span');
-            moqSpan.className = 'product-price-size';
-            moqSpan.textContent = 'MOQ: ' + product.moq;
-            priceWrap.appendChild(moqSpan);
-        }
-    } else {
-        priceAmt = document.createElement('span');
-        priceAmt.className = 'product-price-amount';
-        priceAmt.textContent = formatINR(sizes.length ? sizes[0][1] : 0);
-        priceWrap.appendChild(priceAmt);
-
-        // MRP strikethrough (shown only if product has mrp data)
-        const firstMrp = sizes.length ? getMrp(product, sizes[0][0]) : null;
-        mrpSpan = document.createElement('span');
-        mrpSpan.className = 'product-price-mrp';
-        mrpSpan.textContent = firstMrp ? formatINR(firstMrp) : '';
-        mrpSpan.style.display = firstMrp ? '' : 'none';
-        priceWrap.appendChild(mrpSpan);
-
-        if (sizes.length === 1) {
-            const priceSize = document.createElement('span');
-            priceSize.className = 'product-price-size';
-            priceSize.textContent = sizes[0][0];
-            priceWrap.appendChild(priceSize);
-        }
-    }
-
+    const priceAmt = document.createElement('span');
+    priceAmt.className = 'product-price-amount';
+    priceWrap.appendChild(priceAmt);
     footer.appendChild(priceWrap);
 
-    // Add to Cart button (only for purchasable products)
-    const addBtn = isEnquiry ? null : document.createElement('button');
-    if (addBtn) {
-        addBtn.className = 'product-add-btn';
-        addBtn.textContent = 'Add to Cart';
-        addBtn.setAttribute('aria-label', 'Add ' + product.name + ' to cart');
-        footer.appendChild(addBtn);
-    } else {
-        // WhatsApp enquiry button
-        const waBtn = document.createElement('a');
-        waBtn.className = 'product-add-btn product-enquire-btn';
-        waBtn.textContent = 'WhatsApp';
-        const waNum = (typeof BUSINESS !== 'undefined') ? String(BUSINESS.whatsapp).replace(/\D/g,'') : '919030547400';
-        const waMsg = encodeURIComponent('Hello, I would like to enquire about: ' + product.name + (product.moq ? ' (MOQ: ' + product.moq + ')' : ''));
-        waBtn.href = 'https://wa.me/' + waNum + '?text=' + waMsg;
-        waBtn.target = '_blank';
-        waBtn.rel = 'noopener noreferrer';
-        waBtn.setAttribute('aria-label', 'Enquire about ' + product.name + ' on WhatsApp');
-        footer.appendChild(waBtn);
+    function _updatePrice() {
+        priceAmt.textContent = selVariant ? formatINR(selVariant.price) : '';
     }
+    _updatePrice();
 
-    // Append footer AFTER size row
+    /* ---- Quantity selector ---- */
+    let cardQty = 1;
+    const qtyRow = document.createElement('div');
+    qtyRow.className = 'card-qty-row';
+
+    const qtyDec = document.createElement('button');
+    qtyDec.className = 'card-qty-btn';
+    qtyDec.textContent = '−';
+    qtyDec.setAttribute('aria-label', 'Decrease quantity');
+
+    const qtyNum = document.createElement('span');
+    qtyNum.className = 'card-qty-num';
+    qtyNum.textContent = '1';
+
+    const qtyInc = document.createElement('button');
+    qtyInc.className = 'card-qty-btn';
+    qtyInc.textContent = '+';
+    qtyInc.setAttribute('aria-label', 'Increase quantity');
+
+    qtyDec.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (cardQty > 1) { cardQty--; qtyNum.textContent = String(cardQty); }
+    });
+    qtyInc.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (cardQty < 99) { cardQty++; qtyNum.textContent = String(cardQty); }
+    });
+
+    qtyRow.appendChild(qtyDec);
+    qtyRow.appendChild(qtyNum);
+    qtyRow.appendChild(qtyInc);
+    footer.appendChild(qtyRow);
+
+    /* ---- Add to Cart ---- */
+    const addBtn = document.createElement('button');
+    addBtn.className = 'product-add-btn';
+    addBtn.textContent = 'Add to Cart';
+    addBtn.setAttribute('aria-label', 'Add ' + product.name + ' to cart');
+    footer.appendChild(addBtn);
+
     body.appendChild(footer);
-    article.appendChild(imgWrap);
+    article.appendChild(imgContainer);
     article.appendChild(body);
 
-    // Events
+    /* ---- Events ---- */
     article.addEventListener('click', (e) => {
-        if (e.target.closest('.product-add-btn') || e.target.closest('.size-chip')) return;
-        openProductModal(product.id, selectedSize);
+        if (e.target.closest('.product-add-btn') ||
+            e.target.closest('.size-chip') ||
+            e.target.closest('.type-chip') ||
+            e.target.closest('.card-qty-btn') ||
+            e.target.closest('.quick-view-btn')) return;
+        openProductModal(product.id, selKey);
     });
     article.addEventListener('keydown', (e) => {
         if ((e.key === 'Enter' || e.key === ' ') &&
             !e.target.closest('.product-add-btn') &&
             !e.target.closest('.quick-view-btn') &&
-            !e.target.closest('.size-chip')) {
+            !e.target.closest('.size-chip') &&
+            !e.target.closest('.card-qty-btn') &&
+            !e.target.closest('.type-chip')) {
             e.preventDefault();
-            openProductModal(product.id, selectedSize);
+            openProductModal(product.id, selKey);
         }
     });
-
-    if (addBtn) addBtn.addEventListener('click', (e) => {
+    addBtn.addEventListener('click', (e) => {
         e.stopPropagation();
-        const added = Cart.add(product.id, selectedSize);
-        if (added) showToast(product.name + ' (' + selectedSize + ') added to cart.');
+        for (let i = 0; i < cardQty; i++) Cart.add(product.id, selKey);
+        showToast(cardQty + '× ' + product.name + ' (' + formatSizeKey(selKey) + ') added to cart.');
+        cardQty = 1;
+        qtyNum.textContent = '1';
     });
-
     qvBtn.addEventListener('click', (e) => {
         e.stopPropagation();
-        openProductModal(product.id, selectedSize);
+        openProductModal(product.id, selKey);
     });
 
     return article;
@@ -707,13 +680,17 @@ function initProductModal() {
 
 let _modalQty  = 1;
 let _modalSize = '';
+let _modalType = '';
 
 function openProductModal(productId, preferredSize) {
     const product = products.find(p => p.id === productId);
     if (!product) return;
 
     _modalQty  = 1;
-    _modalSize = preferredSize || firstSize(product);
+    _modalSize = (preferredSize && product.sizes && product.sizes[preferredSize])
+                    ? preferredSize
+                    : firstSize(product);
+    _modalType = _modalSize ? _modalSize.split(':')[0] : firstType(product);
 
     const backdrop = document.getElementById('product-modal');
     const imgEl    = document.getElementById('modal-img');
@@ -724,29 +701,25 @@ function openProductModal(productId, preferredSize) {
     const priceEl  = document.getElementById('modal-price');
     const qtyNumEl = document.getElementById('modal-qty-num');
 
-    // Populate via textContent — safe
-    imgEl.src   = product.image || Cart.getPlaceholderImage();
-    imgEl.alt   = product.imageAlt || product.name;
-    imgEl.onerror = () => { if (imgEl.src !== Cart.getPlaceholderImage()) imgEl.src = Cart.getPlaceholderImage(); };
+    // Populate basic fields
+    imgEl.alt   = product.name;
+    imgEl.onerror = () => { imgEl.src = Cart.getPlaceholderImage(); };
 
-    nameEl.textContent  = product.brand + ' — ' + product.name;
-    const modalCollLabel = product.collection === 'premium'        ? 'Premium EDP' :
-                           product.collection === 'celebrity'      ? 'Celebrity Inspired Fragrance' :
-                           product.collection === 'attar'          ? 'Pure Attar Oil' :
-                           product.collection === 'solid'          ? 'Solid Perfume' :
-                           product.collection === 'personal-care'  ? 'Personal Care' :
-                           product.collection === 'home-fragrance' ? 'Home Fragrance' :
-                           product.collection === 'packaging'      ? 'Bottles & Packaging' :
-                           product.collection === 'wholesale'      ? 'Wholesale Supply' :
-                           'Inspired Fragrance';
-    concEl.textContent  = modalCollLabel;
-    tagEl.textContent   = product.celebrity
-        ? 'As favoured by ' + product.celebrity + ' · Inspired by ' + (product.inspiration || product.name)
-        : (product.description.split('.')[0] + '.');
-    descEl.textContent  = product.description;
+    nameEl.textContent  = product.name;
+    concEl.textContent  = product.category || '';
+    tagEl.textContent   = product.description ? (product.description.split('.')[0] + '.') : '';
+    descEl.textContent  = product.description || '';
     qtyNumEl.textContent = '1';
 
-    // Render notes chips
+    // Update image + scale (called whenever type/size changes)
+    function _modalUpdateImage() {
+        const v = product.sizes[_modalSize];
+        imgEl.src = getProductImage(_modalType);
+        imgEl.style.transform = 'scale(' + (v ? v.scale : 1) + ')';
+    }
+    _modalUpdateImage();
+
+    // Notes chips
     const notesRow = document.getElementById('modal-notes-row');
     if (notesRow) {
         while (notesRow.firstChild) notesRow.removeChild(notesRow.firstChild);
@@ -758,71 +731,90 @@ function openProductModal(productId, preferredSize) {
         });
     }
 
-    // Render size selector in modal
+    // Update price display
+    function _modalUpdatePrice() {
+        if (priceEl) {
+            const v = product.sizes[_modalSize];
+            priceEl.textContent = v ? formatINR(v.price) : '';
+        }
+        const mrpEl = document.getElementById('modal-price-mrp');
+        if (mrpEl) mrpEl.style.display = 'none';
+    }
+    _modalUpdatePrice();
+
+    // Type selector in modal (reuse / rebuild modal-size-container area)
     const sizeContainer = document.getElementById('modal-size-container');
     if (sizeContainer) {
         while (sizeContainer.firstChild) sizeContainer.removeChild(sizeContainer.firstChild);
+        sizeContainer.style.display = '';
 
-        const sizes = product.sizes ? Object.entries(product.sizes) : [];
-        if (sizes.length > 1) {
-            sizes.forEach(([sizeKey, sizePrice]) => {
+        const types = getProductTypes(product);
+        const TYPE_LABELS = { attar: 'Attar', perfume: 'Perfume', solid: 'Solid' };
+
+        // Type selector row
+        if (types.length > 1) {
+            const typeLabel = document.createElement('p');
+            typeLabel.className = 'variant-label';
+            typeLabel.textContent = 'Type:';
+            sizeContainer.appendChild(typeLabel);
+
+            const typeRow = document.createElement('div');
+            typeRow.className = 'card-type-selector';
+
+            types.forEach(t => {
                 const btn = document.createElement('button');
-                btn.className = 'size-chip' + (sizeKey === _modalSize ? ' active' : '');
-                const mrpForSize = getMrp(product, sizeKey);
-                btn.textContent = sizeKey + ' – ' + formatINR(sizePrice) +
-                    (mrpForSize ? ' (MRP ' + formatINR(mrpForSize) + ')' : '');
-                btn.setAttribute('aria-label', 'Select size ' + sizeKey);
+                btn.className = 'type-chip' + (t === _modalType ? ' active' : '');
+                btn.dataset.type = t;
+                btn.textContent = TYPE_LABELS[t] || t;
                 btn.addEventListener('click', () => {
-                    _modalSize = sizeKey;
-                    sizeContainer.querySelectorAll('.size-chip').forEach(sc => {
-                        sc.classList.toggle('active', sc.textContent.startsWith(sizeKey));
-                    });
-                    if (priceEl) priceEl.textContent = formatINR(sizePrice);
-                    const modalMrpEl = document.getElementById('modal-price-mrp');
-                    if (modalMrpEl) {
-                        const mv = getMrp(product, sizeKey);
-                        modalMrpEl.textContent = mv ? formatINR(mv) : '';
-                        modalMrpEl.style.display = mv ? '' : 'none';
-                    }
+                    _modalType = t;
+                    const variants = getVariantsForType(product, _modalType);
+                    _modalSize = variants.length ? variants[0].key : _modalSize;
+                    typeRow.querySelectorAll('.type-chip').forEach(c =>
+                        c.classList.toggle('active', c.textContent === (TYPE_LABELS[t] || t))
+                    );
+                    _rebuildModalSizeRow();
+                    _modalUpdateImage();
+                    _modalUpdatePrice();
                 });
-                sizeContainer.appendChild(btn);
+                typeRow.appendChild(btn);
+            });
+            sizeContainer.appendChild(typeRow);
+        }
+
+        // Size selector row
+        const sizeLabel = document.createElement('p');
+        sizeLabel.className = 'variant-label';
+        sizeLabel.textContent = 'Size:';
+        sizeContainer.appendChild(sizeLabel);
+
+        const modalSizeRow = document.createElement('div');
+        modalSizeRow.className = 'card-size-selector';
+        sizeContainer.appendChild(modalSizeRow);
+
+        function _rebuildModalSizeRow() {
+            while (modalSizeRow.firstChild) modalSizeRow.removeChild(modalSizeRow.firstChild);
+            const variants = getVariantsForType(product, _modalType);
+            variants.forEach(v => {
+                const btn = document.createElement('button');
+                btn.className = 'size-chip' + (v.key === _modalSize ? ' active' : '');
+                btn.textContent = v.label + ' — ' + formatINR(v.price);
+                btn.setAttribute('aria-label', 'Select ' + v.label);
+                btn.addEventListener('click', () => {
+                    _modalSize = v.key;
+                    modalSizeRow.querySelectorAll('.size-chip').forEach(sc =>
+                        sc.classList.toggle('active', sc.textContent.startsWith(v.label))
+                    );
+                    _modalUpdateImage();
+                    _modalUpdatePrice();
+                });
+                modalSizeRow.appendChild(btn);
             });
         }
-        sizeContainer.style.display = sizes.length > 1 ? '' : 'none';
+        _rebuildModalSizeRow();
     }
 
-    // Determine if enquiry product in modal
-    const modalIsEnquiry = product.productType === 'enquiry' ||
-                           product.productType === 'wholesale' ||
-                           !product.sizes || Object.keys(product.sizes).length === 0;
-
-    // Set price or enquiry label
-    if (priceEl) {
-        if (modalIsEnquiry) {
-            priceEl.textContent = 'Enquire on WhatsApp';
-        } else {
-            const currentPrice = (product.sizes && product.sizes[_modalSize]) || lowestPrice(product);
-            priceEl.textContent = formatINR(currentPrice);
-        }
-    }
-
-    // Modal MRP strikethrough (hidden for enquiry products)
-    const modalMrpEl = document.getElementById('modal-price-mrp');
-    if (modalMrpEl) {
-        if (!modalIsEnquiry) {
-            const mv = getMrp(product, _modalSize);
-            modalMrpEl.textContent = mv ? formatINR(mv) : '';
-            modalMrpEl.style.display = mv ? '' : 'none';
-        } else {
-            modalMrpEl.style.display = 'none';
-        }
-    }
-
-    // Show/hide qty controls for enquiry products
-    const qtyRow = document.getElementById('modal-qty-dec') && document.getElementById('modal-qty-dec').closest('.qty-control');
-    if (qtyRow) qtyRow.style.display = modalIsEnquiry ? 'none' : '';
-
-    // Rebind qty buttons
+    // Qty buttons
     const qtyDecBtn = document.getElementById('modal-qty-dec');
     const qtyIncBtn = document.getElementById('modal-qty-inc');
     const newDec = qtyDecBtn.cloneNode(true);
@@ -836,7 +828,7 @@ function openProductModal(productId, preferredSize) {
         if (_modalQty < 99) { _modalQty++; qtyNumEl.textContent = String(_modalQty); }
     });
 
-    // Rebind action buttons
+    // Action buttons
     const addBtn   = document.getElementById('modal-add-btn');
     const orderBtn = document.getElementById('modal-order-btn');
     const newAdd   = addBtn.cloneNode(true);
@@ -844,41 +836,23 @@ function openProductModal(productId, preferredSize) {
     addBtn.replaceWith(newAdd);
     orderBtn.replaceWith(newOrder);
 
-    if (modalIsEnquiry) {
-        // For enquiry products: "Add to Cart" becomes "Enquire on WhatsApp" link
-        const waNum = (typeof BUSINESS !== 'undefined') ? String(BUSINESS.whatsapp).replace(/\D/g,'') : '919030547400';
-        const waMsg = encodeURIComponent('Hello, I would like to enquire about: ' + product.name + (product.moq ? ' (MOQ: ' + product.moq + ')' : ''));
-        newAdd.textContent = 'Enquire on WhatsApp';
-        newAdd.addEventListener('click', () => {
-            window.open('https://wa.me/' + waNum + '?text=' + waMsg, '_blank', 'noopener,noreferrer');
-            closeProductModal();
-        });
-        newOrder.style.display = 'none';
-    } else {
-        newOrder.style.display = '';
-        newAdd.addEventListener('click', () => {
-            for (let i = 0; i < _modalQty; i++) Cart.add(product.id, _modalSize);
-            showToast(_modalQty + '× ' + product.name + ' (' + _modalSize + ') added to cart.');
-            closeProductModal();
-            openCartDrawer();
-        });
-        newOrder.addEventListener('click', () => {
-            for (let i = 0; i < _modalQty; i++) Cart.add(product.id, _modalSize);
-            closeProductModal();
-            openCartDrawer();
-        });
-    }
+    newOrder.style.display = '';
+    newAdd.addEventListener('click', () => {
+        for (let i = 0; i < _modalQty; i++) Cart.add(product.id, _modalSize);
+        showToast(_modalQty + '× ' + product.name + ' (' + formatSizeKey(_modalSize) + ') added to cart.');
+        closeProductModal();
+        openCartDrawer();
+    });
+    newOrder.addEventListener('click', () => {
+        for (let i = 0; i < _modalQty; i++) Cart.add(product.id, _modalSize);
+        closeProductModal();
+        openCartDrawer();
+    });
 
-    // Disclaimer for celebrity / inspired products
+    // Disclaimer
     const discEl = document.getElementById('modal-disclaimer');
     if (discEl) {
-        if (product.collection === 'celebrity') {
-            discEl.textContent = 'Celebrity-inspired fragrance. Not affiliated with or endorsed by ' + product.celebrity + '.';
-            discEl.style.display = '';
-        } else {
-            discEl.textContent = 'Inspired fragrance. Not affiliated with or endorsed by ' + product.brand + '.';
-            discEl.style.display = '';
-        }
+        discEl.style.display = 'none';
     }
 
     backdrop.classList.add('open');
@@ -1000,20 +974,21 @@ function renderCartContents() {
         const row = document.createElement('div');
         row.className = 'cart-item';
 
-        // Thumbnail
+        // Thumbnail — use type-based image
         const thumbWrap = document.createElement('div');
         thumbWrap.className = 'cart-item-img-wrap';
-        thumbWrap.appendChild(buildImg(product.image, product.name, 64, 80, 'cart-item-img'));
+        const thumbType = size ? size.split(':')[0] : 'attar';
+        thumbWrap.appendChild(buildImg(getProductImage(thumbType), product.name, 64, 80, 'cart-item-img'));
         row.appendChild(thumbWrap);
 
         // Info
         const info = document.createElement('div');
         info.className = 'cart-item-info';
 
-        const itemBrand = document.createElement('p');
-        itemBrand.className = 'cart-item-size'; // reuse muted style
-        itemBrand.textContent = product.brand;
-        info.appendChild(itemBrand);
+        const itemCat = document.createElement('p');
+        itemCat.className = 'cart-item-size'; // muted style
+        itemCat.textContent = product.category || '';
+        info.appendChild(itemCat);
 
         const itemName = document.createElement('p');
         itemName.className = 'cart-item-name';
@@ -1022,7 +997,7 @@ function renderCartContents() {
 
         const itemDetails = document.createElement('p');
         itemDetails.className = 'cart-item-size';
-        itemDetails.textContent = size + ' · ' + formatINR(unitPrice) + ' each';
+        itemDetails.textContent = formatSizeKey(size) + ' · ' + formatINR(unitPrice) + ' each';
         info.appendChild(itemDetails);
 
         // Qty controls
@@ -1424,24 +1399,52 @@ function initNavWhatsApp() {
    PRICING CARDS — wire "Shop X" CTAs to filter the catalogue section
    ========================================================================== */
 function initPricingCards() {
+    // Legacy: data-filter-collection — filter by product category
     document.querySelectorAll('[data-filter-collection]').forEach(el => {
         el.addEventListener('click', (e) => {
             e.preventDefault();
             const col = el.getAttribute('data-filter-collection');
             if (!col) return;
 
-            // Set catalogue filter state
             CATALOGUE._collection = col;
             CATALOGUE._page       = 1;
             renderGrid();
 
-            // Sync the select element UI
             const sel = document.getElementById('filter-collection');
             if (sel) sel.value = col;
 
-            // Smooth-scroll to collection section
             const section = document.getElementById('collection');
             if (section) section.scrollIntoView({ behavior: 'smooth' });
+        });
+    });
+
+    // New promo cards: data-filter-type — scroll to catalogue and pre-select
+    // a product type chip (attar | perfume | solid) on every rendered card.
+    document.querySelectorAll('[data-filter-type]').forEach(el => {
+        el.addEventListener('click', (e) => {
+            e.preventDefault();
+            const type = el.getAttribute('data-filter-type');
+            if (!type) return;
+
+            // Reset category filter so all products are shown
+            CATALOGUE._collection = 'all';
+            CATALOGUE._page       = 1;
+            renderGrid();
+
+            const sel = document.getElementById('filter-collection');
+            if (sel) sel.value = 'all';
+
+            // Scroll to catalogue
+            const section = document.getElementById('collection');
+            if (section) section.scrollIntoView({ behavior: 'smooth' });
+
+            // After the grid has rendered, click the matching type chip on
+            // every visible product card so the correct type is pre-selected.
+            requestAnimationFrame(() => {
+                document.querySelectorAll('.type-chip[data-type="' + type + '"]').forEach(chip => {
+                    if (!chip.classList.contains('active')) chip.click();
+                });
+            });
         });
     });
 }
@@ -1719,10 +1722,11 @@ function showQuizResults() {
         rank.textContent = i === 0 ? '★ TOP MATCH' : '#' + (i + 1);
         card.appendChild(rank);
 
-        // Image
+        // Image — use the first non-solid type for the quiz result card
         const imgWrap = document.createElement('div');
         imgWrap.className = 'quiz-result-img-wrap';
-        const img = buildImg(product.image, product.name, 200, 260, 'quiz-result-img');
+        const _qType = firstType(product);
+        const img = buildImg(getProductImage(_qType), product.name, 200, 260, 'quiz-result-img');
         imgWrap.appendChild(img);
         card.appendChild(imgWrap);
 
@@ -1732,7 +1736,7 @@ function showQuizResults() {
 
         const brand = document.createElement('p');
         brand.className = 'quiz-result-brand';
-        brand.textContent = product.brand;
+        brand.textContent = product.category || '';
         info.appendChild(brand);
 
         const name = document.createElement('h4');
@@ -1752,8 +1756,7 @@ function showQuizResults() {
 
         const price = document.createElement('p');
         price.className = 'quiz-result-price';
-        const sizes = product.sizes ? Object.entries(product.sizes) : [];
-        price.textContent = sizes.length ? 'From ' + formatINR(sizes[0][1]) : '';
+        price.textContent = 'From ' + formatINR(lowestPrice(product));
         info.appendChild(price);
 
         // Action buttons

@@ -271,7 +271,11 @@ const Cart = (() => {
             if (!product) return acc;
             if (!_validSize(product, entry.size)) return acc;
 
-            const unitPrice = product.sizes[entry.size]; // from catalog only
+            // sizes values are variant objects {type, label, price, scale} in v4
+            const variantData = product.sizes[entry.size];
+            const unitPrice   = (variantData && typeof variantData === 'object')
+                                    ? variantData.price
+                                    : (typeof variantData === 'number' ? variantData : 0);
             acc.push({
                 product,
                 size:      entry.size,

@@ -54,9 +54,17 @@ const WhatsApp = (() => {
             const p         = item.product;
             const unitPrice = _formatPrice(item.unitPrice);   // from catalogue
             const lineTot   = _formatPrice(item.lineTotal);   // unitPrice × qty
+            // Format composite size key like "attar:3ml" → "Attar · 3ml"
+            const sizeLabel = (function() {
+                if (!item.size) return item.size;
+                const parts = item.size.split(':');
+                const t = parts[0] === 'attar' ? 'Attar' : parts[0] === 'perfume' ? 'Perfume' : 'Solid';
+                return t + ' · ' + (parts[1] || '');
+            })();
 
-            lines.push((index + 1) + '. ' + p.brand + ' \u2014 ' + p.name);
-            lines.push('   Size: ' + item.size);
+            lines.push((index + 1) + '. ' + p.name);
+            lines.push('   Category: ' + (p.category || ''));
+            lines.push('   Variant: ' + sizeLabel);
             lines.push('   ' + unitPrice + ' \u00D7 ' + item.qty + ' = ' + lineTot);
             lines.push('');
         });

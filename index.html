@@ -571,51 +571,53 @@
         <h2 class="pricing-strip-title" id="pricing-heading">Your Favourite Perfume Is Here</h2>
         <span class="gold-icon" aria-hidden="true">✦</span>
       </div>
-      <div class="pricing-cards reveal">
+      <div class="promo-cards reveal">
 
-        <div class="pricing-card pricing-card-img-bg">
-          <img src="assets/images/products/attar-bottle.png" alt="Attars" class="pricing-card-bg-img">
-          <div class="pc-overlay">
-            <div class="pc-label">Attars</div>
-            <div class="pc-price">Starts @ <span>₹100</span></div>
-            <a href="#collection" class="pc-cta" data-filter-collection="attar">Shop Attars</a>
+        <!-- Card 1 — Attars -->
+        <div class="promo-card">
+          <div class="promo-card-img-wrap">
+            <img src="assets/images/products/attar-bottle.png"
+                 alt="Attar bottle"
+                 class="promo-card-img"
+                 loading="lazy">
+          </div>
+          <div class="promo-card-body">
+            <div class="promo-card-label">Attars</div>
+            <p class="promo-card-desc">Traditional concentrated fragrances</p>
+            <div class="promo-card-price">Starting from <span>₹149</span></div>
+            <a href="#collection" class="promo-card-cta" data-filter-type="attar">Shop Attars</a>
           </div>
         </div>
 
-        <div class="pricing-card pricing-card-img-bg">
-          <img src="assets/images/products/Solid-Perfumes.png" alt="Solid Perfumes" class="pricing-card-bg-img">
-          <div class="pc-overlay">
-            <div class="pc-label">Solid Perfumes</div>
-            <div class="pc-price">Starts @ <span>₹99</span></div>
-            <a href="#collection" class="pc-cta" data-filter-collection="personal-care">Shop Solid</a>
+        <!-- Card 2 — Perfumes -->
+        <div class="promo-card">
+          <div class="promo-card-img-wrap">
+            <img src="assets/images/products/perfume-bottle.png"
+                 alt="Perfume bottle"
+                 class="promo-card-img"
+                 loading="lazy">
+          </div>
+          <div class="promo-card-body">
+            <div class="promo-card-label">Perfumes</div>
+            <p class="promo-card-desc">Premium fragrances for every occasion</p>
+            <div class="promo-card-price">Starting from <span>₹349</span></div>
+            <a href="#collection" class="promo-card-cta" data-filter-type="perfume">Shop Perfumes</a>
           </div>
         </div>
 
-        <div class="pricing-card pricing-card-img-bg">
-          <img src="assets/images/products/perfume-bottle.png" alt="20ml Perfume" class="pricing-card-bg-img">
-          <div class="pc-overlay">
-            <div class="pc-label">20ml Perfume</div>
-            <div class="pc-price"><span>3 Perfumes @ ₹999</span></div>
-            <a href="#collection" class="pc-cta" data-filter-collection="standard">Shop 20ml</a>
+        <!-- Card 3 — Solid Perfumes -->
+        <div class="promo-card">
+          <div class="promo-card-img-wrap">
+            <img src="assets/images/products/Solid-Perfumes.png"
+                 alt="Solid perfume"
+                 class="promo-card-img"
+                 loading="lazy">
           </div>
-        </div>
-
-        <div class="pricing-card pricing-card-img-bg">
-          <img src="assets/images/products/perfume-bottle.png" alt="50ml Perfume" class="pricing-card-bg-img">
-          <div class="pc-overlay">
-            <div class="pc-label">50ml Perfume</div>
-            <div class="pc-price">Starts @ <span>₹499</span></div>
-            <div class="pc-sub">2 Perfumes @ ₹999</div>
-            <a href="#collection" class="pc-cta" data-filter-collection="standard">Shop 50ml</a>
-          </div>
-        </div>
-
-        <div class="pricing-card pricing-card-img-bg">
-          <img src="assets/images/products/perfume-bottle.png" alt="100ml Perfume" class="pricing-card-bg-img">
-          <div class="pc-overlay">
-            <div class="pc-label">100ml Perfume</div>
-            <div class="pc-price"><span>1 Perfume @ ₹999</span></div>
-            <a href="#collection" class="pc-cta" data-filter-collection="standard">Shop 100ml</a>
+          <div class="promo-card-body">
+            <div class="promo-card-label">Solid Perfumes</div>
+            <p class="promo-card-desc">Compact fragrances, perfect for everyday use</p>
+            <div class="promo-card-price"><span>₹99</span> / 10g</div>
+            <a href="#collection" class="promo-card-cta" data-filter-type="solid">Shop Solid</a>
           </div>
         </div>
 
@@ -738,27 +740,14 @@
         <div class="catalogue-filters">
 
           <div class="filter-group">
-            <label for="filter-collection" class="filter-label">Collection</label>
-            <select id="filter-collection" class="filter-select" aria-label="Filter by collection">
-              <option value="all">All Collections</option>
-              <option value="standard">Brand Inspired</option>
-              <option value="premium">Premium EDP</option>
-              <option value="celebrity">Celebrity Inspired</option>
-              <option value="attar">Attars (Oil-based)</option>
-              <option value="personal-care">Personal Care &amp; Solid Perfumes</option>
-              <option value="home-fragrance">Home Fragrance</option>
-              <option value="packaging">Bottles &amp; Packaging</option>
-              <option value="wholesale">Wholesale</option>
-            </select>
-          </div>
-
-          <div class="filter-group">
-            <label for="filter-gender" class="filter-label">Gender</label>
-            <select id="filter-gender" class="filter-select" aria-label="Filter by gender">
-              <option value="all">All</option>
-              <option value="men">Men</option>
-              <option value="women">Women</option>
-              <option value="unisex">Unisex</option>
+            <label for="filter-collection" class="filter-label">Category</label>
+            <select id="filter-collection" class="filter-select" aria-label="Filter by category">
+              <option value="all">All Categories</option>
+              <option value="Attars">Attars</option>
+              <option value="Arabic">Arabic</option>
+              <option value="French &amp; Arabic Mix">French &amp; Arabic Mix</option>
+              <option value="Floral">Floral</option>
+              <option value="French">French</option>
             </select>
           </div>
 
@@ -776,13 +765,7 @@
               <option value="fresh">Fresh</option>
               <option value="spicy">Spicy</option>
               <option value="vanilla">Vanilla</option>
-            </select>
-          </div>
-
-          <div class="filter-group">
-            <label for="filter-brand" class="filter-label">Brand</label>
-            <select id="filter-brand" class="filter-select" aria-label="Filter by brand">
-              <option value="all">All Brands</option>
+              <option value="chocolate">Chocolate</option>
             </select>
           </div>
 

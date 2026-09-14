@@ -17,6 +17,10 @@
     .pricing-card-icon { font-size: 1.4rem; }
     .pricing-card-price span { font-size: 1.15rem; }
 
+    /* Promo cards: 1 column on mobile */
+    .promo-cards { grid-template-columns: 1fr; gap: var(--sp-lg); }
+    .promo-card-img-wrap { height: 180px; }
+
     /* Catalogue controls: stack fully on tiny screens */
     .catalogue-filters { flex-direction: column; align-items: stretch; }
     .filter-group { width: 100%; }
@@ -131,6 +135,10 @@
     /* Pricing cards: 3 columns on larger mobile */
     .pricing-cards { grid-template-columns: repeat(3, 1fr); }
 
+    /* Promo cards: 1 column on larger mobile */
+    .promo-cards { grid-template-columns: 1fr; gap: var(--sp-lg); }
+    .promo-card-img-wrap { height: 190px; }
+
     /* Catalogue filters: 2 per row */
     .catalogue-filters { gap: var(--sp-sm); }
     .filter-group { flex: 1 1 calc(50% - var(--sp-sm)); min-width: 120px; }
@@ -209,6 +217,9 @@
    768px (tablet) — desktop nav starts, 2-col product, side cart
    -------------------------------------------------------------------------- */
 @media (min-width: 768px) and (max-width: 1023px) {
+    /* Promo cards: 2 columns on tablet */
+    .promo-cards { grid-template-columns: repeat(2, 1fr); }
+
     /* Catalogue filters: wrap naturally */
     .catalogue-filters { gap: var(--sp-sm); }
     .filter-group { flex: 1 1 auto; }
