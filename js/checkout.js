@@ -411,6 +411,8 @@ const Checkout = (() => {
 
                 // Clear PII from session after handoff
                 _session = { name: '', phone: '', address: '', pincode: '' };
+                // Clear the cart after the order is sent
+                Cart.clear();
                 closeCheckout();
                 window.open(url, '_blank', 'noopener,noreferrer');
             });
