@@ -1635,13 +1635,15 @@
 
   <!-- Footer with total and actions -->
   <div class="cart-foot" id="cart-foot" style="display:none;">
+    <!-- Free delivery progress bar -->
+    <p class="cart-delivery-banner" id="cart-delivery-banner" aria-live="polite"></p>
+
     <div class="cart-total-row">
       <span class="cart-total-label">Subtotal</span>
       <span class="cart-total-amount" id="cart-total-amount">₹0</span>
     </div>
 
     <p class="cart-disclaimer">
-      Delivery charge of <strong>₹99</strong> will be added at checkout.
       Final availability confirmed by Arabian Perfume Lab via WhatsApp.
     </p>
 
@@ -1861,6 +1863,24 @@
           <p class="checkout-error" id="checkout-address-error" role="alert" aria-live="polite"></p>
         </div>
 
+        <div class="checkout-field">
+          <label class="checkout-label" for="checkout-pincode">
+            <svg class="icon icon-sm checkout-field-icon" aria-hidden="true" focusable="false"><use href="assets/icons/icons.svg#icon-lock"></use></svg>
+            Pincode <span class="checkout-required" aria-hidden="true">*</span>
+          </label>
+          <input class="checkout-input"
+                 type="text"
+                 id="checkout-pincode"
+                 name="pincode"
+                 placeholder="Enter 6-digit pincode"
+                 autocomplete="postal-code"
+                 maxlength="6"
+                 inputmode="numeric"
+                 pattern="\d{6}"
+                 required>
+          <p class="checkout-error" id="checkout-pincode-error" role="alert" aria-live="polite"></p>
+        </div>
+
       </form>
 
       <div class="checkout-actions">
@@ -1895,14 +1915,16 @@
           <span>Subtotal</span>
           <span id="checkout-subtotal-amount">₹0</span>
         </div>
-        <div class="checkout-price-row">
+        <div class="checkout-price-row" id="checkout-delivery-row">
           <span>Delivery Charges</span>
-          <span id="checkout-delivery-amount">₹99</span>
+          <span id="checkout-delivery-amount" class="checkout-delivery-value">₹99</span>
         </div>
         <div class="checkout-price-row checkout-price-total">
           <span>Total</span>
           <span id="checkout-total-amount">₹0</span>
         </div>
+        <!-- Free delivery progress banner -->
+        <p class="checkout-delivery-banner" id="checkout-summary-delivery-banner"></p>
       </div>
 
       <!-- Customer details recap -->
@@ -1920,6 +1942,10 @@
           <div class="checkout-recap-row">
             <span class="checkout-recap-label">Delivery Address</span>
             <span class="checkout-recap-value" id="summary-address"></span>
+          </div>
+          <div class="checkout-recap-row">
+            <span class="checkout-recap-label">Pincode</span>
+            <span class="checkout-recap-value" id="summary-pincode"></span>
           </div>
         </div>
       </div>

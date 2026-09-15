@@ -1,79 +1,105 @@
 /**
- * Arabian Perfume Lab — Checkout Module
+ * Arabian Perfume Lab — Checkout Module (v2)
  *
- * Implements the multi-step checkout flow:
+ * Multi-step checkout flow:
  *   Cart → Customer Details → Order Summary → WhatsApp
  *
- * Security notes:
- *   - Customer details are kept in a module-scoped variable (_session) only
- *     for the duration of the checkout session.
- *   - No customer PII is written to localStorage, URLs, or DOM attributes.
- *   - Prices are sourced exclusively from Cart.getItems() / Cart.getTotal().
- *   - The WhatsApp number is read from config.js (BUSINESS.whatsapp).
+ * New in v2:
+ *   - Pincode field (6-digit Indian pincode, required)
+ *   - Conditional delivery charge: FREE above ₹1,000; ₹99 otherwise
+ *   - Dynamic free-delivery progress message (also exported for cart use)
  *
- * Depends on: config.js, products.js, cart.js, app.js (formatINR, formatSizeKey)
+ * Security:
+ *   - Customer PII kept only in module-scoped _session (not localStorage/URLs)
+ *   - Prices sourced exclusively from Cart.getItems() / Cart.getTotal()
+ *   - WhatsApp number from config.js (BUSINESS.whatsapp)
+ *
+ * Depends on: config.js, products.js, cart.js
+ *             app.js globals used at call-time: formatINR, formatSizeKey, showToast, openCartDrawer
  */
 
 const Checkout = (() => {
 
-    /* ── Constants ─────────────────────────────────────────────── */
+    /* ── Delivery constants ─────────────────────────────────────── */
 
-    const DELIVERY_CHARGE = 99;
+    const FREE_DELIVERY_THRESHOLD  = 1000;   // subtotal must be ABOVE this for free delivery
+    const STANDARD_DELIVERY_CHARGE = 99;
 
-    /* ── In-memory session (cleared on close) ──────────────────── */
+    /* ── In-memory session (never written to storage/URLs) ──────── */
 
     let _session = {
         name:    '',
         phone:   '',
-        address: ''
+        address: '',
+        pincode: ''
     };
 
-    /* ── DOM helpers ───────────────────────────────────────────── */
+    /* ── DOM helper ─────────────────────────────────────────────── */
 
     function _el(id) { return document.getElementById(id); }
 
-    function _formatINR(amount) {
-        // Mirror app.js formatINR; works even before app.js runs
+    /* ── Formatting helpers (call app.js versions at runtime) ───── */
+
+    function _fmt(amount) {
         if (typeof formatINR === 'function') return formatINR(amount);
         return '\u20B9' + Number(amount).toLocaleString('en-IN');
     }
 
-    function _formatSizeKey(sizeKey) {
+    function _fmtSize(sizeKey) {
         if (typeof formatSizeKey === 'function') return formatSizeKey(sizeKey);
         return sizeKey;
     }
 
-    /* ── Phone validation ──────────────────────────────────────── */
+    /* ── Delivery charge calculator ─────────────────────────────── */
 
     /**
-     * Normalise an Indian phone number input.
-     * Accepts:
-     *   9876543210
-     *   +91 9876543210   (with optional space after country code)
-     *   919876543210
-     * Returns the raw 10-digit number or null if invalid.
+     * Returns the delivery charge for a given subtotal.
+     * subtotal > FREE_DELIVERY_THRESHOLD  → 0  (free)
+     * subtotal ≤ FREE_DELIVERY_THRESHOLD  → STANDARD_DELIVERY_CHARGE (₹99)
+     */
+    function calcDelivery(subtotal) {
+        return subtotal > FREE_DELIVERY_THRESHOLD ? 0 : STANDARD_DELIVERY_CHARGE;
+    }
+
+    /**
+     * Returns a human-readable free-delivery progress message.
+     * Exported so the cart drawer can also call it.
+     */
+    function deliveryMessage(subtotal) {
+        if (subtotal > FREE_DELIVERY_THRESHOLD) {
+            return '\uD83C\uDF89 You qualify for FREE delivery!';
+        }
+        const needed = FREE_DELIVERY_THRESHOLD + 1 - subtotal;  // ₹1 above the threshold
+        return 'Add ' + _fmt(needed) + ' more to get FREE delivery.';
+    }
+
+    /* ── Phone validation ───────────────────────────────────────── */
+
+    /**
+     * Normalises an Indian mobile number.
+     * Accepts: 9876543210 | +91 9876543210 | 919876543210
+     * Returns 10-digit string or null.
      */
     function _normalisePhone(raw) {
         if (typeof raw !== 'string') return null;
         let s = raw.trim();
-
-        // Strip leading +91 or 91 (country code)
         if (s.startsWith('+91')) s = s.slice(3).trim();
         else if (s.startsWith('91') && s.length > 10) s = s.slice(2).trim();
-
-        // Remove remaining non-digit characters
         s = s.replace(/\D/g, '');
-
-        // Must be exactly 10 digits
         if (s.length !== 10) return null;
-
-        // Indian mobile numbers start with 6-9
         if (!/^[6-9]/.test(s)) return null;
-
         return s;
     }
 
-    /* ── Validation ────────────────────────────────────────────── */
+    /* ── Pincode validation ─────────────────────────────────────── */
+
+    function _validatePincode(raw) {
+        if (typeof raw !== 'string') return false;
+        const s = raw.trim();
+        return /^\d{6}$/.test(s);
+    }
+
+    /* ── Field error helpers ────────────────────────────────────── */
 
     function _clearError(fieldId, errorId) {
         const input = _el(fieldId);
@@ -89,18 +115,18 @@ const Checkout = (() => {
         if (err)   err.textContent = message;
     }
 
-    /**
-     * Validate the customer-details form.
-     * Returns true if valid; false with inline errors if not.
-     */
+    /* ── Form validation ────────────────────────────────────────── */
+
     function _validateDetails() {
-        const name    = (_el('checkout-name')    ? _el('checkout-name').value.trim()    : '');
-        const phoneRaw = (_el('checkout-phone')   ? _el('checkout-phone').value.trim()   : '');
-        const address = (_el('checkout-address') ? _el('checkout-address').value.trim() : '');
+        const name     = _el('checkout-name')    ? _el('checkout-name').value.trim()    : '';
+        const phoneRaw = _el('checkout-phone')   ? _el('checkout-phone').value.trim()   : '';
+        const address  = _el('checkout-address') ? _el('checkout-address').value.trim() : '';
+        const pincode  = _el('checkout-pincode') ? _el('checkout-pincode').value.trim() : '';
 
         _clearError('checkout-name',    'checkout-name-error');
         _clearError('checkout-phone',   'checkout-phone-error');
         _clearError('checkout-address', 'checkout-address-error');
+        _clearError('checkout-pincode', 'checkout-pincode-error');
 
         let valid = true;
 
@@ -123,34 +149,42 @@ const Checkout = (() => {
             valid = false;
         }
 
+        if (!pincode) {
+            _showError('checkout-pincode', 'checkout-pincode-error', 'Please enter your pincode.');
+            valid = false;
+        } else if (!_validatePincode(pincode)) {
+            _showError('checkout-pincode', 'checkout-pincode-error', 'Please enter a valid 6-digit pincode.');
+            valid = false;
+        }
+
         return valid;
     }
 
-    /* ── Step navigation ───────────────────────────────────────── */
+    /* ── Step navigation ────────────────────────────────────────── */
 
     function _showStep(stepId) {
-        const steps = ['checkout-step-details', 'checkout-step-summary'];
-        steps.forEach(id => {
+        ['checkout-step-details', 'checkout-step-summary'].forEach(id => {
             const el = _el(id);
             if (el) el.style.display = (id === stepId) ? '' : 'none';
         });
-        // Scroll dialog to top
         const dialog = document.querySelector('#checkout-modal .modal-dialog');
         if (dialog) dialog.scrollTop = 0;
     }
 
-    /* ── Build order summary step ──────────────────────────────── */
+    /* ── Populate order summary step ────────────────────────────── */
 
     function _populateSummary() {
-        const cartItems = Cart.getItems();
-        const subtotal  = Cart.getTotal();
-        const total     = subtotal + DELIVERY_CHARGE;
+        const cartItems    = Cart.getItems();
+        const subtotal     = Cart.getTotal();
+        const delivery     = calcDelivery(subtotal);
+        const total        = subtotal + delivery;
+        const isFree       = delivery === 0;
 
         // Products list
         const container = _el('checkout-summary-items');
         if (container) {
             container.innerHTML = '';
-            cartItems.forEach(({ product, size, qty, unitPrice, lineTotal }) => {
+            cartItems.forEach(({ product, size, qty, lineTotal }) => {
                 const row = document.createElement('div');
                 row.className = 'checkout-summary-item';
 
@@ -160,13 +194,13 @@ const Checkout = (() => {
                 nameEl.textContent = product.name;
                 const sub = document.createElement('div');
                 sub.className = 'checkout-summary-item-sub';
-                sub.textContent = _formatSizeKey(size) + ' \u00D7 ' + qty;
+                sub.textContent = _fmtSize(size) + ' \u00D7 ' + qty;
                 left.appendChild(nameEl);
                 left.appendChild(sub);
 
                 const priceEl = document.createElement('div');
                 priceEl.className = 'checkout-summary-item-price';
-                priceEl.textContent = _formatINR(lineTotal);
+                priceEl.textContent = _fmt(lineTotal);
 
                 row.appendChild(left);
                 row.appendChild(priceEl);
@@ -178,38 +212,53 @@ const Checkout = (() => {
         const subtotalEl  = _el('checkout-subtotal-amount');
         const deliveryEl  = _el('checkout-delivery-amount');
         const totalEl     = _el('checkout-total-amount');
+        const deliveryRow = _el('checkout-delivery-row');
 
-        if (subtotalEl) subtotalEl.textContent = _formatINR(subtotal);
-        if (deliveryEl) deliveryEl.textContent = _formatINR(DELIVERY_CHARGE);
-        if (totalEl)    totalEl.textContent    = _formatINR(total);
+        if (subtotalEl) subtotalEl.textContent = _fmt(subtotal);
+        if (deliveryEl) {
+            deliveryEl.textContent = isFree ? 'FREE' : _fmt(delivery);
+            deliveryEl.className   = 'checkout-delivery-value' + (isFree ? ' free-delivery-badge' : '');
+        }
+        if (deliveryRow) deliveryRow.className = 'checkout-price-row' + (isFree ? ' delivery-free-row' : '');
+        if (totalEl) totalEl.textContent = _fmt(total);
+
+        // Free-delivery banner in summary
+        const bannerEl = _el('checkout-summary-delivery-banner');
+        if (bannerEl) {
+            bannerEl.textContent  = deliveryMessage(subtotal);
+            bannerEl.className    = 'checkout-delivery-banner' + (isFree ? ' is-free' : '');
+        }
 
         // Customer recap
-        const summaryName    = _el('summary-name');
-        const summaryPhone   = _el('summary-phone');
-        const summaryAddress = _el('summary-address');
-
-        if (summaryName)    summaryName.textContent    = _session.name;
-        if (summaryPhone)   summaryPhone.textContent   = _session.phone;
-        if (summaryAddress) summaryAddress.textContent = _session.address;
+        if (_el('summary-name'))    _el('summary-name').textContent    = _session.name;
+        if (_el('summary-phone'))   _el('summary-phone').textContent   = _session.phone;
+        if (_el('summary-address')) _el('summary-address').textContent = _session.address;
+        if (_el('summary-pincode')) _el('summary-pincode').textContent = _session.pincode;
     }
 
-    /* ── WhatsApp message builder ──────────────────────────────── */
+    /* ── WhatsApp message ───────────────────────────────────────── */
 
     function _buildWhatsAppMessage() {
         const cartItems = Cart.getItems();
         const subtotal  = Cart.getTotal();
-        const total     = subtotal + DELIVERY_CHARGE;
+        const delivery  = calcDelivery(subtotal);
+        const total     = subtotal + delivery;
+        const isFree    = delivery === 0;
 
-        const sep = '\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500';
+        const sep = '\u2500'.repeat(25);
 
         const lines = [
             '*NEW ORDER - ' + (BUSINESS.name || 'ARABIAN PERFUME LAB').toUpperCase() + '*',
             '',
             '*Customer Details*',
+            '',
             'Name: ' + _session.name,
             'Phone: ' + _session.phone,
+            '',
             'Delivery Address:',
             _session.address,
+            '',
+            'Pincode: ' + _session.pincode,
             '',
             sep,
             '*Order Details*',
@@ -218,62 +267,53 @@ const Checkout = (() => {
         ];
 
         cartItems.forEach((item, index) => {
-            const sizeLabel = _formatSizeKey(item.size);
             lines.push((index + 1) + '. ' + item.product.name);
-            lines.push('   Size: ' + sizeLabel);
+            lines.push('   Size: ' + _fmtSize(item.size));
             lines.push('   Quantity: ' + item.qty);
-            lines.push('   Price: ' + _formatINR(item.lineTotal));
+            lines.push('   Price: ' + _fmt(item.lineTotal));
             lines.push('');
         });
 
         lines.push(sep);
         lines.push('*Order Summary*');
         lines.push('');
-        lines.push('Subtotal: ' + _formatINR(subtotal));
-        lines.push('Delivery Charges: ' + _formatINR(DELIVERY_CHARGE));
-        lines.push('*Total: ' + _formatINR(total) + '*');
+        lines.push('Subtotal: ' + _fmt(subtotal));
+        lines.push('Delivery Charges: ' + (isFree ? 'FREE' : _fmt(delivery)));
+        lines.push('*Total: ' + _fmt(total) + '*');
         lines.push('');
         lines.push('Please confirm the order and delivery details.');
 
         return lines.join('\n');
     }
 
-    /* ── Open / Close modal ────────────────────────────────────── */
+    /* ── Open / Close ───────────────────────────────────────────── */
 
     function openCheckout() {
-        const cartItems = Cart.getItems();
-        if (!cartItems.length) {
-            if (typeof showToast === 'function') {
-                showToast('Your cart is empty. Add a fragrance first.');
-            }
+        if (!Cart.getItems().length) {
+            if (typeof showToast === 'function') showToast('Your cart is empty. Add a fragrance first.');
             return;
         }
 
-        // Reset to step 1 every time
         _showStep('checkout-step-details');
 
-        // Pre-fill fields from session (retains values if user went back)
-        const nameInput    = _el('checkout-name');
-        const phoneInput   = _el('checkout-phone');
-        const addressInput = _el('checkout-address');
+        // Pre-fill from session so "Back" preserves input
+        const fields = ['checkout-name', 'checkout-phone', 'checkout-address', 'checkout-pincode'];
+        const keys   = ['name', 'phone', 'address', 'pincode'];
+        fields.forEach((id, i) => {
+            const el = _el(id);
+            if (el) el.value = _session[keys[i]];
+        });
 
-        if (nameInput)    nameInput.value    = _session.name;
-        if (phoneInput)   phoneInput.value   = _session.phone;
-        if (addressInput) addressInput.value = _session.address;
+        // Clear stale errors
+        fields.forEach(id => _clearError(id, id + '-error'));
 
-        // Clear stale validation state
-        _clearError('checkout-name',    'checkout-name-error');
-        _clearError('checkout-phone',   'checkout-phone-error');
-        _clearError('checkout-address', 'checkout-address-error');
-
-        // Show modal
         const modal = _el('checkout-modal');
         if (modal) {
             modal.classList.add('open');
             modal.setAttribute('aria-hidden', 'false');
             document.body.style.overflow = 'hidden';
-            // Focus first field
-            if (nameInput) setTimeout(() => nameInput.focus(), 120);
+            const first = _el('checkout-name');
+            if (first) setTimeout(() => first.focus(), 120);
         }
     }
 
@@ -286,59 +326,53 @@ const Checkout = (() => {
         }
     }
 
-    /* ── Wire up event listeners ───────────────────────────────── */
+    /* ── Event wiring ───────────────────────────────────────────── */
 
     function init() {
         /* Close button */
         const closeBtn = _el('checkout-modal-close');
         if (closeBtn) closeBtn.addEventListener('click', closeCheckout);
 
-        /* Backdrop click closes */
+        /* Backdrop click */
         const modal = _el('checkout-modal');
         if (modal) {
-            modal.addEventListener('click', (e) => {
-                if (e.target === modal) closeCheckout();
-            });
-            modal.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape') closeCheckout();
-            });
+            modal.addEventListener('click', e => { if (e.target === modal) closeCheckout(); });
+            modal.addEventListener('keydown', e => { if (e.key === 'Escape') closeCheckout(); });
         }
 
-        /* "Review Order" — validate details and advance to summary */
+        /* "Review Order" → validate → go to summary */
         const reviewBtn = _el('checkout-review-btn');
         if (reviewBtn) {
             reviewBtn.addEventListener('click', () => {
                 if (!_validateDetails()) return;
 
-                // Persist to session
                 _session.name    = _el('checkout-name').value.trim();
                 _session.phone   = _normalisePhone(_el('checkout-phone').value) || _el('checkout-phone').value.trim();
                 _session.address = _el('checkout-address').value.trim();
+                _session.pincode = _el('checkout-pincode').value.trim();
 
                 _populateSummary();
                 _showStep('checkout-step-summary');
             });
         }
 
-        /* "Back to Cart" from details step — close checkout, open cart */
-        const backToCartBtn = _el('checkout-back-to-cart-btn');
-        if (backToCartBtn) {
-            backToCartBtn.addEventListener('click', () => {
+        /* "← Back to Cart" from details step */
+        const backBtn1 = _el('checkout-back-to-cart-btn');
+        if (backBtn1) {
+            backBtn1.addEventListener('click', () => {
                 closeCheckout();
                 if (typeof openCartDrawer === 'function') openCartDrawer();
             });
         }
 
-        /* "Edit Details" — go back to step 1 */
+        /* "← Edit Details" from summary step */
         const editBtn = _el('checkout-edit-details-btn');
-        if (editBtn) {
-            editBtn.addEventListener('click', () => _showStep('checkout-step-details'));
-        }
+        if (editBtn) editBtn.addEventListener('click', () => _showStep('checkout-step-details'));
 
         /* "Back to Cart" from summary step */
-        const backToCartBtn2 = _el('checkout-back-to-cart-btn-2');
-        if (backToCartBtn2) {
-            backToCartBtn2.addEventListener('click', () => {
+        const backBtn2 = _el('checkout-back-to-cart-btn-2');
+        if (backBtn2) {
+            backBtn2.addEventListener('click', () => {
                 closeCheckout();
                 if (typeof openCartDrawer === 'function') openCartDrawer();
             });
@@ -348,8 +382,7 @@ const Checkout = (() => {
         const confirmBtn = _el('checkout-confirm-btn');
         if (confirmBtn) {
             confirmBtn.addEventListener('click', () => {
-                // Guard: cart must still have items
-                if (Cart.getItems().length === 0) {
+                if (!Cart.getItems().length) {
                     if (typeof showToast === 'function') showToast('Your cart is empty.');
                     return;
                 }
@@ -358,30 +391,38 @@ const Checkout = (() => {
                 const number  = String(BUSINESS.whatsapp).replace(/\D/g, '');
                 const url     = 'https://wa.me/' + number + '?text=' + encodeURIComponent(message);
 
-                // Clear session after sending
-                _session = { name: '', phone: '', address: '' };
+                // Clear PII from session after handoff
+                _session = { name: '', phone: '', address: '', pincode: '' };
                 closeCheckout();
-
                 window.open(url, '_blank', 'noopener,noreferrer');
             });
         }
 
-        /* Live validation — clear error as soon as user starts typing */
-        ['checkout-name', 'checkout-phone', 'checkout-address'].forEach(fieldId => {
-            const input = _el(fieldId);
-            const errorId = fieldId + '-error';
-            if (input) {
-                input.addEventListener('input', () => {
-                    _clearError(fieldId, errorId);
-                });
-            }
+        /* Live clear-on-input for all four fields */
+        ['checkout-name', 'checkout-phone', 'checkout-address', 'checkout-pincode'].forEach(id => {
+            const input = _el(id);
+            if (input) input.addEventListener('input', () => _clearError(id, id + '-error'));
         });
+
+        /* Pincode: restrict to digits only while typing */
+        const pincodeInput = _el('checkout-pincode');
+        if (pincodeInput) {
+            pincodeInput.addEventListener('keypress', e => {
+                if (!/\d/.test(e.key) && !['Backspace', 'Delete', 'Tab', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                    e.preventDefault();
+                }
+            });
+            pincodeInput.addEventListener('input', () => {
+                // Strip non-digits silently
+                pincodeInput.value = pincodeInput.value.replace(/\D/g, '').slice(0, 6);
+            });
+        }
     }
 
-    return Object.freeze({ init, openCheckout, closeCheckout });
+    return Object.freeze({ init, openCheckout, closeCheckout, calcDelivery, deliveryMessage });
 })();
 
-// Auto-initialise when DOM is ready
+// Auto-initialise
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => Checkout.init());
 } else {

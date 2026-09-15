@@ -1,0 +1,1387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Arabian Perfume Lab — Business Presentation | GOLIS Technologies</title>
+<style>
+/* ============================================================
+   GOLIS Technologies × Arabian Perfume Lab — Business Presentation
+   ============================================================ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --gold:       #d4af37;
+  --gold-light: #f0d882;
+  --gold-dim:   #997d1e;
+  --bg-dark:    #080a0d;
+  --bg-surface: #0e1014;
+  --bg-card:    #13161c;
+  --bg-card2:   #1a1e27;
+  --border:     rgba(212,175,55,0.18);
+  --border-glow:rgba(212,175,55,0.55);
+  --ivory:      #fbf9f5;
+  --ivory-dim:  #c8c2b0;
+  --muted:      #7a7467;
+  --white:      #ffffff;
+  --red:        #8b1a2e;
+  --teal:       #1a6b5a;
+  --font-head:  'Georgia', 'Times New Roman', serif;
+  --font-body:  -apple-system, 'Segoe UI', system-ui, sans-serif;
+  --radius:     12px;
+  --radius-lg:  20px;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg-dark);
+  color: var(--ivory);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Geo pattern ── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    repeating-linear-gradient(45deg, rgba(212,175,55,0.025) 0px, rgba(212,175,55,0.025) 1px, transparent 1px, transparent 40px),
+    repeating-linear-gradient(-45deg, rgba(212,175,55,0.018) 0px, rgba(212,175,55,0.018) 1px, transparent 1px, transparent 40px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Layout ── */
+.page { position: relative; z-index: 1; max-width: 900px; margin: 0 auto; padding: 0 24px; }
+
+/* ── Typography ── */
+h1, h2, h3, h4 { font-family: var(--font-head); font-weight: 400; letter-spacing: 0.04em; }
+.gold { color: var(--gold); }
+.gold-light { color: var(--gold-light); }
+.muted { color: var(--muted); }
+
+/* ── Divider ── */
+.divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  margin: 0 auto;
+  max-width: 600px;
+}
+
+/* ── Section spacing ── */
+.section { padding: 64px 0; }
+.section-dark { background: var(--bg-surface); padding: 64px 24px; margin: 0 -24px; }
+.section-tag {
+  display: flex; align-items: center; gap: 12px;
+  font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 12px;
+}
+.section-tag::before, .section-tag::after {
+  content: ''; flex: 1; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(212,175,55,0.4));
+}
+.section-tag::after { background: linear-gradient(90deg, rgba(212,175,55,0.4), transparent); }
+.section-title { font-size: clamp(1.6rem, 4vw, 2.4rem); color: var(--gold-light); margin-bottom: 8px; }
+.section-sub { font-size: 15px; color: var(--ivory-dim); max-width: 620px; line-height: 1.75; }
+
+/* ── Cards ── */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px 24px;
+}
+.card:hover { border-color: rgba(212,175,55,0.38); }
+
+/* ── Grid ── */
+.grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+.grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
+
+/* ── Badges ── */
+.badge {
+  display: inline-block; font-size: 10px; letter-spacing: 0.14em;
+  text-transform: uppercase; padding: 4px 10px; border-radius: 20px;
+  border: 1px solid var(--gold-dim); color: var(--gold); background: rgba(212,175,55,0.08);
+}
+
+/* ========================================================
+   1. COVER PAGE
+   ======================================================== */
+.cover {
+  min-height: 100vh;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center;
+  padding: 80px 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+.cover-glow {
+  position: absolute; border-radius: 50%; pointer-events: none;
+  filter: blur(120px); opacity: 0.12;
+}
+.cover-glow-a { width: 600px; height: 600px; background: var(--gold); top: -200px; left: 50%; transform: translateX(-50%); }
+.cover-glow-b { width: 400px; height: 400px; background: #8b1a2e; bottom: -100px; left: 10%; }
+.cover-glow-c { width: 350px; height: 350px; background: #1a6b5a; bottom: -100px; right: 10%; }
+
+.cover-ornament {
+  font-size: 32px; color: var(--gold); letter-spacing: 12px;
+  opacity: 0.55; margin-bottom: 32px;
+}
+
+.cover-logo-area { margin-bottom: 40px; }
+
+.cover-logo-svg { width: 90px; height: 90px; margin: 0 auto 20px; display: block; }
+
+.cover-brand {
+  font-size: clamp(2.2rem, 6vw, 3.6rem);
+  font-family: var(--font-head);
+  color: var(--gold-light);
+  letter-spacing: 0.12em;
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+
+.cover-brand-sub {
+  font-size: clamp(0.9rem, 2vw, 1.1rem);
+  color: var(--gold);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  margin-top: 8px;
+  opacity: 0.85;
+}
+
+.cover-divider {
+  width: 180px; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  margin: 32px auto;
+}
+
+.cover-title {
+  font-size: clamp(1.05rem, 2.5vw, 1.35rem);
+  color: var(--ivory-dim);
+  letter-spacing: 0.06em;
+  line-height: 1.5;
+  margin-bottom: 48px;
+}
+
+.cover-prepared {
+  font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 16px;
+}
+
+.cover-golis {
+  display: inline-block;
+  border: 1px solid var(--border-glow);
+  border-radius: 10px;
+  padding: 20px 40px;
+  background: rgba(212,175,55,0.05);
+}
+
+.cover-golis-name {
+  font-family: var(--font-head);
+  font-size: 1.5rem; color: var(--gold-light);
+  letter-spacing: 0.1em;
+}
+.cover-golis-tagline {
+  font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--gold); opacity: 0.8; margin-top: 4px;
+}
+.cover-golis-motto {
+  font-style: italic; font-size: 13px; color: var(--ivory-dim);
+  margin-top: 8px;
+}
+
+.cover-footer {
+  position: absolute; bottom: 32px; left: 0; right: 0;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 0 40px; font-size: 11px; color: var(--muted);
+  letter-spacing: 0.1em;
+}
+
+/* ========================================================
+   2. TOC / CONTENTS
+   ======================================================== */
+.toc-item {
+  display: flex; align-items: center; gap: 16px;
+  padding: 12px 0; border-bottom: 1px solid rgba(212,175,55,0.08);
+  font-size: 14px; color: var(--ivory-dim);
+}
+.toc-item:last-child { border-bottom: none; }
+.toc-num {
+  font-family: var(--font-head); font-size: 12px;
+  color: var(--gold); min-width: 28px; letter-spacing: 0.08em;
+}
+.toc-name { flex: 1; }
+.toc-dot { flex: 1; border-bottom: 1px dotted rgba(212,175,55,0.2); }
+
+/* ========================================================
+   3. EXECUTIVE SUMMARY
+   ======================================================== */
+.exec-list { list-style: none; margin-top: 24px; }
+.exec-list li {
+  display: flex; align-items: flex-start; gap: 14px;
+  padding: 10px 0; border-bottom: 1px solid rgba(212,175,55,0.07);
+  font-size: 14px; color: var(--ivory-dim); line-height: 1.6;
+}
+.exec-list li:last-child { border-bottom: none; }
+.exec-list li .bullet {
+  width: 20px; height: 20px; border-radius: 50%;
+  background: rgba(212,175,55,0.12); border: 1px solid var(--gold-dim);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; margin-top: 2px;
+  font-size: 9px; color: var(--gold);
+}
+
+/* ========================================================
+   4. FEATURE CARDS
+   ======================================================== */
+.feat-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px 20px;
+  transition: border-color 0.2s;
+}
+.feat-card:hover { border-color: rgba(212,175,55,0.42); }
+
+.feat-icon {
+  width: 44px; height: 44px; border-radius: 10px;
+  background: rgba(212,175,55,0.1); border: 1px solid rgba(212,175,55,0.2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; margin-bottom: 14px;
+}
+.feat-title { font-size: 14px; color: var(--gold-light); font-weight: 600; margin-bottom: 6px; font-family: var(--font-body); letter-spacing: 0.02em; }
+.feat-what { font-size: 12px; color: var(--gold); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 4px; }
+.feat-desc { font-size: 13px; color: var(--ivory-dim); line-height: 1.6; margin-bottom: 10px; }
+.feat-helps { font-size: 11px; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 4px; }
+.feat-benefit { font-size: 13px; color: var(--ivory-dim); line-height: 1.6; }
+
+/* ========================================================
+   5. BUSINESS BENEFITS
+   ======================================================== */
+.benefit-item {
+  display: grid; grid-template-columns: 56px 1fr; gap: 20px;
+  align-items: start; padding: 28px;
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+.benefit-num {
+  font-family: var(--font-head); font-size: 2.4rem;
+  color: rgba(212,175,55,0.25); line-height: 1;
+}
+.benefit-title { font-size: 15px; color: var(--gold-light); font-weight: 600; margin-bottom: 6px; font-family: var(--font-body); }
+.benefit-desc { font-size: 13px; color: var(--ivory-dim); line-height: 1.65; }
+
+/* ========================================================
+   6. CUSTOMER JOURNEY
+   ======================================================== */
+.journey-wrap {
+  display: flex; flex-direction: column; align-items: center; gap: 0;
+  max-width: 520px; margin: 0 auto;
+}
+.journey-step {
+  width: 100%; background: var(--bg-card);
+  border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 18px 24px; display: flex; align-items: center; gap: 18px;
+}
+.journey-step:hover { border-color: rgba(212,175,55,0.4); }
+.journey-icon {
+  width: 44px; height: 44px; border-radius: 50%; flex-shrink: 0;
+  background: rgba(212,175,55,0.1); border: 1px solid rgba(212,175,55,0.28);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+}
+.journey-label { font-size: 14px; color: var(--gold-light); font-weight: 600; font-family: var(--font-body); }
+.journey-desc { font-size: 12px; color: var(--muted); margin-top: 2px; }
+.journey-arrow {
+  width: 2px; height: 28px;
+  background: linear-gradient(to bottom, var(--gold-dim), transparent);
+  margin: 0 auto;
+}
+
+/* ========================================================
+   7. STATS
+   ======================================================== */
+.stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 16px; }
+.stat-card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 24px 16px; text-align: center;
+}
+.stat-num { font-family: var(--font-head); font-size: 2.4rem; color: var(--gold); line-height: 1; }
+.stat-label { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-top: 6px; }
+
+/* ========================================================
+   8. CATEGORY TABLE
+   ======================================================== */
+.cat-table { width: 100%; border-collapse: collapse; }
+.cat-table th {
+  text-align: left; font-size: 11px; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--gold); padding: 12px 16px;
+  border-bottom: 1px solid rgba(212,175,55,0.25);
+  background: rgba(212,175,55,0.05);
+}
+.cat-table td { padding: 14px 16px; font-size: 14px; color: var(--ivory-dim); border-bottom: 1px solid rgba(212,175,55,0.07); }
+.cat-table tr:last-child td { border-bottom: none; }
+.cat-table tr:hover td { background: rgba(212,175,55,0.03); }
+.cat-count { color: var(--gold-light); font-weight: 600; }
+
+/* ========================================================
+   9. ROADMAP PHASES
+   ======================================================== */
+.phase-list { display: flex; flex-direction: column; gap: 16px; }
+.phase-card {
+  display: grid; grid-template-columns: 90px 1fr; gap: 20px;
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 24px 20px;
+  align-items: start;
+}
+.phase-badge {
+  display: flex; flex-direction: column; align-items: center;
+  justify-content: center; text-align: center;
+}
+.phase-num {
+  font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 4px;
+}
+.phase-circle {
+  width: 52px; height: 52px; border-radius: 50%;
+  border: 2px solid var(--border-glow);
+  background: rgba(212,175,55,0.08);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px;
+}
+.phase-title { font-size: 15px; color: var(--gold-light); font-weight: 600; font-family: var(--font-body); margin-bottom: 8px; }
+.phase-items { list-style: none; }
+.phase-items li {
+  font-size: 13px; color: var(--ivory-dim); padding: 3px 0;
+  display: flex; align-items: center; gap: 8px;
+}
+.phase-items li::before { content: '◆'; font-size: 6px; color: var(--gold-dim); flex-shrink: 0; }
+.phase-future {
+  display: inline-block; margin-top: 10px;
+  font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase;
+  padding: 3px 10px; border-radius: 20px;
+  border: 1px solid rgba(212,175,55,0.25); color: var(--gold-dim);
+  background: rgba(212,175,55,0.05);
+}
+
+/* ========================================================
+   10. INVESTMENT
+   ======================================================== */
+.inv-table { width: 100%; border-collapse: collapse; }
+.inv-table th {
+  text-align: left; font-size: 11px; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--gold);
+  padding: 12px 20px; border-bottom: 1px solid rgba(212,175,55,0.25);
+  background: rgba(212,175,55,0.05);
+}
+.inv-table td { padding: 16px 20px; font-size: 14px; color: var(--ivory-dim); border-bottom: 1px solid rgba(212,175,55,0.07); }
+.inv-table tr:last-child td { border-bottom: none; }
+.inv-price { color: var(--gold-light); font-weight: 600; font-family: var(--font-head); font-size: 1rem; }
+.inv-note { font-size: 12px; color: var(--muted); margin-top: 4px; }
+
+/* ========================================================
+   11. NEXT STEPS
+   ======================================================== */
+.steps-list { display: flex; flex-direction: column; gap: 12px; }
+.step-item {
+  display: flex; align-items: flex-start; gap: 20px;
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 20px 24px;
+}
+.step-num {
+  font-family: var(--font-head); font-size: 1.1rem; color: var(--gold);
+  letter-spacing: 0.06em; min-width: 36px; flex-shrink: 0; line-height: 1.4;
+}
+.step-text { font-size: 14px; color: var(--ivory-dim); line-height: 1.6; }
+.step-text strong { color: var(--ivory); }
+
+/* ========================================================
+   12. CLOSING
+   ======================================================== */
+.closing {
+  text-align: center;
+  padding: 80px 24px;
+  background: linear-gradient(180deg, var(--bg-surface) 0%, var(--bg-dark) 100%);
+  margin: 0 -24px;
+}
+.closing-title {
+  font-family: var(--font-head);
+  font-size: clamp(1.5rem, 4vw, 2.6rem);
+  color: var(--gold-light); line-height: 1.25; margin-bottom: 24px;
+}
+.closing-body {
+  max-width: 560px; margin: 0 auto 48px;
+  font-size: 15px; color: var(--ivory-dim); line-height: 1.8;
+}
+.closing-golis {
+  display: inline-block;
+  border: 1px solid var(--border-glow); border-radius: var(--radius-lg);
+  padding: 36px 60px; background: rgba(212,175,55,0.05);
+}
+.closing-golis-name {
+  font-family: var(--font-head); font-size: 2rem;
+  color: var(--gold-light); letter-spacing: 0.1em;
+}
+.closing-services {
+  font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--gold); opacity: 0.8; margin: 8px 0;
+}
+.closing-motto { font-style: italic; font-size: 14px; color: var(--ivory-dim); }
+
+/* ========================================================
+   13. APPENDIX
+   ======================================================== */
+.appendix-section { padding: 48px 0; }
+.appendix-title {
+  font-family: var(--font-head); font-size: 1.3rem;
+  color: var(--gold); margin-bottom: 16px; padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+}
+.tech-row {
+  display: flex; gap: 12px; align-items: flex-start;
+  padding: 10px 0; border-bottom: 1px solid rgba(212,175,55,0.06);
+  font-size: 13px;
+}
+.tech-row:last-child { border-bottom: none; }
+.tech-key { min-width: 160px; color: var(--muted); flex-shrink: 0; }
+.tech-val { color: var(--ivory-dim); line-height: 1.55; }
+
+/* ========================================================
+   FOOTER
+   ======================================================== */
+.page-footer {
+  text-align: center; padding: 32px 24px;
+  border-top: 1px solid var(--border);
+  font-size: 12px; color: var(--muted); letter-spacing: 0.06em;
+}
+.page-footer strong { color: var(--gold); }
+
+/* ── Print ── */
+@media print {
+  body { background: #fff; color: #111; }
+  .cover-glow, body::before { display: none; }
+}
+
+/* ── Responsive ── */
+@media (max-width: 640px) {
+  .cover-footer { padding: 0 20px; flex-direction: column; gap: 4px; text-align: center; }
+  .phase-card { grid-template-columns: 1fr; }
+  .phase-badge { flex-direction: row; justify-content: flex-start; gap: 10px; }
+  .benefit-item { grid-template-columns: 1fr; }
+  .closing-golis { padding: 28px 24px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     COVER PAGE
+     ============================================================ -->
+<div class="cover">
+  <div class="cover-glow cover-glow-a"></div>
+  <div class="cover-glow cover-glow-b"></div>
+  <div class="cover-glow cover-glow-c"></div>
+
+  <div class="cover-ornament">✦ ✦ ✦</div>
+
+  <div class="cover-logo-area">
+    <!-- Arabian Perfume Lab logo SVG mark -->
+    <svg class="cover-logo-svg" viewBox="0 0 90 90" xmlns="http://www.w3.org/2000/svg" aria-label="Arabian Perfume Lab">
+      <defs>
+        <linearGradient id="cg" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#f0d882"/>
+          <stop offset="50%" stop-color="#d4af37"/>
+          <stop offset="100%" stop-color="#997d1e"/>
+        </linearGradient>
+      </defs>
+      <!-- Bottle silhouette -->
+      <rect x="33" y="2" width="24" height="14" rx="4" fill="url(#cg)" opacity="0.9"/>
+      <rect x="38" y="14" width="14" height="10" rx="2" fill="url(#cg)"/>
+      <rect x="22" y="22" width="46" height="2" rx="1" fill="url(#cg)"/>
+      <rect x="18" y="24" width="54" height="60" rx="8" fill="url(#cg)" opacity="0.15"/>
+      <rect x="18" y="24" width="54" height="60" rx="8" fill="none" stroke="url(#cg)" stroke-width="1.5"/>
+      <!-- Crescent -->
+      <path d="M45 38 a12 12 0 1 1 0 28 a8 8 0 1 0 0-28Z" fill="url(#cg)" opacity="0.8"/>
+      <!-- Star -->
+      <polygon points="68,32 70,38 76,38 71,42 73,48 68,44 63,48 65,42 60,38 66,38" fill="url(#cg)" opacity="0.75" transform="scale(0.55) translate(57,30)"/>
+    </svg>
+
+    <div class="cover-brand">Arabian Perfume Lab</div>
+    <div class="cover-brand-sub">The Art of Arabian Perfumery</div>
+  </div>
+
+  <div class="cover-divider"></div>
+
+  <div class="cover-title">
+    Website Development &amp; Digital Business Solution<br>
+    <span style="font-size:0.85em; color: var(--muted);">Project Presentation — Confidential</span>
+  </div>
+
+  <div class="cover-prepared">Prepared by</div>
+  <div class="cover-golis">
+    <div class="cover-golis-name">GOLIS Technologies</div>
+    <div class="cover-golis-tagline">AI &nbsp;•&nbsp; Software &nbsp;•&nbsp; Automation &nbsp;•&nbsp; Digital Solutions</div>
+    <div class="cover-golis-motto">"Make Your Business Smarter."</div>
+  </div>
+
+  <div class="cover-footer">
+    <span>GOLIS Technologies</span>
+    <span>Arabian Perfume Lab — Digital Presence</span>
+    <span>Confidential</span>
+  </div>
+</div>
+
+<!-- ============================================================
+     TABLE OF CONTENTS
+     ============================================================ -->
+<div class="page">
+  <div class="section">
+    <div class="section-tag">Contents</div>
+    <h2 class="section-title">What's Inside This Report</h2>
+
+    <div style="margin-top: 32px;">
+      <div class="toc-item"><span class="toc-num">01</span><span class="toc-name">Executive Summary</span><span class="toc-dot"></span></div>
+      <div class="toc-item"><span class="toc-num">02</span><span class="toc-name">Your New Digital Storefront</span><span class="toc-dot"></span></div>
+      <div class="toc-item"><span class="toc-num">03</span><span class="toc-name">How the Website Helps Your Business</span><span class="toc-dot"></span></div>
+      <div class="toc-item"><span class="toc-num">04</span><span class="toc-name">Customer Journey</span><span class="toc-dot"></span></div>
+      <div class="toc-item"><span class="toc-num">05</span><span class="toc-name">Product Collection</span><span class="toc-dot"></span></div>
+      <div class="toc-item"><span class="toc-num">06</span><span class="toc-name">Key Features</span><span class="toc-dot"></span></div>
+      <div class="toc-item"><span class="toc-num">07</span><span class="toc-name">Future Growth Opportunities</span><span class="toc-dot"></span></div>
+      <div class="toc-item"><span class="toc-num">08</span><span class="toc-name">Investment</span><span class="toc-dot"></span></div>
+      <div class="toc-item"><span class="toc-num">09</span><span class="toc-name">Recommended Next Steps</span><span class="toc-dot"></span></div>
+      <div class="toc-item"><span class="toc-num">10</span><span class="toc-name">Closing Message</span><span class="toc-dot"></span></div>
+      <div class="toc-item"><span class="toc-num">A</span><span class="toc-name">Technical Appendix</span><span class="toc-dot"></span></div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ============================================================
+     01. EXECUTIVE SUMMARY
+     ============================================================ -->
+<div class="page">
+  <div class="section">
+    <div class="section-tag">01</div>
+    <h2 class="section-title">Executive Summary</h2>
+    <p class="section-sub">
+      Arabian Perfume Lab now has a fully operational, professional digital storefront — a premium website that brings the business online and makes it accessible to customers anywhere, at any time.
+    </p>
+
+    <div style="margin-top: 32px; padding: 28px; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);">
+      <p style="font-size: 15px; color: var(--ivory-dim); line-height: 1.8; margin-bottom: 20px;">
+        GOLIS Technologies has designed, built and delivered a complete digital presence for Arabian Perfume Lab — a luxury fragrance business based in Guntur, Andhra Pradesh. The website reflects the premium nature of the brand and gives customers a rich, immersive experience when discovering and ordering fragrances.
+      </p>
+      <p style="font-size: 15px; color: var(--ivory-dim); line-height: 1.8;">
+        The website is live, fully functional and ready for customers. It is accessible on both mobile phones and desktop computers, and requires no technical knowledge to use from the business side — customers simply browse, choose their fragrance, and reach out via WhatsApp to place an order.
+      </p>
+    </div>
+
+    <p style="font-size: 14px; color: var(--gold); letter-spacing: 0.06em; margin: 28px 0 16px; text-transform: uppercase; font-size: 12px;">Through this website, customers can now:</p>
+
+    <ul class="exec-list">
+      <li><span class="bullet">✦</span>Discover Arabian Perfume Lab and understand what the business offers</li>
+      <li><span class="bullet">✦</span>Browse the full fragrance collection across 5 categories</li>
+      <li><span class="bullet">✦</span>Explore individual product details, fragrance notes and descriptions</li>
+      <li><span class="bullet">✦</span>Select available sizes — Attars (3ml, 6ml, 12ml), Perfumes (20ml, 50ml, 100ml), Solid Perfumes (10g)</li>
+      <li><span class="bullet">✦</span>Add products to a shopping cart and review their order</li>
+      <li><span class="bullet">✦</span>Use the Scent Finder quiz to get personalised fragrance recommendations</li>
+      <li><span class="bullet">✦</span>Search and filter fragrances by category, notes or name</li>
+      <li><span class="bullet">✦</span>Place enquiries and orders directly through WhatsApp</li>
+      <li><span class="bullet">✦</span>Browse comfortably from any mobile phone or desktop computer</li>
+      <li><span class="bullet">✦</span>Enjoy a premium, immersive brand experience that reflects the quality of the fragrances</li>
+    </ul>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ============================================================
+     02. DIGITAL STOREFRONT FEATURES
+     ============================================================ -->
+<div class="page">
+  <div class="section">
+    <div class="section-tag">02</div>
+    <h2 class="section-title">Your New Digital Storefront</h2>
+    <p class="section-sub">
+      Here is everything that has been built and delivered as part of this project. Each feature is designed to help customers discover, explore and order from Arabian Perfume Lab.
+    </p>
+
+    <div class="grid-2" style="margin-top:36px;">
+
+      <div class="feat-card">
+        <div class="feat-icon">🌐</div>
+        <div class="feat-title">Professional Website</div>
+        <div class="feat-what">What it does</div>
+        <div class="feat-desc">A fully designed, premium website that represents Arabian Perfume Lab online with a luxury fragrance aesthetic, dark theme and gold accents.</div>
+        <div class="feat-helps">How it helps</div>
+        <div class="feat-benefit">Gives the business a credible, professional digital identity that customers can find and trust — available 24 hours a day, 7 days a week.</div>
+      </div>
+
+      <div class="feat-card">
+        <div class="feat-icon">🗂️</div>
+        <div class="feat-title">Product Catalogue</div>
+        <div class="feat-what">What it does</div>
+        <div class="feat-desc">Displays all 51 fragrances in a clean, browsable grid with images, descriptions, fragrance notes and pricing for every size.</div>
+        <div class="feat-helps">How it helps</div>
+        <div class="feat-benefit">Customers can see the full range at a glance — no need to ask or wait. This reduces back-and-forth and helps customers make confident choices.</div>
+      </div>
+
+      <div class="feat-card">
+        <div class="feat-icon">🏷️</div>
+        <div class="feat-title">Product Categories</div>
+        <div class="feat-what">What it does</div>
+        <div class="feat-desc">Organises the collection into 5 clear categories: Attars, Arabic, French &amp; Arabic Mix, Floral and French.</div>
+        <div class="feat-helps">How it helps</div>
+        <div class="feat-benefit">Customers find exactly what they are looking for quickly, without scrolling through the entire catalogue.</div>
+      </div>
+
+      <div class="feat-card">
+        <div class="feat-icon">📦</div>
+        <div class="feat-title">Product Variants &amp; Sizes</div>
+        <div class="feat-what">What it does</div>
+        <div class="feat-desc">Every product offers selectable size variants — Attars in 3ml, 6ml and 12ml; Perfumes in 20ml, 50ml and 100ml; Solid Perfumes in 10g — each with individual pricing.</div>
+        <div class="feat-helps">How it helps</div>
+        <div class="feat-benefit">Customers choose the size and price point that suits them, increasing the likelihood of a purchase.</div>
+      </div>
+
+      <div class="feat-card">
+        <div class="feat-icon">🛒</div>
+        <div class="feat-title">Shopping Cart</div>
+        <div class="feat-what">What it does</div>
+        <div class="feat-desc">A built-in cart lets customers add multiple fragrances, review their selection, adjust quantities and see a total before placing an order.</div>
+        <div class="feat-helps">How it helps</div>
+        <div class="feat-benefit">Customers can organise their full order before contacting the business, resulting in clearer, more complete enquiries.</div>
+      </div>
+
+      <div class="feat-card">
+        <div class="feat-icon">💬</div>
+        <div class="feat-title">WhatsApp Ordering</div>
+        <div class="feat-what">What it does</div>
+        <div class="feat-desc">An integrated WhatsApp button sends the customer's complete cart — with product names, sizes and quantities — directly to the business WhatsApp number.</div>
+        <div class="feat-helps">How it helps</div>
+        <div class="feat-benefit">Orders arrive pre-formatted and complete, saving time and reducing miscommunication. No separate order management system is needed.</div>
+      </div>
+
+      <div class="feat-card">
+        <div class="feat-icon">✨</div>
+        <div class="feat-title">Scent Finder</div>
+        <div class="feat-what">What it does</div>
+        <div class="feat-desc">An interactive 5-step quiz that asks customers about their fragrance preferences — mood, occasion, notes — and recommends personalised products.</div>
+        <div class="feat-helps">How it helps</div>
+        <div class="feat-benefit">Helps customers who are unsure what to buy — especially first-time customers — discover the right fragrance and feel guided rather than overwhelmed.</div>
+      </div>
+
+      <div class="feat-card">
+        <div class="feat-icon">🔍</div>
+        <div class="feat-title">Search &amp; Filters</div>
+        <div class="feat-what">What it does</div>
+        <div class="feat-desc">Customers can search by fragrance name, brand or notes, and filter by category, gender or collection type in real time.</div>
+        <div class="feat-helps">How it helps</div>
+        <div class="feat-benefit">Makes it fast and easy to find specific fragrances — especially useful when a customer already knows what they want.</div>
+      </div>
+
+      <div class="feat-card">
+        <div class="feat-icon">📱</div>
+        <div class="feat-title">Mobile Responsive Design</div>
+        <div class="feat-what">What it does</div>
+        <div class="feat-desc">The website automatically adapts to any screen size — mobile phones, tablets or desktops — with a dedicated mobile navigation menu.</div>
+        <div class="feat-helps">How it helps</div>
+        <div class="feat-benefit">Most customers browse on their phones. A mobile-optimised website ensures they have a smooth, professional experience regardless of device.</div>
+      </div>
+
+      <div class="feat-card">
+        <div class="feat-icon">🎨</div>
+        <div class="feat-title">Premium Interactive Experience</div>
+        <div class="feat-what">What it does</div>
+        <div class="feat-desc">Includes ambient Arabian music, visual fragrance spray effects, animated bottle showcases and an immersive luxury design that reflects the brand.</div>
+        <div class="feat-helps">How it helps</div>
+        <div class="feat-benefit">Creates a memorable, premium brand impression — differentiating Arabian Perfume Lab from ordinary fragrance sellers and building customer trust.</div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ============================================================
+     03. HOW THE WEBSITE HELPS YOUR BUSINESS
+     ============================================================ -->
+<div class="section-dark">
+  <div class="page" style="padding: 0;">
+    <div class="section-tag">03</div>
+    <h2 class="section-title">How Your Website Helps Your Business</h2>
+    <p class="section-sub">Six powerful ways this website works for Arabian Perfume Lab — every day, even when the shop is closed.</p>
+
+    <div class="grid-2" style="margin-top: 36px;">
+
+      <div class="benefit-item">
+        <div class="benefit-num">01</div>
+        <div>
+          <div class="benefit-title">Be Found Online</div>
+          <div class="benefit-desc">Potential customers searching for fragrances, attars or Arabian perfumes can now find Arabian Perfume Lab on the internet. A professional website establishes a real, searchable digital presence that social media alone cannot provide.</div>
+        </div>
+      </div>
+
+      <div class="benefit-item">
+        <div class="benefit-num">02</div>
+        <div>
+          <div class="benefit-title">Build Customer Trust</div>
+          <div class="benefit-desc">A well-designed, premium website instantly communicates that Arabian Perfume Lab is a serious, professional business. Customers are far more likely to trust and buy from a business that has a polished online presence.</div>
+        </div>
+      </div>
+
+      <div class="benefit-item">
+        <div class="benefit-num">03</div>
+        <div>
+          <div class="benefit-title">Showcase Your Products</div>
+          <div class="benefit-desc">All 51 fragrances across 5 categories are presented with descriptions, notes, size options and pricing — giving every product the visibility and presentation it deserves, in one place.</div>
+        </div>
+      </div>
+
+      <div class="benefit-item">
+        <div class="benefit-num">04</div>
+        <div>
+          <div class="benefit-title">Make Ordering Easier</div>
+          <div class="benefit-desc">The integrated shopping cart and WhatsApp ordering flow means customers arrive already knowing what they want and how much it costs. This reduces order confusion and makes every transaction smoother for both the customer and the business.</div>
+        </div>
+      </div>
+
+      <div class="benefit-item">
+        <div class="benefit-num">05</div>
+        <div>
+          <div class="benefit-title">Help Customers Choose</div>
+          <div class="benefit-desc">The Scent Finder quiz guides undecided customers to the right fragrance. Rather than a customer walking away unsure, the website actively helps them make a decision and places them one step closer to buying.</div>
+        </div>
+      </div>
+
+      <div class="benefit-item">
+        <div class="benefit-num">06</div>
+        <div>
+          <div class="benefit-title">Be Available 24/7</div>
+          <div class="benefit-desc">The website works around the clock. Whether a customer is browsing at midnight or early in the morning, they can discover the collection, explore products and prepare an order — without requiring the business owner to be available.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ============================================================
+     04. CUSTOMER JOURNEY
+     ============================================================ -->
+<div class="page">
+  <div class="section">
+    <div class="section-tag">04</div>
+    <h2 class="section-title">Customer Journey</h2>
+    <p class="section-sub">This is the end-to-end experience a customer goes through when they visit the Arabian Perfume Lab website — from first discovery to placing an order.</p>
+
+    <div class="journey-wrap" style="margin-top: 40px;">
+
+      <div class="journey-step">
+        <div class="journey-icon">🔎</div>
+        <div>
+          <div class="journey-label">Discover</div>
+          <div class="journey-desc">A customer finds Arabian Perfume Lab — through search, Instagram, WhatsApp or word of mouth — and visits the website.</div>
+        </div>
+      </div>
+      <div class="journey-arrow"></div>
+
+      <div class="journey-step">
+        <div class="journey-icon">🗂️</div>
+        <div>
+          <div class="journey-label">Browse</div>
+          <div class="journey-desc">They explore the collection by category — Attars, Arabic, Floral, French or French &amp; Arabic Mix — or search for a specific fragrance.</div>
+        </div>
+      </div>
+      <div class="journey-arrow"></div>
+
+      <div class="journey-step">
+        <div class="journey-icon">✨</div>
+        <div>
+          <div class="journey-label">Choose</div>
+          <div class="journey-desc">The customer reads the description and fragrance notes of products they like. If unsure, they use the Scent Finder quiz to get personalised recommendations.</div>
+        </div>
+      </div>
+      <div class="journey-arrow"></div>
+
+      <div class="journey-step">
+        <div class="journey-icon">📏</div>
+        <div>
+          <div class="journey-label">Select Size</div>
+          <div class="journey-desc">They choose their preferred size — 3ml, 6ml or 12ml for Attars; 20ml, 50ml or 100ml for Perfumes; or 10g Solid Perfume — and see the price update instantly.</div>
+        </div>
+      </div>
+      <div class="journey-arrow"></div>
+
+      <div class="journey-step">
+        <div class="journey-icon">🛒</div>
+        <div>
+          <div class="journey-label">Add to Cart</div>
+          <div class="journey-desc">They add their chosen products to the cart. They can continue browsing and add more fragrances before checking out.</div>
+        </div>
+      </div>
+      <div class="journey-arrow"></div>
+
+      <div class="journey-step">
+        <div class="journey-icon">📋</div>
+        <div>
+          <div class="journey-label">Review Order</div>
+          <div class="journey-desc">They open the cart to review all items, quantities and the total cost before deciding to proceed.</div>
+        </div>
+      </div>
+      <div class="journey-arrow"></div>
+
+      <div class="journey-step">
+        <div class="journey-icon" style="background: rgba(37,211,102,0.12); border-color: rgba(37,211,102,0.4);">💬</div>
+        <div>
+          <div class="journey-label" style="color: #25d366;">WhatsApp</div>
+          <div class="journey-desc">They tap "Order via WhatsApp." A pre-filled message with their complete order is sent directly to the business. The business owner receives a clear, ready-to-process order.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ============================================================
+     05. PRODUCT COLLECTION
+     ============================================================ -->
+<div class="section-dark">
+  <div class="page" style="padding: 0;">
+    <div class="section-tag">05</div>
+    <h2 class="section-title">Product Collection</h2>
+    <p class="section-sub">The complete catalogue that has been built into the website — 51 products across 5 categories, each with multiple size options.</p>
+
+    <div class="stat-grid" style="margin-top: 36px;">
+      <div class="stat-card">
+        <div class="stat-num">51</div>
+        <div class="stat-label">Products</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">5</div>
+        <div class="stat-label">Categories</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">7</div>
+        <div class="stat-label">Size Options</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">3</div>
+        <div class="stat-label">Product Types</div>
+      </div>
+    </div>
+
+    <h3 style="font-family: var(--font-head); font-size: 1.1rem; color: var(--gold); margin: 40px 0 16px; letter-spacing: 0.06em;">Categories Breakdown</h3>
+
+    <table class="cat-table">
+      <thead>
+        <tr>
+          <th>Category</th>
+          <th>Products</th>
+          <th>Fragrance Style</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Attars</td>
+          <td><span class="cat-count">6</span></td>
+          <td>Traditional concentrated oil-based fragrances — Musk, Chocolate, Vanilla</td>
+        </tr>
+        <tr>
+          <td>Arabic</td>
+          <td><span class="cat-count">9</span></td>
+          <td>Arabian oud, amber and oriental compositions — Oud Beauty, Royal Nights, Aseel</td>
+        </tr>
+        <tr>
+          <td>French &amp; Arabic Mix</td>
+          <td><span class="cat-count">17</span></td>
+          <td>Blends of Western and Arabian fragrance traditions — BR 540, Black Opium, Tobacco Oud</td>
+        </tr>
+        <tr>
+          <td>Floral</td>
+          <td><span class="cat-count">7</span></td>
+          <td>Rose, jasmine, lavender and feminine floral compositions</td>
+        </tr>
+        <tr>
+          <td>French</td>
+          <td><span class="cat-count">12</span></td>
+          <td>Western-inspired fragrances — Sauvage, Aventus, Aqua Gio, Eros Versace</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3 style="font-family: var(--font-head); font-size: 1.1rem; color: var(--gold); margin: 40px 0 16px; letter-spacing: 0.06em;">Available Size Options</h3>
+
+    <div class="grid-3">
+      <div class="card">
+        <div style="font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); margin-bottom: 12px;">Attars</div>
+        <div style="display: flex; flex-direction: column; gap: 8px;">
+          <div style="display: flex; justify-content: space-between; font-size: 13px; color: var(--ivory-dim); padding: 6px 0; border-bottom: 1px solid rgba(212,175,55,0.08);">
+            <span>3 ml</span><span class="cat-count">₹149</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; font-size: 13px; color: var(--ivory-dim); padding: 6px 0; border-bottom: 1px solid rgba(212,175,55,0.08);">
+            <span>6 ml</span><span class="cat-count">₹299</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; font-size: 13px; color: var(--ivory-dim); padding: 6px 0;">
+            <span>12 ml</span><span class="cat-count">₹599</span>
+          </div>
+        </div>
+        <div style="font-size: 11px; color: var(--muted); margin-top: 10px;">Arabic Attars priced from ₹199 / ₹399 / ₹799</div>
+      </div>
+
+      <div class="card">
+        <div style="font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); margin-bottom: 12px;">Perfumes</div>
+        <div style="display: flex; flex-direction: column; gap: 8px;">
+          <div style="display: flex; justify-content: space-between; font-size: 13px; color: var(--ivory-dim); padding: 6px 0; border-bottom: 1px solid rgba(212,175,55,0.08);">
+            <span>20 ml</span><span class="cat-count">from ₹349</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; font-size: 13px; color: var(--ivory-dim); padding: 6px 0; border-bottom: 1px solid rgba(212,175,55,0.08);">
+            <span>50 ml</span><span class="cat-count">from ₹599</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; font-size: 13px; color: var(--ivory-dim); padding: 6px 0;">
+            <span>100 ml</span><span class="cat-count">from ₹999</span>
+          </div>
+        </div>
+        <div style="font-size: 11px; color: var(--muted); margin-top: 10px;">Pricing varies by category and product tier</div>
+      </div>
+
+      <div class="card">
+        <div style="font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); margin-bottom: 12px;">Solid Perfumes</div>
+        <div style="display: flex; flex-direction: column; gap: 8px;">
+          <div style="display: flex; justify-content: space-between; font-size: 13px; color: var(--ivory-dim); padding: 6px 0;">
+            <span>10 g</span><span class="cat-count">₹99</span>
+          </div>
+        </div>
+        <div style="font-size: 11px; color: var(--muted); margin-top: 10px;">Solid perfume variant available on all 51 products</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ============================================================
+     06. KEY FEATURES
+     ============================================================ -->
+<div class="page">
+  <div class="section">
+    <div class="section-tag">06</div>
+    <h2 class="section-title">Key Features Overview</h2>
+    <p class="section-sub">A summary of the most important capabilities that have been built into the website — each one focused on customer experience, product discovery and ease of ordering.</p>
+
+    <div style="margin-top: 36px; display: flex; flex-direction: column; gap: 12px;">
+
+      <div style="display: flex; align-items: flex-start; gap: 16px; padding: 18px 20px; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);">
+        <div style="font-size: 22px; flex-shrink: 0; padding-top: 2px;">🏆</div>
+        <div>
+          <div class="feat-title">Luxury Brand Presentation</div>
+          <div class="feat-desc">A premium dark-and-gold design language that instantly communicates quality and elevates the brand. Every page section, heading and product card is crafted to feel upmarket and trustworthy.</div>
+        </div>
+      </div>
+
+      <div style="display: flex; align-items: flex-start; gap: 16px; padding: 18px 20px; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);">
+        <div style="font-size: 22px; flex-shrink: 0; padding-top: 2px;">🎯</div>
+        <div>
+          <div class="feat-title">Scent Finder Quiz (5 Steps)</div>
+          <div class="feat-desc">An interactive quiz guides customers through 5 questions about their mood, preferred scent family and occasion. The website then recommends the best-matching fragrances from the catalogue — turning an undecided visitor into a confident buyer.</div>
+        </div>
+      </div>
+
+      <div style="display: flex; align-items: flex-start; gap: 16px; padding: 18px 20px; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);">
+        <div style="font-size: 22px; flex-shrink: 0; padding-top: 2px;">🛒</div>
+        <div>
+          <div class="feat-title">Shopping Cart with WhatsApp Checkout</div>
+          <div class="feat-desc">Customers build their order in the cart — selecting sizes and quantities across multiple products — then send the entire order to the business via WhatsApp in one tap. The message is pre-filled with all product details automatically.</div>
+        </div>
+      </div>
+
+      <div style="display: flex; align-items: flex-start; gap: 16px; padding: 18px 20px; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);">
+        <div style="font-size: 22px; flex-shrink: 0; padding-top: 2px;">📱</div>
+        <div>
+          <div class="feat-title">Fully Mobile-First Design</div>
+          <div class="feat-desc">The website is built mobile-first, with a dedicated mobile navigation drawer, touch-friendly product cards, responsive image layouts and a smooth experience on all phone sizes. Customers on Instagram or WhatsApp can tap a link and browse instantly.</div>
+        </div>
+      </div>
+
+      <div style="display: flex; align-items: flex-start; gap: 16px; padding: 18px 20px; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);">
+        <div style="font-size: 22px; flex-shrink: 0; padding-top: 2px;">🔍</div>
+        <div>
+          <div class="feat-title">Real-Time Search and Filtering</div>
+          <div class="feat-desc">Customers can type in the search bar and results update instantly as they type. Filters allow narrowing by category, gender and collection type — making it easy to find any product in seconds across all 51 fragrances.</div>
+        </div>
+      </div>
+
+      <div style="display: flex; align-items: flex-start; gap: 16px; padding: 18px 20px; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);">
+        <div style="font-size: 22px; flex-shrink: 0; padding-top: 2px;">💫</div>
+        <div>
+          <div class="feat-title">Interactive Fragrance Experience</div>
+          <div class="feat-desc">Tapping on the screen creates a visual perfume spray particle effect. Ambient Arabian music can be toggled on for an immersive browsing atmosphere. These premium interactions create a unique brand experience that stays in the customer's memory.</div>
+        </div>
+      </div>
+
+      <div style="display: flex; align-items: flex-start; gap: 16px; padding: 18px 20px; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);">
+        <div style="font-size: 22px; flex-shrink: 0; padding-top: 2px;">📣</div>
+        <div>
+          <div class="feat-title">Announcement Bar &amp; Live Offers</div>
+          <div class="feat-desc">A scrolling announcement bar at the top of the website displays current offers — such as free delivery above ₹1,000 and starting prices for each product type — visible to every visitor without them having to search for it.</div>
+        </div>
+      </div>
+
+      <div style="display: flex; align-items: flex-start; gap: 16px; padding: 18px 20px; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);">
+        <div style="font-size: 22px; flex-shrink: 0; padding-top: 2px;">📍</div>
+        <div>
+          <div class="feat-title">Visit Us &amp; Contact Information</div>
+          <div class="feat-desc">The website includes a dedicated section with the business location, contact information and direct links to WhatsApp and Instagram — making it easy for new customers to get in touch or visit the physical store in Guntur.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ============================================================
+     07. FUTURE GROWTH OPPORTUNITIES
+     ============================================================ -->
+<div class="section-dark">
+  <div class="page" style="padding: 0;">
+    <div class="section-tag">07</div>
+    <h2 class="section-title">Future Growth Opportunities</h2>
+    <p class="section-sub">
+      The website that has been delivered today is a strong foundation. As Arabian Perfume Lab grows, additional capabilities can be added in planned phases. All items below are <strong style="color: var(--gold);">optional future enhancements</strong> — they are not currently part of the website.
+    </p>
+
+    <div style="margin: 24px 0 36px; padding: 12px 16px; border-left: 3px solid var(--gold); background: rgba(212,175,55,0.05); border-radius: 0 8px 8px 0; font-size: 13px; color: var(--muted);">
+      ⚠️ The features listed below are not currently live. They represent future investment options that can be added when the business is ready to grow further.
+    </div>
+
+    <div class="phase-list">
+
+      <div class="phase-card">
+        <div class="phase-badge">
+          <div class="phase-num">Phase 1</div>
+          <div class="phase-circle">🌐</div>
+        </div>
+        <div>
+          <div class="phase-title">Professional Brand Presence</div>
+          <ul class="phase-items">
+            <li>Custom domain name (e.g. www.arabianperfumelab.com)</li>
+            <li>Professional business email address</li>
+            <li>Branded online identity that matches business cards and social media</li>
+          </ul>
+          <span class="phase-future">Future Option</span>
+        </div>
+      </div>
+
+      <div class="phase-card">
+        <div class="phase-badge">
+          <div class="phase-num">Phase 2</div>
+          <div class="phase-circle">📊</div>
+        </div>
+        <div>
+          <div class="phase-title">Customer Insights</div>
+          <ul class="phase-items">
+            <li>Website analytics — see how many people visit</li>
+            <li>Visitor insights — which products are most viewed</li>
+            <li>Traffic sources — where customers come from</li>
+          </ul>
+          <span class="phase-future">Future Option</span>
+        </div>
+      </div>
+
+      <div class="phase-card">
+        <div class="phase-badge">
+          <div class="phase-num">Phase 3</div>
+          <div class="phase-circle">💳</div>
+        </div>
+        <div>
+          <div class="phase-title">Online Payments</div>
+          <ul class="phase-items">
+            <li>UPI payment integration (GPay, PhonePe, Paytm)</li>
+            <li>Card payments (Visa, Mastercard)</li>
+            <li>Fully online checkout — no WhatsApp required for payment</li>
+          </ul>
+          <span class="phase-future">Future Option</span>
+        </div>
+      </div>
+
+      <div class="phase-card">
+        <div class="phase-badge">
+          <div class="phase-num">Phase 4</div>
+          <div class="phase-circle">📦</div>
+        </div>
+        <div>
+          <div class="phase-title">Order Management</div>
+          <ul class="phase-items">
+            <li>Order dashboard — see and manage all incoming orders</li>
+            <li>Inventory management — track stock levels</li>
+            <li>Sales reporting — understand what is selling</li>
+          </ul>
+          <span class="phase-future">Future Option</span>
+        </div>
+      </div>
+
+      <div class="phase-card">
+        <div class="phase-badge">
+          <div class="phase-num">Phase 5</div>
+          <div class="phase-circle">🤝</div>
+        </div>
+        <div>
+          <div class="phase-title">Customer Automation</div>
+          <ul class="phase-items">
+            <li>WhatsApp Business automation</li>
+            <li>Automatic order confirmation messages to customers</li>
+            <li>Customer follow-up and notification workflows</li>
+          </ul>
+          <span class="phase-future">Future Option</span>
+        </div>
+      </div>
+
+      <div class="phase-card">
+        <div class="phase-badge">
+          <div class="phase-num">Phase 6</div>
+          <div class="phase-circle">🤖</div>
+        </div>
+        <div>
+          <div class="phase-title">AI &amp; Business Solutions</div>
+          <ul class="phase-items">
+            <li>AI fragrance assistant — customers describe what they want in natural language</li>
+            <li>AI product recommendations — personalised suggestions for each customer</li>
+            <li>AI customer support — automated answers to common questions</li>
+            <li>Automated enquiry handling — available 24/7 without business owner involvement</li>
+          </ul>
+          <span class="phase-future">Future Option</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ============================================================
+     08. INVESTMENT
+     ============================================================ -->
+<div class="page">
+  <div class="section">
+    <div class="section-tag">08</div>
+    <h2 class="section-title">Investment</h2>
+    <p class="section-sub">A transparent overview of the investment for this project.</p>
+
+    <table class="inv-table" style="margin-top: 36px;">
+      <thead>
+        <tr>
+          <th style="width: 50%;">Service</th>
+          <th>Description</th>
+          <th>Amount</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <strong style="color: var(--ivory);">Website Development</strong>
+            <div class="inv-note">Full design, development and delivery of the complete website including all features listed in this report.</div>
+          </td>
+          <td style="color: var(--muted); font-size: 13px;">One-time fee</td>
+          <td><span class="inv-price">₹[AMOUNT]</span></td>
+        </tr>
+        <tr>
+          <td>
+            <strong style="color: var(--ivory);">Optional Services</strong>
+            <div class="inv-note">Domain name registration, business email setup, analytics configuration or any Phase 1 enhancements requested at launch.</div>
+          </td>
+          <td style="color: var(--muted); font-size: 13px;">As required</td>
+          <td><span class="inv-price">₹[AMOUNT]</span></td>
+        </tr>
+        <tr>
+          <td>
+            <strong style="color: var(--ivory);">Ongoing Maintenance</strong>
+            <div class="inv-note">Monthly support including product updates, minor content changes, performance monitoring and technical assistance.</div>
+          </td>
+          <td style="color: var(--muted); font-size: 13px;">Per month</td>
+          <td><span class="inv-price">₹[AMOUNT] / month</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div style="margin-top: 24px; padding: 16px 20px; background: rgba(212,175,55,0.05); border: 1px solid rgba(212,175,55,0.2); border-radius: var(--radius); font-size: 13px; color: var(--muted);">
+      💡 All amounts are to be confirmed and agreed upon between Arabian Perfume Lab and GOLIS Technologies before final approval. Future phase enhancements are priced separately when required.
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ============================================================
+     09. NEXT STEPS
+     ============================================================ -->
+<div class="section-dark">
+  <div class="page" style="padding: 0;">
+    <div class="section-tag">09</div>
+    <h2 class="section-title">Recommended Next Steps</h2>
+    <p class="section-sub">A clear, practical action plan to get the most from this website as quickly as possible.</p>
+
+    <div class="steps-list" style="margin-top: 36px;">
+
+      <div class="step-item">
+        <div class="step-num">01</div>
+        <div class="step-text"><strong>Approve the website</strong> — Review this presentation, confirm all products and information are accurate, and give approval for the website to go live.</div>
+      </div>
+
+      <div class="step-item">
+        <div class="step-num">02</div>
+        <div class="step-text"><strong>Connect a professional domain</strong> — Register a custom domain name (e.g. arabianperfumelab.com) and point it to the website. This gives the business a permanent, branded online address.</div>
+      </div>
+
+      <div class="step-item">
+        <div class="step-num">03</div>
+        <div class="step-text"><strong>Set up a business email address</strong> — A professional email (e.g. contact@arabianperfumelab.com) builds trust and makes customer communication more organised.</div>
+      </div>
+
+      <div class="step-item">
+        <div class="step-num">04</div>
+        <div class="step-text"><strong>Add website analytics</strong> — Connect Google Analytics or a similar tool to start understanding how many people are visiting, which products they are viewing and where they are coming from.</div>
+      </div>
+
+      <div class="step-item">
+        <div class="step-num">05</div>
+        <div class="step-text"><strong>Promote through Instagram and WhatsApp</strong> — Share the website link on the Arabian Perfume Lab Instagram page and in WhatsApp status updates. Encourage customers to browse before ordering.</div>
+      </div>
+
+      <div class="step-item">
+        <div class="step-num">06</div>
+        <div class="step-text"><strong>Monitor customer enquiries</strong> — Track how many orders are coming through WhatsApp from the website and note which products customers ask about most frequently.</div>
+      </div>
+
+      <div class="step-item">
+        <div class="step-num">07</div>
+        <div class="step-text"><strong>Consider online payments and order management as the business grows</strong> — Once the website is established and generating regular enquiries, Phase 3 (Online Payments) and Phase 4 (Order Management) are recommended as natural next investments.</div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ============================================================
+     10. CLOSING MESSAGE
+     ============================================================ -->
+<div class="closing">
+  <div class="page" style="padding: 0;">
+    <h2 class="closing-title">Your Digital Presence<br>Is Just the Beginning.</h2>
+    <p class="closing-body">
+      Arabian Perfume Lab now has a strong digital foundation — a professional, premium website that showcases the brand, presents the full collection and makes it easy for customers to discover, explore and order. This is not just a website. It is the beginning of a complete digital presence that can grow alongside the business.
+    </p>
+    <p class="closing-body" style="margin-top: -16px;">
+      As Arabian Perfume Lab expands — whether through a wider product range, more customers or new markets — the website is built to scale. Every future capability described in this report can be added when the time is right, without rebuilding from the ground up.
+    </p>
+    <p class="closing-body" style="margin-top: -16px; font-style: italic; color: var(--gold);">
+      "The first step online has been taken. Every step that follows will be built on this foundation."
+    </p>
+
+    <div class="closing-golis">
+      <div class="closing-golis-name">GOLIS Technologies</div>
+      <div class="closing-services">AI &nbsp;•&nbsp; Software &nbsp;•&nbsp; Automation &nbsp;•&nbsp; Digital Solutions</div>
+      <div class="closing-motto">"Make Your Business Smarter."</div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ============================================================
+     TECHNICAL APPENDIX
+     ============================================================ -->
+<div class="page">
+  <div class="appendix-section">
+    <div class="section-tag" style="margin-top: 32px;">Appendix A</div>
+    <h2 class="section-title" style="font-size: 1.7rem; margin-bottom: 24px;">Technical Appendix</h2>
+    <p class="section-sub" style="margin-bottom: 40px;">
+      This section contains developer-focused technical information about the website's architecture, stack and deployment. It is included for reference and is not required reading for the business owner.
+    </p>
+
+    <div class="appendix-title">Technology Stack</div>
+    <div class="tech-row"><span class="tech-key">Frontend</span><span class="tech-val">Pure HTML5, CSS3, Vanilla JavaScript (ES6+) — no frameworks, no build tools required. Runs entirely in the browser.</span></div>
+    <div class="tech-row"><span class="tech-key">Styling</span><span class="tech-val">Modular CSS with design tokens (CSS custom properties). Separate files: style.css, responsive.css.</span></div>
+    <div class="tech-row"><span class="tech-key">Icons</span><span class="tech-val">Lucide icon library (v1.44.0) — inlined as SVG sprite for offline and CSP-compliant use.</span></div>
+    <div class="tech-row"><span class="tech-key">Fonts</span><span class="tech-val">Cormorant Garamond, Cinzel, Montserrat, Alex Brush, Noto Naskh Arabic — self-hosted for privacy and performance.</span></div>
+    <div class="tech-row"><span class="tech-key">Product Data</span><span class="tech-val">products.js — single source of truth. 51 products, 5 categories, fully typed with composite variant keys (attar:3ml, perfume:50ml, solid:10g).</span></div>
+    <div class="tech-row"><span class="tech-key">Cart Module</span><span class="tech-val">cart.js — local state management with event-driven updates. Persists across page reload via localStorage.</span></div>
+    <div class="tech-row"><span class="tech-key">WhatsApp Integration</span><span class="tech-val">whatsapp.js — generates pre-formatted WhatsApp messages from cart contents. Links to wa.me/919030547400.</span></div>
+    <div class="tech-row"><span class="tech-key">Scent Finder</span><span class="tech-val">5-step interactive quiz. Matches user preferences (mood, notes, occasion) against product note arrays using a scoring algorithm in app.js.</span></div>
+    <div class="tech-row"><span class="tech-key">Media</span><span class="tech-val">arabian-ambient.mp3 — ambient background audio. Muted by default. User-toggled.</span></div>
+    <div class="tech-row"><span class="tech-key">Product Images</span><span class="tech-val">High-resolution PNG images per variant type: Attar-3ml.png, Attar-6ml.png, Attar-12ml.png, Perfume-20ml.png, Perfume-50ml.png, Perfume-100ml.png, Solid-Perfumes.png.</span></div>
+    <div class="tech-row"><span class="tech-key">Standalone Version</span><span class="tech-val">index_standalone.html — fully self-contained single-file build with all assets inlined (approx. 597 KB).</span></div>
+
+    <div class="appendix-title" style="margin-top: 40px;">Hosting &amp; Deployment</div>
+    <div class="tech-row"><span class="tech-key">Hosting Platforms</span><span class="tech-val">Configured for Netlify, Vercel and Render.com — all three platform configs are included (netlify.toml, vercel.json, render.yaml).</span></div>
+    <div class="tech-row"><span class="tech-key">Deployment Type</span><span class="tech-val">Static site — no server, no database, no backend. Zero runtime cost on free hosting tiers.</span></div>
+    <div class="tech-row"><span class="tech-key">CDN</span><span class="tech-val">Automatic global CDN via Netlify / Vercel / Render edge network. Fast load times worldwide.</span></div>
+    <div class="tech-row"><span class="tech-key">Version Control</span><span class="tech-val">Git repository. Branch: master. Untracked new files include product CSV/TSV/XLSX exports and generate_excel_export.js.</span></div>
+
+    <div class="appendix-title" style="margin-top: 40px;">Security Implementation</div>
+    <div class="tech-row"><span class="tech-key">Content Security Policy</span><span class="tech-val">Strict CSP headers restrict scripts, styles and images to approved sources only. Applied at host level (netlify.toml, vercel.json, render.yaml) and as meta fallback.</span></div>
+    <div class="tech-row"><span class="tech-key">X-Frame-Options</span><span class="tech-val">DENY — prevents the website from being embedded in iframes (clickjacking protection).</span></div>
+    <div class="tech-row"><span class="tech-key">HSTS</span><span class="tech-val">Strict-Transport-Security: max-age=31536000 with includeSubDomains and preload.</span></div>
+    <div class="tech-row"><span class="tech-key">Referrer Policy</span><span class="tech-val">strict-origin-when-cross-origin — protects customer privacy on external links.</span></div>
+    <div class="tech-row"><span class="tech-key">Permissions Policy</span><span class="tech-val">Camera, microphone, geolocation and payment APIs are all explicitly disabled.</span></div>
+    <div class="tech-row"><span class="tech-key">MIME Sniffing</span><span class="tech-val">X-Content-Type-Options: nosniff — prevents browser MIME-type sniffing attacks.</span></div>
+    <div class="tech-row"><span class="tech-key">No eval() / XSS Risk</span><span class="tech-val">No inline event handlers, no eval(), no new Function(). All DOM manipulation uses safe APIs only.</span></div>
+
+    <div class="appendix-title" style="margin-top: 40px;">Product Data Exports</div>
+    <div class="tech-row"><span class="tech-key">CSV Export</span><span class="tech-val">Arabian_Perfume_Lab_Products.csv — full product catalogue with pricing, categories, sizes and fragrance notes.</span></div>
+    <div class="tech-row"><span class="tech-key">TSV Export</span><span class="tech-val">Arabian_Perfume_Lab_Products.tsv — tab-separated format for spreadsheet import.</span></div>
+    <div class="tech-row"><span class="tech-key">Excel Export</span><span class="tech-val">Arabian_Perfume_Lab_Products.xlsx — formatted Excel workbook of the full catalogue.</span></div>
+    <div class="tech-row"><span class="tech-key">Generator Script</span><span class="tech-val">generate_excel_export.js — Node.js script that produces the above exports from the products.js source data.</span></div>
+
+    <div class="appendix-title" style="margin-top: 40px;">Technical Architecture Summary</div>
+    <div style="padding: 20px; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); font-size: 13px; color: var(--muted); line-height: 1.9; font-family: monospace;">
+      Browser (User Device)<br>
+      &nbsp;&nbsp;└── index.html (entry point)<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── css/style.css &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(design system, layout, components)<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── css/responsive.css &nbsp;(mobile breakpoints)<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── js/config.js &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(site configuration)<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── js/products.js &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(51 products, pricing, variant data)<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── js/cart.js &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(cart state, localStorage persistence)<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── js/whatsapp.js &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(order message generation)<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── js/app.js &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(all UI logic, scent quiz, search, filters)<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── js/hand-control.js &nbsp;(hand gesture interaction — experimental)<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── assets/<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── images/products/ (product images, logo)<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── icons/icons.svg &nbsp;(SVG sprite)<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── audio/ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(arabian-ambient.mp3)
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     PAGE FOOTER
+     ============================================================ -->
+<div class="page-footer">
+  <strong>GOLIS Technologies</strong> &nbsp;·&nbsp;
+  AI • Software • Automation • Digital Solutions &nbsp;·&nbsp;
+  "Make Your Business Smarter." &nbsp;·&nbsp;
+  Prepared for Arabian Perfume Lab &nbsp;·&nbsp;
+  Confidential
+  <br><br>
+  <span style="color: var(--bg-card2);">Made with IBM Bob</span>
+</div>
+
+</div><!-- /page -->
+</body>
+</html>

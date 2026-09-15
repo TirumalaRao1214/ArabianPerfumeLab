@@ -1063,6 +1063,15 @@ function renderCartContents() {
 
     const totalEl = document.getElementById('cart-total-amount');
     if (totalEl) totalEl.textContent = formatINR(total);
+
+    // Free-delivery progress banner — updates live on every cart change
+    const bannerEl = document.getElementById('cart-delivery-banner');
+    if (bannerEl && typeof Checkout !== 'undefined') {
+        const msg    = Checkout.deliveryMessage(total);
+        const isFree = Checkout.calcDelivery(total) === 0;
+        bannerEl.textContent = msg;
+        bannerEl.className   = 'cart-delivery-banner' + (isFree ? ' is-free' : '');
+    }
 }
 
 /* ==========================================================================
