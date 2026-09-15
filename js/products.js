@@ -1,5 +1,5 @@
 /**
- * Arabian Perfume Lab — Product Catalogue (v5)
+ * Arabian Perfume Lab — Product Catalogue (v6)
  *
  * SINGLE SOURCE OF TRUTH for all product data including prices.
  * The cart module reads prices exclusively from here.
@@ -10,7 +10,7 @@
  *   category {string}  One of: "Attars" | "Arabic" | "French & Arabic Mix" | "Floral" | "French"
  *   notes    {string[]} Fragrance note tags (used by scent quiz)
  *   description {string}
- *   sizes    {object}  Composite variant keys → { type, label, price, scale }
+ *   sizes    {object}  Composite variant keys → { type, label, price }
  *
  * Composite variant key format:  "type:sizeLabel"
  *   attar:3ml | attar:6ml | attar:12ml
@@ -20,35 +20,55 @@
  * The cart stores: { id, size (composite key), qty }
  * Cart price is looked up as: product.sizes[size].price
  *
- * Image is determined at render-time by selected variant type:
- *   attar   → assets/images/products/attar-bottle.png
- *   perfume → assets/images/products/perfume-bottle.png
- *   solid   → assets/images/products/Body-cream.png
+ * Image is determined at render-time by selected variant composite key:
+ *   attar:3ml   → assets/images/products/Attar-3ml.png
+ *   attar:6ml   → assets/images/products/Attar-6ml.png
+ *   attar:12ml  → assets/images/products/Attar-12ml.png
+ *   perfume:20ml → assets/images/products/perfume-20ml.png
+ *   perfume:50ml → assets/images/products/perfume-50ml.png
+ *   perfume:100ml → assets/images/products/perfume-100ml.png
+ *   solid:10g   → assets/images/products/Solid-Perfumes.png
  *
- * Scale is determined by variant.scale property.
+ * Each variant key maps directly to its own individual image file.
+ * No sprite cropping, no background-position, no scale transforms.
  */
 
-/* ---------- Image path lookup ---------- */
-const PRODUCT_IMAGES = Object.freeze({
-    attar:       'assets/images/products/attar-bottle.png',
-    perfume:     'assets/images/products/perfume-bottle.png',
-    solid:       'assets/images/products/Body-cream.png',
-    placeholder: 'assets/images/products/placeholder.svg'
+/* ---------- Individual bottle image map ---------- */
+const BOTTLE_IMAGES = Object.freeze({
+    'attar:3ml':    'assets/images/products/Attar-3ml.png',
+    'attar:6ml':    'assets/images/products/Attar-6ml.png',
+    'attar:12ml':   'assets/images/products/Attar-12ml.png',
+    'perfume:20ml': 'assets/images/products/Perfume-20ml.png',
+    'perfume:50ml': 'assets/images/products/Perfume-50ml.png',
+    'perfume:100ml':'assets/images/products/Perfume-100ml.png',
+    'solid:10g':    'assets/images/Body-cream.png'
 });
 
-/** Return the image path for the given type ('attar'|'perfume'|'solid') */
-function getProductImage(type) {
-    return PRODUCT_IMAGES[type] || PRODUCT_IMAGES.placeholder;
+/**
+ * Return the image path for a given composite size key (or type + sizeKey).
+ * Accepts both composite keys ('attar:3ml') and separate type + bare key ('attar', '3ml').
+ * Falls back to a placeholder if the key is not recognised.
+ *
+ * @param {string} typeOrComposite  - 'attar' | 'perfume' | 'solid'  OR composite key 'attar:3ml'
+ * @param {string} [sizeKey]        - composite key 'attar:3ml' or bare key '3ml' (optional)
+ * @returns {string} image src path
+ */
+function getBottleImage(typeOrComposite, sizeKey) {
+    // Normalise: accept composite key in either argument
+    let composite = sizeKey
+        ? (sizeKey.includes(':') ? sizeKey : typeOrComposite + ':' + sizeKey)
+        : typeOrComposite;
+    return BOTTLE_IMAGES[composite] || 'assets/images/products/Attar-3ml.png';
 }
 
-/** Return the CSS scale for the given type + bare sizeKey (e.g. "3ml", "50ml") */
-function getImageScale(type, sizeKey) {
-    const scales = {
-        attar:   { '3ml': 0.70, '6ml': 0.85, '12ml': 1.00 },
-        perfume: { '20ml': 0.70, '50ml': 0.85, '100ml': 1.00 },
-        solid:   { '10g': 1.00 }
+/** Returns the image src for a product type's default (smallest) variant */
+function getProductImage(type) {
+    const defaults = {
+        attar:   'assets/images/products/Attar-3ml.png',
+        perfume: 'assets/images/products/Perfume-20ml.png',
+        solid:   'assets/images/Body-cream.png'
     };
-    return (scales[type] && scales[type][sizeKey]) || 1.00;
+    return defaults[type] || 'assets/images/products/Attar-3ml.png';
 }
 
 /* =============================================================
@@ -59,68 +79,68 @@ function getImageScale(type, sizeKey) {
 
 /* ---- Attars category ---- */
 const ATTAR_ATTARS  = () => ({
-    'attar:3ml':  { type:'attar',   label:'3 ml',   price:149,  scale:0.70 },
-    'attar:6ml':  { type:'attar',   label:'6 ml',   price:299,  scale:0.85 },
-    'attar:12ml': { type:'attar',   label:'12 ml',  price:599,  scale:1.00 }
+    'attar:3ml':  { type:'attar',   label:'3 ml',   price:149 },
+    'attar:6ml':  { type:'attar',   label:'6 ml',   price:299 },
+    'attar:12ml': { type:'attar',   label:'12 ml',  price:599 }
 });
 const PERF_ATTARS   = () => ({
-    'perfume:20ml':  { type:'perfume', label:'20 ml',  price:349,  scale:0.70 },
-    'perfume:50ml':  { type:'perfume', label:'50 ml',  price:599,  scale:0.85 },
-    'perfume:100ml': { type:'perfume', label:'100 ml', price:999,  scale:1.00 }
+    'perfume:20ml':  { type:'perfume', label:'20 ml',  price:349 },
+    'perfume:50ml':  { type:'perfume', label:'50 ml',  price:599 },
+    'perfume:100ml': { type:'perfume', label:'100 ml', price:999 }
 });
 
 /* ---- Arabic category ---- */
 const ATTAR_ARABIC  = () => ({
-    'attar:3ml':  { type:'attar',   label:'3 ml',   price:199,  scale:0.70 },
-    'attar:6ml':  { type:'attar',   label:'6 ml',   price:399,  scale:0.85 },
-    'attar:12ml': { type:'attar',   label:'12 ml',  price:799,  scale:1.00 }
+    'attar:3ml':  { type:'attar',   label:'3 ml',   price:199 },
+    'attar:6ml':  { type:'attar',   label:'6 ml',   price:399 },
+    'attar:12ml': { type:'attar',   label:'12 ml',  price:799 }
 });
 const PERF_ARABIC   = () => ({
-    'perfume:20ml':  { type:'perfume', label:'20 ml',  price:499,  scale:0.70 },
-    'perfume:50ml':  { type:'perfume', label:'50 ml',  price:999,  scale:0.85 },
-    'perfume:100ml': { type:'perfume', label:'100 ml', price:1899, scale:1.00 }
+    'perfume:20ml':  { type:'perfume', label:'20 ml',  price:499 },
+    'perfume:50ml':  { type:'perfume', label:'50 ml',  price:999 },
+    'perfume:100ml': { type:'perfume', label:'100 ml', price:1899 }
 });
 
 /* ---- French & Arabic Mix category ---- */
 const ATTAR_FA      = () => ({
-    'attar:3ml':  { type:'attar',   label:'3 ml',   price:149,  scale:0.70 },
-    'attar:6ml':  { type:'attar',   label:'6 ml',   price:299,  scale:0.85 },
-    'attar:12ml': { type:'attar',   label:'12 ml',  price:599,  scale:1.00 }
+    'attar:3ml':  { type:'attar',   label:'3 ml',   price:149 },
+    'attar:6ml':  { type:'attar',   label:'6 ml',   price:299 },
+    'attar:12ml': { type:'attar',   label:'12 ml',  price:599 }
 });
 const PERF_FA       = () => ({
-    'perfume:20ml':  { type:'perfume', label:'20 ml',  price:499,  scale:0.70 },
-    'perfume:50ml':  { type:'perfume', label:'50 ml',  price:999,  scale:0.85 },
-    'perfume:100ml': { type:'perfume', label:'100 ml', price:1599, scale:1.00 }
+    'perfume:20ml':  { type:'perfume', label:'20 ml',  price:499 },
+    'perfume:50ml':  { type:'perfume', label:'50 ml',  price:999 },
+    'perfume:100ml': { type:'perfume', label:'100 ml', price:1599 }
 });
 
 /* ---- Floral category ---- */
 const ATTAR_FLORAL  = () => ({
-    'attar:3ml':  { type:'attar',   label:'3 ml',   price:199,  scale:0.70 },
-    'attar:6ml':  { type:'attar',   label:'6 ml',   price:399,  scale:0.85 },
-    'attar:12ml': { type:'attar',   label:'12 ml',  price:799,  scale:1.00 }
+    'attar:3ml':  { type:'attar',   label:'3 ml',   price:199 },
+    'attar:6ml':  { type:'attar',   label:'6 ml',   price:399 },
+    'attar:12ml': { type:'attar',   label:'12 ml',  price:799 }
 });
 const PERF_FLORAL   = () => ({
-    'perfume:20ml':  { type:'perfume', label:'20 ml',  price:499,  scale:0.70 },
-    'perfume:50ml':  { type:'perfume', label:'50 ml',  price:899,  scale:0.85 },
-    'perfume:100ml': { type:'perfume', label:'100 ml', price:1599, scale:1.00 }
+    'perfume:20ml':  { type:'perfume', label:'20 ml',  price:499 },
+    'perfume:50ml':  { type:'perfume', label:'50 ml',  price:899 },
+    'perfume:100ml': { type:'perfume', label:'100 ml', price:1599 }
 });
 
 /* ---- French category ---- */
 const ATTAR_FRENCH  = () => ({
-    'attar:3ml':  { type:'attar',   label:'3 ml',   price:149,  scale:0.70 },
-    'attar:6ml':  { type:'attar',   label:'6 ml',   price:299,  scale:0.85 },
-    'attar:12ml': { type:'attar',   label:'12 ml',  price:599,  scale:1.00 }
+    'attar:3ml':  { type:'attar',   label:'3 ml',   price:149 },
+    'attar:6ml':  { type:'attar',   label:'6 ml',   price:299 },
+    'attar:12ml': { type:'attar',   label:'12 ml',  price:599 }
 });
 const PERF_FRENCH   = () => ({
-    'perfume:20ml':  { type:'perfume', label:'20 ml',  price:499,  scale:0.70 },
-    'perfume:50ml':  { type:'perfume', label:'50 ml',  price:999,  scale:0.85 },
-    'perfume:100ml': { type:'perfume', label:'100 ml', price:1599, scale:1.00 }
+    'perfume:20ml':  { type:'perfume', label:'20 ml',  price:499 },
+    'perfume:50ml':  { type:'perfume', label:'50 ml',  price:999 },
+    'perfume:100ml': { type:'perfume', label:'100 ml', price:1599 }
 });
 
 /** Merge variant presets and append the solid variant */
 function _sz(...partials) {
     const merged = Object.assign({}, ...partials);
-    merged['solid:10g'] = { type:'solid', label:'10g', price:99, scale:1.00 };
+    merged['solid:10g'] = { type:'solid', label:'10g', price:99 };
     return Object.freeze(merged);
 }
 

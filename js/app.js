@@ -35,6 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initNavWhatsApp();
     initScentFinderQuiz();    // 5-step scent quiz with product recommendations
     initSprayEffect();        // perfume spray particles on click
+    initBackgroundMusic();    // ambient audio toggle
 
     Cart.onChange(updateAllCartIndicators);
     updateAllCartIndicators();
@@ -444,20 +445,15 @@ function buildProductCard(product, index) {
     qvBtn.appendChild(buildIcon('eye'));
     imgContainer.appendChild(qvBtn);
 
-    const img = document.createElement('img');
-    img.className = 'product-img-bottle';
-    img.alt = product.name;
-    img.loading = 'lazy';
-    img.width = 200;
-    img.height = 260;
+    const bottleImg = document.createElement('img');
+    bottleImg.className = 'product-img-bottle';
+    bottleImg.alt = product.name;
 
     function _updateImage() {
-        img.src = getProductImage(selType);
-        const scale = selVariant ? selVariant.scale : 1;
-        img.style.transform = 'scale(' + scale + ')';
+        bottleImg.src = getBottleImage(selType, selKey);
     }
     _updateImage();
-    imgContainer.appendChild(img);
+    imgContainer.appendChild(bottleImg);
 
     /* ---- Body ---- */
     const body = document.createElement('div');
@@ -702,8 +698,7 @@ function openProductModal(productId, preferredSize) {
     const qtyNumEl = document.getElementById('modal-qty-num');
 
     // Populate basic fields
-    imgEl.alt   = product.name;
-    imgEl.onerror = () => { imgEl.src = Cart.getPlaceholderImage(); };
+    imgEl.alt = product.name;
 
     nameEl.textContent  = product.name;
     concEl.textContent  = product.category || '';
@@ -711,11 +706,9 @@ function openProductModal(productId, preferredSize) {
     descEl.textContent  = product.description || '';
     qtyNumEl.textContent = '1';
 
-    // Update image + scale (called whenever type/size changes)
+    // Update bottle image (called whenever type/size changes)
     function _modalUpdateImage() {
-        const v = product.sizes[_modalSize];
-        imgEl.src = getProductImage(_modalType);
-        imgEl.style.transform = 'scale(' + (v ? v.scale : 1) + ')';
+        imgEl.src = getBottleImage(_modalType, _modalSize);
     }
     _modalUpdateImage();
 
@@ -974,11 +967,14 @@ function renderCartContents() {
         const row = document.createElement('div');
         row.className = 'cart-item';
 
-        // Thumbnail — use type-based image
+        // Thumbnail — show the exact bottle for the selected size
         const thumbWrap = document.createElement('div');
         thumbWrap.className = 'cart-item-img-wrap';
-        const thumbType = size ? size.split(':')[0] : 'attar';
-        thumbWrap.appendChild(buildImg(getProductImage(thumbType), product.name, 64, 80, 'cart-item-img'));
+        const thumbImg = document.createElement('img');
+        thumbImg.className = 'product-img-bottle cart-item-img';
+        thumbImg.alt = product.name;
+        thumbImg.src = getBottleImage(size);
+        thumbWrap.appendChild(thumbImg);
         row.appendChild(thumbWrap);
 
         // Info
@@ -1722,12 +1718,17 @@ function showQuizResults() {
         rank.textContent = i === 0 ? '★ TOP MATCH' : '#' + (i + 1);
         card.appendChild(rank);
 
-        // Image — use the first non-solid type for the quiz result card
+        // Image — use the first non-solid type for the quiz result card (default to smallest size)
         const imgWrap = document.createElement('div');
         imgWrap.className = 'quiz-result-img-wrap';
         const _qType = firstType(product);
-        const img = buildImg(getProductImage(_qType), product.name, 200, 260, 'quiz-result-img');
-        imgWrap.appendChild(img);
+        const _qFirstVariants = getVariantsForType(product, _qType);
+        const _qKey = _qFirstVariants.length ? _qFirstVariants[0].key : (_qType + ':3ml');
+        const quizBottleImg = document.createElement('img');
+        quizBottleImg.className = 'product-img-bottle quiz-result-img';
+        quizBottleImg.alt = product.name;
+        quizBottleImg.src = getBottleImage(_qType, _qKey);
+        imgWrap.appendChild(quizBottleImg);
         card.appendChild(imgWrap);
 
         // Info
@@ -1918,4 +1919,50 @@ function initSprayEffect() {
         // Remove from DOM after animation completes
         setTimeout(() => el.remove(), delay + duration + 100);
     }
+}
+
+/* ==========================================================================
+   BACKGROUND MUSIC
+   - Starts muted/paused (browser autoplay policy)
+   - User toggles with the nav Music button
+   - Preference persisted in localStorage (key: 'apl_music')
+   ========================================================================== */
+function initBackgroundMusic() {
+    const audio = document.getElementById('bg-music');
+    const btn   = document.getElementById('music-toggle-btn');
+    if (!audio || !btn) return;
+
+    // Low ambient volume
+    audio.volume = 0.18;
+
+    // Restore saved preference (default: off)
+    const saved = localStorage.getItem('apl_music');
+    let   playing = saved === 'on';
+
+    function _applyState() {
+        if (playing) {
+            audio.play().catch(() => {
+                // Browser blocked autoplay — silently fall back to muted state
+                playing = false;
+                _applyState();
+            });
+            btn.setAttribute('aria-label',   'Disable background music');
+            btn.setAttribute('aria-pressed', 'true');
+            btn.classList.remove('is-muted');
+        } else {
+            audio.pause();
+            btn.setAttribute('aria-label',   'Enable background music');
+            btn.setAttribute('aria-pressed', 'false');
+            btn.classList.add('is-muted');
+        }
+        localStorage.setItem('apl_music', playing ? 'on' : 'off');
+    }
+
+    btn.addEventListener('click', () => {
+        playing = !playing;
+        _applyState();
+    });
+
+    // Initialise visual state immediately; attempt play if saved pref was 'on'
+    _applyState();
 }

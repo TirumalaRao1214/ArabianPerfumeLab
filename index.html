@@ -169,6 +169,19 @@
         <span class="btn-label">Cart</span>
         <span class="cart-count" id="cart-count" aria-live="polite" aria-atomic="true">0</span>
       </button>
+      <button class="nav-action-btn music-btn"
+              id="music-toggle-btn"
+              aria-label="Enable background music"
+              aria-pressed="false">
+        <svg class="icon music-icon-on" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>
+        </svg>
+        <svg class="icon music-icon-off" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>
+          <line x1="2" y1="2" x2="22" y2="22"/>
+        </svg>
+        <span class="btn-label">Music</span>
+      </button>
     </div>
 
   </div>
@@ -576,8 +589,8 @@
         <!-- Card 1 — Attars -->
         <div class="promo-card">
           <div class="promo-card-img-wrap">
-            <img src="assets/images/products/attar-bottle.png"
-                 alt="Attar bottle"
+            <img src="assets/images/Attar-bottles.png"
+                 alt="Attar bottles"
                  class="promo-card-img"
                  loading="lazy">
           </div>
@@ -592,8 +605,8 @@
         <!-- Card 2 — Perfumes -->
         <div class="promo-card">
           <div class="promo-card-img-wrap">
-            <img src="assets/images/products/perfume-bottle.png"
-                 alt="Perfume bottle"
+            <img src="assets/images/Perfume-bottles.png"
+                 alt="Perfume bottles"
                  class="promo-card-img"
                  loading="lazy">
           </div>
@@ -1672,12 +1685,9 @@
       <!-- Image -->
       <div class="modal-img-side">
         <img id="modal-img"
+             class="product-img-bottle modal-bottle-viewport"
              src=""
-             alt=""
-             class="modal-img"
-             loading="lazy"
-             width="380"
-             height="500">
+             alt="Product image">
       </div>
 
       <!-- Info -->
@@ -1818,6 +1828,11 @@
 <!-- ============================================================
      SCRIPTS — local only, loaded in dependency order
      ============================================================ -->
+<!-- Background ambient audio -->
+<audio id="bg-music" loop preload="metadata">
+  <source src="assets/audio/arabian-ambient.mp3" type="audio/mpeg">
+</audio>
+
 <script src="js/config.js"></script>
 <script src="js/products.js"></script>
 <script src="js/cart.js"></script>

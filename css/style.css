@@ -530,6 +530,18 @@ ul, ol { list-style: none; }
 }
 .nav-action-btn .icon { width: 16px; height: 16px; }
 
+/* Music toggle button */
+.music-btn .music-icon-off { display: none; }
+.music-btn.is-muted .music-icon-on  { display: none; }
+.music-btn.is-muted .music-icon-off { display: block; }
+.music-btn.is-muted {
+    color: var(--c-ivory-dim);
+}
+.music-btn[aria-pressed="true"] {
+    color: var(--c-gold);
+    border-color: var(--c-border-sub);
+}
+
 .cart-btn {
     position: relative;
 }
@@ -1293,13 +1305,9 @@ ul, ol { list-style: none; }
     background: var(--c-amber);
     position: relative;
     min-height: 420px;
+    display: flex;
 }
-.modal-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
-}
+/* .modal-img is now an <img class="product-img-bottle"> — object-fit:contain handles sizing */
 
 .modal-info-side {
     padding: var(--sp-2xl) var(--sp-2xl) var(--sp-xl);
@@ -1536,10 +1544,10 @@ ul, ol { list-style: none; }
     background: var(--c-amber);
     flex-shrink: 0;
 }
+/* cart thumbnail img — size is fixed by the wrap, object-fit ensures no distortion */
 .cart-item-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+    object-fit: contain;
+    object-position: center;
 }
 .cart-item-info { display: flex; flex-direction: column; gap: 5px; }
 .cart-item-name {
@@ -2880,21 +2888,17 @@ ul, ol { list-style: none; }
 .promo-card-img-wrap {
     width: 100%;
     height: 220px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    overflow: hidden;
     background: radial-gradient(ellipse at 50% 60%, rgba(212,175,55,0.06) 0%, transparent 70%),
                 linear-gradient(180deg, #1a1b1d 0%, #101214 100%);
-    padding: var(--sp-lg) var(--sp-xl);
     flex-shrink: 0;
 }
 
 .promo-card-img {
-    max-height: 180px;
-    max-width: 100%;
-    width: auto;
-    height: auto;
-    object-fit: contain;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
     display: block;
     filter: drop-shadow(0 6px 18px rgba(0,0,0,0.55));
     transition: transform 0.35s ease;
@@ -3569,10 +3573,10 @@ ul, ol { list-style: none; }
     overflow: hidden;
     background: var(--c-amber);
 }
+/* quiz result bottle image */
 .quiz-result-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+    object-fit: contain;
+    object-position: center;
 }
 
 .quiz-result-info {
@@ -3633,30 +3637,27 @@ ul, ol { list-style: none; }
 .quiz-retake-btn:hover { color: var(--c-gold); }
 
 /* ==========================================================================
-   V4 PRODUCT CARD — Variant-based type/size selectors + image scaling
+   V4 PRODUCT CARD — Variant-based type/size selectors + bottle-crop images
    ========================================================================== */
 
-/* Fixed-height image container — card never jumps when bottle scale changes */
+/* Fixed-height image container — height stays constant across all sizes */
 .product-img-container {
     position: relative;
     height: 260px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     overflow: hidden;
     background:
         radial-gradient(circle at 50% 60%, rgba(212,175,55,0.06) 0%, transparent 55%),
         linear-gradient(180deg, #151719 0%, #101214 100%);
 }
 
-/* The bottle image itself — scales via JS transform, transitions smoothly */
+/* Individual bottle image — one file per variant, no sprite cropping */
 .product-img-bottle {
-    max-width: 85%;
-    max-height: 85%;
+    width: 100%;
+    height: 100%;
     object-fit: contain;
-    transition: transform 0.25s ease;
-    transform-origin: center center;
+    object-position: center;
     display: block;
+    transition: opacity 0.15s ease;
 }
 
 /* Type selector row */
@@ -3699,13 +3700,9 @@ ul, ol { list-style: none; }
     margin-top: 6px;
 }
 
-/* Modal image — same scale transition */
-.modal-img {
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain;
-    transition: transform 0.25s ease;
-    transform-origin: center center;
+/* Modal bottle image — fills the modal-img-side panel */
+.modal-bottle-viewport {
+    min-height: 360px;
 }
 
 /* Make the modal-size-container scroll-friendly for the expanded selectors */
