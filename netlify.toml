@@ -1,4 +1,4 @@
-# Arabian Perfume Lab � Netlify configuration
+# Arabian Perfume Lab — Netlify configuration
 
 [build]
   publish = "."
@@ -6,9 +6,11 @@
 [[headers]]
   for = "/*"
   [headers.values]
-    Content-Security-Policy    = "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data: https://lh3.googleusercontent.com https://encrypted-tbn0.gstatic.com https://images.unsplash.com https://plus.unsplash.com https://images.pexels.com; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none';"
-    X-Content-Type-Options     = "nosniff"
-    X-Frame-Options            = "DENY"
-    Referrer-Policy            = "strict-origin-when-cross-origin"
-    Permissions-Policy         = "camera=(), microphone=(), geolocation=(), payment=()"
-    Cross-Origin-Opener-Policy = "same-origin"
+    Content-Security-Policy      = "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://lh3.googleusercontent.com https://encrypted-tbn0.gstatic.com https://images.unsplash.com https://plus.unsplash.com https://images.pexels.com; font-src 'self'; connect-src 'self'; media-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none';"
+    X-Content-Type-Options       = "nosniff"
+    X-Frame-Options              = "DENY"
+    Referrer-Policy              = "strict-origin-when-cross-origin"
+    Permissions-Policy           = "camera=(), microphone=(), geolocation=(), payment=()"
+    Cross-Origin-Opener-Policy   = "same-origin"
+    Cross-Origin-Resource-Policy = "same-origin"
+    Strict-Transport-Security    = "max-age=31536000; includeSubDomains; preload"
