@@ -1635,12 +1635,22 @@
 
   <!-- Footer with total and actions -->
   <div class="cart-foot" id="cart-foot" style="display:none;">
-    <!-- Free delivery progress bar -->
+    <!-- Free delivery progress banner -->
     <p class="cart-delivery-banner" id="cart-delivery-banner" aria-live="polite"></p>
 
     <div class="cart-total-row">
       <span class="cart-total-label">Subtotal</span>
       <span class="cart-total-amount" id="cart-total-amount">₹0</span>
+    </div>
+
+    <div class="cart-total-row cart-delivery-row" id="cart-delivery-row" style="display:none;">
+      <span class="cart-total-label">Delivery</span>
+      <span class="cart-total-amount cart-delivery-amount" id="cart-delivery-amount">₹99</span>
+    </div>
+
+    <div class="cart-total-row cart-grand-total-row" id="cart-grand-total-row" style="display:none;">
+      <span class="cart-total-label cart-grand-total-label">Total</span>
+      <span class="cart-total-amount cart-grand-total-amount" id="cart-grand-total-amount">₹0</span>
     </div>
 
     <p class="cart-disclaimer">
@@ -1882,6 +1892,15 @@
         </div>
 
       </form>
+
+      <!-- Cart subtotal + delivery preview before user reviews order -->
+      <div class="checkout-cart-preview" id="checkout-cart-preview">
+        <p class="checkout-cart-preview-banner" id="checkout-details-delivery-banner" aria-live="polite"></p>
+        <div class="checkout-cart-preview-row">
+          <span>Subtotal</span>
+          <span id="checkout-details-subtotal">₹0</span>
+        </div>
+      </div>
 
       <div class="checkout-actions">
         <button class="btn btn-gold btn-full" id="checkout-review-btn">

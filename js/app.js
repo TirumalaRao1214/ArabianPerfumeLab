@@ -1064,13 +1064,32 @@ function renderCartContents() {
     const totalEl = document.getElementById('cart-total-amount');
     if (totalEl) totalEl.textContent = formatINR(total);
 
-    // Free-delivery progress banner — updates live on every cart change
-    const bannerEl = document.getElementById('cart-delivery-banner');
-    if (bannerEl && typeof Checkout !== 'undefined') {
-        const msg    = Checkout.deliveryMessage(total);
-        const isFree = Checkout.calcDelivery(total) === 0;
-        bannerEl.textContent = msg;
-        bannerEl.className   = 'cart-delivery-banner' + (isFree ? ' is-free' : '');
+    // Delivery charge row + grand total row in cart footer
+    if (typeof Checkout !== 'undefined') {
+        const delivery      = Checkout.calcDelivery(total);
+        const grandTotal    = total + delivery;
+        const isFree        = delivery === 0;
+
+        const deliveryRow   = document.getElementById('cart-delivery-row');
+        const deliveryAmt   = document.getElementById('cart-delivery-amount');
+        const grandRow      = document.getElementById('cart-grand-total-row');
+        const grandAmt      = document.getElementById('cart-grand-total-amount');
+
+        if (deliveryRow) deliveryRow.style.display = '';
+        if (deliveryAmt) {
+            deliveryAmt.textContent = isFree ? 'FREE' : formatINR(delivery);
+            deliveryAmt.className   = 'cart-total-amount cart-delivery-amount' + (isFree ? ' cart-delivery-free' : '');
+        }
+        if (grandRow)  grandRow.style.display  = '';
+        if (grandAmt)  grandAmt.textContent    = formatINR(grandTotal);
+
+        // Free-delivery progress banner — updates live on every cart change
+        const bannerEl = document.getElementById('cart-delivery-banner');
+        if (bannerEl) {
+            const msg = Checkout.deliveryMessage(total);
+            bannerEl.textContent = msg;
+            bannerEl.className   = 'cart-delivery-banner' + (isFree ? ' is-free' : '');
+        }
     }
 }
 

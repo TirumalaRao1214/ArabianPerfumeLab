@@ -4119,11 +4119,49 @@ ul, ol { list-style: none; }
     word-break: break-word;
 }
 
+/* Cart subtotal preview inside checkout details step */
+.checkout-cart-preview {
+    background: var(--c-surface);
+    border: 1px solid var(--c-border);
+    border-radius: 4px;
+    padding: var(--sp-sm) var(--sp-md);
+    margin-top: var(--sp-md);
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.checkout-cart-preview-banner {
+    font-size: 0.74rem;
+    color: var(--c-ivory-muted);
+    text-align: center;
+    line-height: 1.4;
+    transition: color var(--t-fast);
+}
+
+.checkout-cart-preview-banner.is-free {
+    color: var(--c-gold);
+    font-weight: 600;
+}
+
+.checkout-cart-preview-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.84rem;
+    color: var(--c-ivory-muted);
+}
+
+.checkout-cart-preview-row span:last-child {
+    color: var(--c-gold);
+    font-family: var(--f-serif);
+}
+
 /* Responsive: on mobile the modal should scroll properly */
 @media (max-width: 600px) {
     .checkout-modal-dialog {
         padding: var(--sp-lg) var(--sp-md);
         max-height: 92svh;
+        overflow-y: auto;
     }
 }
 
@@ -4150,6 +4188,30 @@ ul, ol { list-style: none; }
     border-color: var(--c-border-sub);
     color: var(--c-gold);
     font-weight: 600;
+}
+
+/* Cart delivery + grand total rows */
+.cart-delivery-amount.cart-delivery-free {
+    color: var(--c-gold);
+    font-weight: 700;
+    letter-spacing: 0.04em;
+}
+
+.cart-grand-total-row {
+    border-top: 1px solid var(--c-border-sub);
+    margin-top: 0.3rem;
+    padding-top: 0.4rem;
+}
+
+.cart-grand-total-label {
+    font-weight: 700;
+    color: var(--c-ivory);
+}
+
+.cart-grand-total-amount {
+    font-size: 1.4rem !important;
+    color: var(--c-gold) !important;
+    font-weight: 700;
 }
 
 /* Checkout summary banner (below pricing rows) */

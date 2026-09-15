@@ -288,6 +288,20 @@ const Checkout = (() => {
 
     /* ── Open / Close ───────────────────────────────────────────── */
 
+    function _updateDetailsPreview() {
+        const subtotal = Cart.getTotal();
+        const isFree   = calcDelivery(subtotal) === 0;
+
+        const previewEl  = _el('checkout-details-subtotal');
+        const bannerEl   = _el('checkout-details-delivery-banner');
+
+        if (previewEl)  previewEl.textContent = _fmt(subtotal);
+        if (bannerEl) {
+            bannerEl.textContent = deliveryMessage(subtotal);
+            bannerEl.className   = 'checkout-cart-preview-banner' + (isFree ? ' is-free' : '');
+        }
+    }
+
     function openCheckout() {
         if (!Cart.getItems().length) {
             if (typeof showToast === 'function') showToast('Your cart is empty. Add a fragrance first.');
@@ -295,6 +309,7 @@ const Checkout = (() => {
         }
 
         _showStep('checkout-step-details');
+        _updateDetailsPreview();
 
         // Pre-fill from session so "Back" preserves input
         const fields = ['checkout-name', 'checkout-phone', 'checkout-address', 'checkout-pincode'];
@@ -367,7 +382,10 @@ const Checkout = (() => {
 
         /* "← Edit Details" from summary step */
         const editBtn = _el('checkout-edit-details-btn');
-        if (editBtn) editBtn.addEventListener('click', () => _showStep('checkout-step-details'));
+        if (editBtn) editBtn.addEventListener('click', () => {
+            _showStep('checkout-step-details');
+            _updateDetailsPreview();
+        });
 
         /* "Back to Cart" from summary step */
         const backBtn2 = _el('checkout-back-to-cart-btn-2');
