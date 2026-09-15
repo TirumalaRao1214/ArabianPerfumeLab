@@ -894,8 +894,15 @@ function initCartDrawer() {
                 showToast('Your cart is empty. Add a fragrance first.');
                 return;
             }
-            const opened = WhatsApp.openOrder();
-            if (opened) showToast('Opening WhatsApp with your order...');
+            // Close cart drawer then open checkout flow
+            closeCartDrawer();
+            if (typeof Checkout !== 'undefined') {
+                Checkout.openCheckout();
+            } else {
+                // Fallback: direct WhatsApp (should not happen in normal flow)
+                const opened = WhatsApp.openOrder();
+                if (opened) showToast('Opening WhatsApp with your order...');
+            }
         });
     }
 

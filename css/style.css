@@ -3887,3 +3887,242 @@ ul, ol { list-style: none; }
     color: var(--c-ivory);
     font-weight: 500;
 }
+
+/* ==========================================================================
+   CHECKOUT MODAL — Customer Details + Order Summary
+   ========================================================================== */
+
+/* Narrow modal for checkout flow */
+.checkout-modal-dialog {
+    max-width: 520px;
+    padding: var(--sp-xl);
+}
+
+/* Each named step (details / summary) */
+.checkout-step { /* no base styles needed — shown/hidden by JS */ }
+
+/* Header matching quiz-header style */
+.checkout-header {
+    text-align: center;
+    padding-bottom: var(--sp-lg);
+    border-bottom: 1px solid var(--c-border);
+    margin-bottom: var(--sp-lg);
+}
+
+.checkout-header .gold-icon {
+    display: inline-block;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.checkout-title {
+    font-family: var(--f-heading);
+    font-size: 1.4rem;
+    color: var(--c-gold);
+    margin: 0.5rem 0 0.25rem;
+}
+
+.checkout-subtitle {
+    font-size: 0.82rem;
+    color: var(--c-ivory-muted);
+    margin: 0;
+}
+
+/* Form field group */
+.checkout-field {
+    margin-bottom: var(--sp-md);
+}
+
+.checkout-label {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--c-ivory-muted);
+    margin-bottom: 0.4rem;
+    cursor: pointer;
+}
+
+.checkout-field-icon {
+    color: var(--c-gold);
+    flex-shrink: 0;
+}
+
+.checkout-required {
+    color: var(--c-gold);
+    font-size: 0.85em;
+}
+
+/* Shared input + textarea appearance */
+.checkout-input {
+    width: 100%;
+    background: var(--c-surface);
+    border: 1px solid var(--c-border-sub);
+    border-radius: 3px;
+    color: var(--c-ivory);
+    font-family: var(--f-body);
+    font-size: 0.92rem;
+    padding: 0.7rem 0.9rem;
+    transition: border-color var(--t-fast), box-shadow var(--t-fast);
+    outline: none;
+    display: block;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.checkout-input::placeholder {
+    color: var(--c-ivory-dim);
+}
+
+.checkout-input:focus {
+    border-color: var(--c-gold);
+    box-shadow: 0 0 0 3px rgba(212,175,55,0.1);
+}
+
+.checkout-input.invalid {
+    border-color: var(--c-danger);
+    box-shadow: 0 0 0 3px rgba(248,113,113,0.1);
+}
+
+/* Textarea variant */
+.checkout-textarea {
+    resize: vertical;
+    min-height: 80px;
+    max-height: 180px;
+}
+
+/* Inline validation message */
+.checkout-error {
+    font-size: 0.75rem;
+    color: var(--c-danger);
+    margin: 0.3rem 0 0;
+    min-height: 1em;
+    transition: opacity var(--t-fast);
+}
+
+.checkout-error:empty { opacity: 0; }
+.checkout-error:not(:empty) { opacity: 1; }
+
+/* Action buttons */
+.checkout-actions {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-sm);
+    margin-top: var(--sp-lg);
+}
+
+/* ── ORDER SUMMARY section ── */
+
+.checkout-summary-section {
+    margin-bottom: var(--sp-lg);
+    padding-bottom: var(--sp-lg);
+    border-bottom: 1px solid var(--c-border);
+}
+
+.checkout-summary-section:last-of-type {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.checkout-section-title {
+    font-size: 0.68rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--c-gold);
+    margin: 0 0 var(--sp-sm);
+}
+
+/* Individual product row in summary */
+.checkout-summary-items {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-sm);
+}
+
+.checkout-summary-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: var(--sp-sm);
+    font-size: 0.85rem;
+    color: var(--c-ivory-muted);
+}
+
+.checkout-summary-item-name {
+    color: var(--c-ivory);
+    font-weight: 500;
+}
+
+.checkout-summary-item-sub {
+    font-size: 0.75rem;
+    color: var(--c-ivory-dim);
+}
+
+.checkout-summary-item-price {
+    white-space: nowrap;
+    color: var(--c-ivory);
+    font-variant-numeric: tabular-nums;
+}
+
+/* Pricing rows */
+.checkout-pricing {
+    background: var(--c-surface);
+    border: 1px solid var(--c-border);
+    border-radius: 4px;
+    padding: var(--sp-md);
+}
+
+.checkout-price-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.87rem;
+    color: var(--c-ivory-muted);
+    padding: 0.3rem 0;
+}
+
+.checkout-price-total {
+    border-top: 1px solid var(--c-border-sub);
+    margin-top: 0.4rem;
+    padding-top: 0.7rem;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--c-gold);
+}
+
+/* Customer recap block */
+.checkout-customer-recap {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.checkout-recap-row {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.checkout-recap-label {
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--c-ivory-dim);
+}
+
+.checkout-recap-value {
+    font-size: 0.88rem;
+    color: var(--c-ivory);
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+/* Responsive: on mobile the modal should scroll properly */
+@media (max-width: 600px) {
+    .checkout-modal-dialog {
+        padding: var(--sp-lg) var(--sp-md);
+        max-height: 92svh;
+    }
+}
