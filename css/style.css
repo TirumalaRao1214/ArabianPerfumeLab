@@ -542,6 +542,131 @@ ul, ol { list-style: none; }
     border-color: var(--c-border-sub);
 }
 
+/* ==========================================================================
+   HAND CONTROL
+   ========================================================================== */
+
+/* Nav button — active state */
+.hand-ctrl-btn[aria-pressed="true"] {
+    color: var(--c-gold);
+    border-color: var(--c-border-sub);
+}
+/* Loading spinner pulse on the icon */
+.hand-ctrl-btn.hc-loading .icon {
+    animation: hc-pulse 0.9s ease-in-out infinite alternate;
+}
+@keyframes hc-pulse {
+    from { opacity: 1; }
+    to   { opacity: 0.35; }
+}
+
+/* Highlighted product card (swipe navigation) */
+.product-card.hc-highlighted {
+    outline: 1.5px solid var(--c-gold);
+    outline-offset: 3px;
+}
+
+/* Floating status badge — bottom right */
+.hc-status {
+    position: fixed;
+    bottom: 88px;          /* above the floating WhatsApp button */
+    right: 18px;
+    z-index: 1200;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px 8px 10px;
+    background: rgba(18, 19, 22, 0.93);
+    border: 1px solid var(--c-border-sub);
+    border-radius: 24px;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    color: var(--c-ivory-muted);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.55);
+    animation: hc-fade-in 0.3s ease;
+}
+@keyframes hc-fade-in {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Animated recording dot */
+.hc-status-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--c-gold);
+    flex-shrink: 0;
+    animation: hc-blink 1.6s ease-in-out infinite;
+}
+@keyframes hc-blink {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.25; }
+}
+
+.hc-status-label {
+    color: var(--c-gold);
+    font-family: var(--f-body);
+}
+
+.hc-status-close {
+    background: none;
+    border: none;
+    color: var(--c-ivory-dim);
+    font-size: 0.75rem;
+    line-height: 1;
+    padding: 2px 4px;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: color 0.15s;
+    margin-left: 2px;
+}
+.hc-status-close:hover { color: var(--c-ivory); }
+
+/* Gesture hint toast — centre bottom */
+.hc-hint {
+    position: fixed;
+    bottom: 140px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1201;
+    padding: 7px 18px;
+    background: rgba(18, 19, 22, 0.88);
+    border: 1px solid var(--c-border);
+    border-radius: 20px;
+    font-size: 0.72rem;
+    letter-spacing: 0.09em;
+    color: var(--c-ivory-muted);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+}
+.hc-hint.hc-hint-visible {
+    opacity: 1;
+}
+
+/* Finger-tip cursor dot */
+.hc-cursor {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: rgba(212, 175, 55, 0.55);
+    border: 1.5px solid rgba(212, 175, 55, 0.9);
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: transform 0.06s linear;
+    box-shadow: 0 0 8px rgba(212, 175, 55, 0.35);
+    will-change: transform;
+}
+
 .cart-btn {
     position: relative;
 }

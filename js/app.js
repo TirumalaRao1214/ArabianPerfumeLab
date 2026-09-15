@@ -36,6 +36,8 @@ document.addEventListener('DOMContentLoaded', () => {
     initScentFinderQuiz();    // 5-step scent quiz with product recommendations
     initSprayEffect();        // perfume spray particles on click
     initBackgroundMusic();    // ambient audio toggle
+    // Hand control is initialised by hand-control.js (loaded after app.js)
+    // It calls window.initHandControl() directly — no coupling needed here.
 
     Cart.onChange(updateAllCartIndicators);
     updateAllCartIndicators();
