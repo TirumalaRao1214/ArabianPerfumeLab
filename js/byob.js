@@ -25,21 +25,27 @@ const BOX_DEALS = Object.freeze([
 ]);
 
 /* -----------------------------------------------------------------------
- * Eligible product categories for Build Your Own Box.
- * Only perfume-family products are eligible; body creams are excluded.
+ * BYOB_ELIGIBLE_IDS — exact list of product IDs available in the box offer.
+ * Only these 16 perfumes may be selected. Add or remove IDs here to update
+ * the eligible set — do not change the BOX_DEALS prices above.
  * ----------------------------------------------------------------------- */
-const BYOB_ELIGIBLE_CATEGORIES = Object.freeze([
-    'french-attars',
-    'arabic-attars',
-    'floral-attars',
-    'fruity-attars',
-    'aquatic-attars',
-    'french-arabic-mix-attars',
-    'french-perfumes',
-    'arabic-perfumes',
-    'floral-perfumes',
-    'fruity-perfumes',
-    'aquatic-perfumes'
+const BYOB_ELIGIBLE_IDS = Object.freeze([
+    'cool-water',
+    'jpg-le-male',
+    'zidaan-classic',
+    'my-way-yalang',
+    'erose-flame',
+    'pink-peach',
+    'lemon-lavender',
+    'lemon-blast',
+    'white-tea',
+    'pink-luxica',
+    'libre-flowers-and-flame',
+    'paris-ocean',
+    'honey-suckle',
+    'blue-musk',
+    'jasmine',
+    'polo-sports'
 ]);
 
 const BYOB = (() => {
@@ -51,11 +57,11 @@ const BYOB = (() => {
      * Private helpers
      * ------------------------------------------------------------------ */
 
-    /** Return all eligible products for a given deal (must have that perfume variant). */
+    /** Return all eligible products for a given deal (must be in BYOB_ELIGIBLE_IDS and have the perfume variant). */
     function _eligibleProducts(deal) {
         if (!deal) return [];
         return products.filter(function(p) {
-            if (BYOB_ELIGIBLE_CATEGORIES.indexOf(p.category) === -1) return false;
+            if (BYOB_ELIGIBLE_IDS.indexOf(p.id) === -1) return false;
             if (!p.sizes || !p.sizes[deal.perfumeType]) return false;
             return true;
         });
