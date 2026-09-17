@@ -2667,6 +2667,15 @@ ul, ol { list-style: none; }
     color: var(--c-gold);
     font-weight: 600;
 }
+.footer-dev-credit a {
+    color: var(--c-gold);
+    text-decoration: none;
+    transition: color var(--t-fast);
+}
+.footer-dev-credit a:hover {
+    color: var(--c-gold-light);
+    text-decoration: underline;
+}
 
 /* Floating WhatsApp button */
 .float-whatsapp {
