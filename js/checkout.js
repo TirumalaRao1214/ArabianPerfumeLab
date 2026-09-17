@@ -300,11 +300,21 @@ const Checkout = (() => {
     /* ── Open / Close ───────────────────────────────────────────── */
 
     function _updateDetailsPreview() {
+        const previewEl = _el('checkout-details-subtotal');
+        const bannerEl  = _el('checkout-details-delivery-banner');
+
+        // BYOB orders always have FREE delivery — show that immediately
+        if (_byobPendingUrl) {
+            if (previewEl) previewEl.textContent = '';
+            if (bannerEl) {
+                bannerEl.textContent = '\uD83C\uDF89 FREE delivery on all Box orders!';
+                bannerEl.className   = 'checkout-cart-preview-banner is-free';
+            }
+            return;
+        }
+
         const subtotal = Cart.getTotal();
         const isFree   = calcDelivery(subtotal) === 0;
-
-        const previewEl  = _el('checkout-details-subtotal');
-        const bannerEl   = _el('checkout-details-delivery-banner');
 
         if (previewEl)  previewEl.textContent = _fmt(subtotal);
         if (bannerEl) {
@@ -394,16 +404,18 @@ const Checkout = (() => {
                 _session.address = _el('checkout-address').value.trim();
                 _session.pincode = _el('checkout-pincode').value.trim();
 
-                // For BYOB: append customer details to the pending URL and open immediately
+                // For BYOB: append customer details + free delivery note to the pending URL
                 if (_byobPendingUrl) {
                     const details = [
                         '',
                         '%E2%80%94%E2%80%94%E2%80%94%E2%80%94%E2%80%94%E2%80%94%E2%80%94%E2%80%94%E2%80%94%E2%80%94%E2%80%94%E2%80%94%E2%80%94',
                         encodeURIComponent('Customer Details'),
-                        encodeURIComponent('Name: '    + _session.name),
-                        encodeURIComponent('Phone: '   + _session.phone),
-                        encodeURIComponent('Address: ' + _session.address),
-                        encodeURIComponent('Pincode: ' + _session.pincode)
+                        encodeURIComponent('Name: '     + _session.name),
+                        encodeURIComponent('Phone: '    + _session.phone),
+                        encodeURIComponent('Address: '  + _session.address),
+                        encodeURIComponent('Pincode: '  + _session.pincode),
+                        '',
+                        encodeURIComponent('Delivery: FREE \uD83C\uDF89')
                     ].join('%0A');
                     const finalUrl = _byobPendingUrl + details;
                     _byobPendingUrl = null;
