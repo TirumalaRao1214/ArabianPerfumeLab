@@ -848,80 +848,145 @@
   <!-- ==========================================
        BUILD YOUR OWN BOX
        ========================================== -->
-  <section id="byob-section" class="section-spacing byob-section" aria-labelledby="byob-heading">
-    <div class="container">
+  <section id="byob-section" class="byob-section" aria-labelledby="byob-heading">
 
-      <div class="section-header center reveal">
-        <div class="section-tag center">
-          <span class="gold-icon" aria-hidden="true">✦</span>
-          <span>Curate Your Signature</span>
-          <span class="gold-icon" aria-hidden="true">✦</span>
-        </div>
-        <h2 class="section-title" id="byob-heading">
-          Build Your Own Box
-        </h2>
-        <p class="section-subtitle">
-          Select your preferred size, then pick your fragrances. One price. Your choice.
-        </p>
-      </div>
-
-      <!-- Step 1: Choose box size -->
-      <div class="byob-step reveal">
-        <h3 class="byob-step-title">Step 1 — Choose your size</h3>
-        <div id="byob-deal-selector" class="byob-deal-selector" role="group" aria-label="Box size options">
-          <!-- Rendered by byob.js -->
-        </div>
-      </div>
-
-      <!-- Step 2: Choose fragrances -->
-      <div class="byob-step reveal">
-        <h3 class="byob-step-title">Step 2 — Choose your fragrances</h3>
-        <p id="byob-select-size-msg" class="byob-hint">
-          Select a box size above to see available fragrances.
-        </p>
-        <div id="byob-product-grid" class="byob-product-grid" role="group" aria-label="Available fragrances for box">
-          <!-- Rendered by byob.js -->
-        </div>
-      </div>
-
-      <!-- Step 3: Summary & order -->
-      <div id="byob-summary" class="byob-summary hidden reveal" aria-live="polite" aria-atomic="true">
-        <div class="byob-summary-inner">
-          <div class="byob-summary-header">
-            <span class="byob-summary-icon" aria-hidden="true">✦</span>
-            <h3 class="byob-summary-title">Your Box</h3>
-          </div>
-          <div class="byob-summary-body">
-            <p class="byob-summary-info">
-              Box Price: <strong id="byob-box-price" class="byob-price-display">—</strong>
-            </p>
-            <p class="byob-summary-info">
-              Selected: <strong><span id="byob-selected-count">0</span> / <span id="byob-max-count">—</span></strong>
-            </p>
-            <ol id="byob-selected-list" class="byob-selected-list" aria-label="Selected fragrances">
-              <!-- Rendered by byob.js -->
-            </ol>
-          </div>
-          <div class="byob-summary-actions">
-            <button id="byob-order-btn"
-                    class="btn btn-whatsapp byob-order-btn"
-                    type="button"
-                    disabled
-                    aria-disabled="true"
-                    aria-label="Order your box on WhatsApp">
-              Order on WhatsApp
-            </button>
-            <button id="byob-reset-btn"
-                    class="btn btn-ghost byob-reset-btn"
-                    type="button"
-                    aria-label="Reset box selection">
-              Reset
-            </button>
-          </div>
-        </div>
-      </div>
-
+    <!-- Header -->
+    <div class="byob-header">
+      <h2 class="byob-title" id="byob-heading">BUILD YOUR OWN BOX</h2>
+      <p class="byob-subtitle">Pick your size. Fill the box. Irresistible value packs.</p>
     </div>
+
+    <!-- Size selector -->
+    <div class="byob-sizes-wrap">
+      <div id="byob-deal-selector"
+           class="byob-deal-selector"
+           role="radiogroup"
+           aria-label="Choose box size">
+        <!-- Rendered by byob.js -->
+      </div>
+    </div>
+
+    <!-- Main two-column body -->
+    <div class="byob-body container">
+
+      <!-- LEFT: search + filters + product grid -->
+      <div class="byob-left">
+
+        <!-- Search -->
+        <div class="byob-search-wrap">
+          <input id="byob-search"
+                 type="search"
+                 class="byob-search"
+                 placeholder="Search fragrances..."
+                 autocomplete="off"
+                 aria-label="Search Build Your Own Box fragrances">
+        </div>
+
+        <!-- Box-full alert -->
+        <div id="byob-full-msg" class="byob-full-msg" role="alert" aria-live="polite" hidden>
+          Your box is full. Remove a fragrance to select another.
+        </div>
+
+        <!-- Product grid -->
+        <div id="byob-product-grid"
+             class="byob-product-grid"
+             role="list"
+             aria-label="Available fragrances">
+          <!-- Rendered by byob.js -->
+        </div>
+
+      </div><!-- /.byob-left -->
+
+      <!-- RIGHT: summary panel (sticky on desktop) -->
+      <aside class="byob-right" aria-label="Your box summary">
+
+        <div class="byob-panel">
+          <h3 class="byob-panel-title">
+            <span class="gold-icon" aria-hidden="true">✦</span>
+            YOUR BOX
+          </h3>
+
+          <!-- Selected size -->
+          <div class="byob-panel-row">
+            <span class="byob-panel-label">Selected Size</span>
+            <span id="byob-panel-size" class="byob-panel-value">—</span>
+          </div>
+
+          <!-- Fragrance count -->
+          <div class="byob-panel-row">
+            <span class="byob-panel-label">Selected Fragrances</span>
+            <span class="byob-panel-value">
+              <span id="byob-selected-count">0</span>&thinsp;/&thinsp;<span id="byob-max-count">1</span>
+            </span>
+          </div>
+
+          <!-- Selected list with remove buttons -->
+          <ol id="byob-selected-list"
+              class="byob-selected-list"
+              aria-label="Selected fragrances">
+            <!-- Rendered by byob.js -->
+          </ol>
+
+          <!-- Empty hint -->
+          <p id="byob-empty-hint" class="byob-empty-hint">
+            Select a fragrance to add to your box.
+          </p>
+
+          <!-- Divider -->
+          <div class="byob-panel-divider"></div>
+
+          <!-- Total -->
+          <div class="byob-panel-row byob-total-row">
+            <span class="byob-panel-label">Total</span>
+            <span id="byob-box-price" class="byob-total-price">₹999</span>
+          </div>
+
+          <!-- Order button -->
+          <button id="byob-order-btn"
+                  class="byob-order-btn"
+                  type="button"
+                  disabled
+                  aria-disabled="true"
+                  aria-label="Order your box on WhatsApp">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">
+              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+              <path d="M12 0C5.373 0 0 5.373 0 12c0 2.121.554 4.109 1.523 5.836L0 24l6.335-1.501A11.94 11.94 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.795 9.795 0 0 1-5.003-1.371l-.36-.214-3.724.882.916-3.618-.235-.372A9.797 9.797 0 0 1 2.182 12C2.182 6.57 6.57 2.182 12 2.182S21.818 6.57 21.818 12 17.43 21.818 12 21.818z"/>
+            </svg>
+            Order on WhatsApp
+          </button>
+
+          <!-- Reset -->
+          <button id="byob-reset-btn"
+                  class="byob-reset-btn"
+                  type="button"
+                  aria-label="Reset box and start over">
+            Reset
+          </button>
+
+        </div><!-- /.byob-panel -->
+
+      </aside><!-- /.byob-right -->
+
+    </div><!-- /.byob-body -->
+
+    <!-- Mobile sticky summary bar -->
+    <div id="byob-sticky-bar" class="byob-sticky-bar" aria-live="polite" hidden>
+      <div class="byob-sticky-inner">
+        <span class="byob-sticky-count">
+          <span id="byob-sticky-count-val">0</span>&thinsp;/&thinsp;<span id="byob-sticky-max-val">1</span> selected
+        </span>
+        <span id="byob-sticky-price" class="byob-sticky-price">₹999</span>
+        <button id="byob-sticky-order-btn"
+                class="byob-sticky-order-btn"
+                type="button"
+                disabled
+                aria-disabled="true"
+                aria-label="Order your box on WhatsApp">
+          Order on WhatsApp
+        </button>
+      </div>
+    </div>
+
   </section>
 
   <!-- ==========================================

@@ -4245,102 +4245,537 @@ ul, ol { list-style: none; }
 }
 
 /* ==========================================================================
-   BUILD YOUR OWN BOX (BYOB) — styles
+   BUILD YOUR OWN BOX (BYOB) — full visual implementation
    ========================================================================== */
 
-.byob-section { background: var(--c-black); }
+/* ── Section shell ──────────────────────────────────────────────────────── */
+.byob-section {
+    background: var(--c-black);
+    padding-bottom: 5rem;
+}
 
-.byob-step { margin: var(--sp-2xl) 0 0; }
-
-.byob-step-title {
+/* ── Header ─────────────────────────────────────────────────────────────── */
+.byob-header {
+    padding: 4rem var(--sp-xl) 2rem;
+    text-align: center;
+}
+.byob-title {
     font-family: var(--f-heading);
-    font-size: 1rem;
-    font-weight: 600;
-    color: var(--c-gold);
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    font-weight: 700;
+    color: var(--c-ivory);
     letter-spacing: 0.06em;
     text-transform: uppercase;
-    margin-bottom: var(--sp-md);
+    margin: 0 0 0.6rem;
+    line-height: 1.15;
+}
+.byob-subtitle {
+    font-size: 1rem;
+    color: var(--c-ivory-muted);
+    margin: 0;
+    letter-spacing: 0.02em;
 }
 
-.byob-hint { color: var(--c-ivory-muted); font-size: 0.9rem; margin: var(--sp-sm) 0; }
+/* ── Size selector row ──────────────────────────────────────────────────── */
+.byob-sizes-wrap {
+    padding: 0 var(--sp-xl) 2.5rem;
+}
+.byob-deal-selector {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    max-width: 760px;
+    margin: 0 auto;
+}
 
-/* Deal selector */
-.byob-deal-selector { display: flex; flex-wrap: wrap; gap: var(--sp-md); justify-content: center; }
-
-.byob-deal-btn {
-    display: flex; flex-direction: column; align-items: center; gap: 0.3rem;
-    min-width: 140px; padding: var(--sp-md) var(--sp-lg);
-    background: var(--c-card); border: 1px solid var(--c-border); border-radius: 8px;
-    color: var(--c-ivory); cursor: pointer;
-    transition: border-color 0.2s, background 0.2s, transform 0.15s;
+.byob-size-btn {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.35rem;
+    min-width: 160px;
+    padding: 1.1rem 1.6rem;
+    background: var(--c-card);
+    border: 2px solid var(--c-border);
+    border-radius: 12px;
+    color: var(--c-ivory-muted);
+    cursor: pointer;
     font-family: var(--f-body);
+    transition: border-color 0.2s, background 0.2s, transform 0.15s, color 0.2s;
 }
-.byob-deal-btn:hover, .byob-deal-btn:focus-visible {
-    border-color: var(--c-gold); background: var(--c-card-hover); outline: none; transform: translateY(-2px);
+.byob-size-btn:hover,
+.byob-size-btn:focus-visible {
+    border-color: var(--c-gold-dim);
+    background: var(--c-card-hover);
+    color: var(--c-ivory);
+    outline: none;
+    transform: translateY(-2px);
 }
-.byob-deal-btn.active {
-    border-color: var(--c-gold); background: var(--c-gold-bg); box-shadow: 0 0 0 1px var(--c-gold);
+.byob-size-btn.active {
+    border-color: #4ade80;
+    background: rgba(74, 222, 128, 0.07);
+    color: var(--c-ivory);
 }
-.byob-deal-size { font-family: var(--f-heading); font-size: 1.35rem; font-weight: 700; color: var(--c-gold); }
-.byob-deal-offer { font-size: 0.8rem; color: var(--c-ivory-muted); text-align: center; }
+.byob-size-label {
+    font-family: var(--f-heading);
+    font-size: 1.55rem;
+    font-weight: 700;
+    color: inherit;
+    line-height: 1;
+}
+.byob-size-offer {
+    font-size: 0.8rem;
+    color: #4ade80;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+}
+.byob-size-btn:not(.active) .byob-size-offer {
+    color: var(--c-ivory-muted);
+}
+.byob-size-check {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    width: 22px;
+    height: 22px;
+    background: #4ade80;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #0b0c0e;
+}
+.byob-size-check svg { width: 12px; height: 12px; }
+.byob-size-btn:not(.active) .byob-size-check { display: none; }
+
+/* ── Two-column body ────────────────────────────────────────────────────── */
+.byob-body {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 2rem;
+    align-items: start;
+}
+
+/* ── Left: search + grid ────────────────────────────────────────────────── */
+.byob-left { min-width: 0; }
+
+.byob-search-wrap {
+    margin-bottom: 1rem;
+}
+.byob-search {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0.7rem 1rem;
+    background: var(--c-card);
+    border: 1px solid var(--c-border);
+    border-radius: 8px;
+    color: var(--c-ivory);
+    font-size: 0.9rem;
+    font-family: var(--f-body);
+    transition: border-color 0.2s;
+}
+.byob-search::placeholder { color: var(--c-ivory-dim); }
+.byob-search:focus {
+    outline: none;
+    border-color: var(--c-gold-dim);
+}
+
+/* Box-full alert */
+.byob-full-msg {
+    background: rgba(212, 175, 55, 0.1);
+    border: 1px solid var(--c-border-sub);
+    border-radius: 6px;
+    padding: 0.6rem 1rem;
+    font-size: 0.85rem;
+    color: var(--c-gold-light);
+    margin-bottom: 1rem;
+}
+
+.byob-no-results {
+    color: var(--c-ivory-muted);
+    font-size: 0.9rem;
+    padding: 2rem 0;
+    text-align: center;
+}
 
 /* Product grid */
 .byob-product-grid {
-    display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-    gap: var(--sp-md); margin-top: var(--sp-md);
-}
-.byob-product-card {
-    position: relative; display: flex; flex-direction: column; align-items: center;
-    gap: 0.4rem; padding: var(--sp-md) var(--sp-sm);
-    background: var(--c-card); border: 1px solid var(--c-border); border-radius: 8px;
-    cursor: pointer; transition: border-color 0.2s, background 0.2s, opacity 0.2s;
-    text-align: center; user-select: none;
-}
-.byob-product-card:hover:not(.maxed), .byob-product-card:focus-visible:not(.maxed) {
-    border-color: var(--c-gold-dim); background: var(--c-card-hover); outline: none;
-}
-.byob-product-card.selected { border-color: var(--c-gold); background: var(--c-gold-bg); }
-.byob-product-card.maxed    { opacity: 0.4; cursor: not-allowed; }
-
-.byob-product-img  { width: 60px; height: 90px; object-fit: contain; display: block; }
-.byob-product-name { font-size: 0.8rem; font-weight: 600; color: var(--c-ivory); line-height: 1.3; }
-.byob-product-cat  { font-size: 0.68rem; color: var(--c-ivory-dim); line-height: 1.2; }
-.byob-product-tick {
-    position: absolute; top: 6px; right: 8px;
-    font-size: 0.8rem; color: var(--c-gold); font-weight: 700; min-width: 1em; min-height: 1em;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 0.85rem;
 }
 
-/* Summary */
-.byob-summary { margin-top: var(--sp-2xl); }
-.byob-summary.hidden { display: none; }
-
-.byob-summary-inner {
-    max-width: 480px; margin: 0 auto;
-    background: var(--c-card); border: 1px solid var(--c-border-sub); border-radius: 12px;
-    padding: var(--sp-xl); text-align: center;
+/* Product card */
+.byob-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 1rem 0.6rem 0.8rem;
+    background: var(--c-card);
+    border: 1px solid var(--c-border);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s, transform 0.15s;
+    text-align: center;
+    user-select: none;
+    -webkit-user-select: none;
 }
-.byob-summary-header { display: flex; align-items: center; justify-content: center; gap: var(--sp-sm); margin-bottom: var(--sp-md); }
-.byob-summary-icon  { color: var(--c-gold); font-size: 1rem; }
-.byob-summary-title { font-family: var(--f-heading); font-size: 1.2rem; color: var(--c-gold); margin: 0; }
-.byob-summary-info  { color: var(--c-ivory-muted); font-size: 0.9rem; margin: 0.4rem 0; }
-.byob-price-display { color: var(--c-gold); font-size: 1.1rem; }
-
-.byob-selected-list { list-style: none; padding: 0; margin: var(--sp-md) 0; text-align: left; }
-.byob-selected-list li { color: var(--c-ivory); font-size: 0.9rem; padding: 0.2rem 0; border-bottom: 1px solid var(--c-border); }
-.byob-selected-list li:last-child { border-bottom: none; }
-
-.byob-summary-actions { display: flex; flex-direction: column; gap: var(--sp-sm); margin-top: var(--sp-lg); }
-.byob-order-btn:disabled { opacity: 0.45; cursor: not-allowed; }
-
-.btn-whatsapp {
-    background: #25d366; color: #fff; border: none; border-radius: 6px;
-    padding: 0.75rem 1.5rem; font-size: 0.95rem; font-weight: 600;
-    cursor: pointer; transition: background 0.2s;
+.byob-card:hover:not(.byob-card--disabled),
+.byob-card:focus-visible:not(.byob-card--disabled) {
+    border-color: var(--c-gold-dim);
+    background: var(--c-card-hover);
+    transform: translateY(-2px);
+    outline: none;
 }
-.btn-whatsapp:hover:not(:disabled) { background: #1ebe5a; }
+.byob-card--selected {
+    border-color: #4ade80;
+    background: rgba(74, 222, 128, 0.07);
+}
+.byob-card--selected:hover {
+    border-color: #4ade80;
+    background: rgba(74, 222, 128, 0.12);
+    transform: translateY(-2px);
+}
+.byob-card--disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+    pointer-events: none;
+}
 
-@media (max-width: 480px) {
-    .byob-deal-selector { flex-direction: column; align-items: center; }
-    .byob-deal-btn { width: 100%; max-width: 280px; }
-    .byob-product-grid { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); }
+/* Card image */
+.byob-card-img-wrap {
+    position: relative;
+    width: 90px;
+    height: 110px;
+    flex-shrink: 0;
+}
+.byob-card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+    transition: opacity 0.2s;
+}
+.byob-card-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(74, 222, 128, 0.82);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+.byob-card-overlay svg {
+    width: 36px;
+    height: 36px;
+    stroke: #0b0c0e;
+    stroke-width: 3;
+}
+.byob-card--selected .byob-card-overlay { opacity: 1; }
+
+/* Card name + badge */
+.byob-card-name {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--c-ivory);
+    line-height: 1.3;
+    max-width: 100%;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+.byob-card-badge {
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: #4ade80;
+    text-transform: uppercase;
+    min-height: 0.9rem;
+}
+
+/* Card action button (+/×) */
+.byob-card-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 1.5px solid var(--c-gold-dim);
+    background: transparent;
+    color: var(--c-gold);
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s, color 0.15s;
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+}
+.byob-card-btn:hover:not(:disabled) {
+    background: var(--c-gold-bg);
+    border-color: var(--c-gold);
+}
+.byob-card-btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+.byob-card-btn--remove {
+    border-color: rgba(74, 222, 128, 0.5);
+    color: #4ade80;
+}
+.byob-card-btn--remove:hover {
+    background: rgba(74, 222, 128, 0.12);
+    border-color: #4ade80;
+}
+
+/* ── Right: summary panel ───────────────────────────────────────────────── */
+.byob-right { position: sticky; top: 88px; /* below header */ }
+
+.byob-panel {
+    background: var(--c-card);
+    border: 1px solid var(--c-border-sub);
+    border-radius: 14px;
+    padding: 1.4rem 1.4rem 1.6rem;
+}
+
+.byob-panel-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--f-heading);
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--c-gold);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin: 0 0 1.1rem;
+}
+
+.byob-panel-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 0.5rem;
+    padding: 0.35rem 0;
+    border-bottom: 1px solid var(--c-border);
+}
+.byob-panel-row:last-of-type { border-bottom: none; }
+
+.byob-panel-label {
+    font-size: 0.78rem;
+    color: var(--c-ivory-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+}
+.byob-panel-value {
+    font-size: 0.88rem;
+    color: var(--c-ivory);
+    font-weight: 500;
+    text-align: right;
+}
+
+/* Selected list in panel */
+.byob-selected-list {
+    list-style: none;
+    padding: 0;
+    margin: 0.8rem 0 0.4rem;
+}
+.byob-summary-item {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.4rem 0;
+    border-bottom: 1px solid var(--c-border);
+}
+.byob-summary-item:last-child { border-bottom: none; }
+
+.byob-summary-check {
+    color: #4ade80;
+    font-size: 0.85rem;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+.byob-summary-name {
+    flex: 1;
+    font-size: 0.82rem;
+    color: var(--c-ivory);
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.byob-summary-remove {
+    background: none;
+    border: none;
+    color: var(--c-ivory-dim);
+    font-size: 0.7rem;
+    cursor: pointer;
+    padding: 0.15rem 0.35rem;
+    border-radius: 4px;
+    flex-shrink: 0;
+    transition: color 0.15s, background 0.15s;
+}
+.byob-summary-remove:hover {
+    color: var(--c-danger);
+    background: rgba(248, 113, 113, 0.1);
+}
+
+.byob-empty-hint {
+    font-size: 0.8rem;
+    color: var(--c-ivory-dim);
+    text-align: center;
+    padding: 0.8rem 0;
+    margin: 0;
+}
+
+.byob-panel-divider {
+    border: none;
+    border-top: 1px solid var(--c-border-sub);
+    margin: 0.8rem 0;
+}
+
+.byob-total-row {
+    border-bottom: none !important;
+    margin-top: 0.2rem;
+}
+.byob-total-price {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: var(--c-gold);
+    font-family: var(--f-heading);
+}
+
+/* Order button */
+.byob-order-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    width: 100%;
+    margin-top: 1rem;
+    padding: 0.8rem 1rem;
+    background: #25d366;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.92rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s, opacity 0.2s, transform 0.15s;
+    letter-spacing: 0.02em;
+}
+.byob-order-btn:hover:not(:disabled) {
+    background: #1ebe5a;
+    transform: translateY(-1px);
+}
+.byob-order-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+/* Reset button */
+.byob-reset-btn {
+    display: block;
+    width: 100%;
+    margin-top: 0.5rem;
+    padding: 0.55rem 1rem;
+    background: transparent;
+    border: 1px solid var(--c-border);
+    border-radius: 6px;
+    color: var(--c-ivory-muted);
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s;
+}
+.byob-reset-btn:hover {
+    border-color: var(--c-gold-dim);
+    color: var(--c-ivory);
+}
+
+/* ── Mobile sticky bar ──────────────────────────────────────────────────── */
+.byob-sticky-bar {
+    display: none; /* shown only on mobile via media query */
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 200;
+    background: var(--c-card);
+    border-top: 1px solid var(--c-border-sub);
+    padding: 0.7rem 1rem;
+    box-shadow: 0 -4px 20px rgba(0,0,0,0.5);
+}
+.byob-sticky-inner {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    max-width: 540px;
+    margin: 0 auto;
+}
+.byob-sticky-count {
+    flex: 1;
+    font-size: 0.82rem;
+    color: var(--c-ivory-muted);
+    white-space: nowrap;
+}
+.byob-sticky-price {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--c-gold);
+    white-space: nowrap;
+}
+.byob-sticky-order-btn {
+    padding: 0.55rem 1rem;
+    background: #25d366;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.2s;
+}
+.byob-sticky-order-btn:hover:not(:disabled) { background: #1ebe5a; }
+.byob-sticky-order-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* ── Responsive ─────────────────────────────────────────────────────────── */
+@media (max-width: 900px) {
+    .byob-body {
+        grid-template-columns: 1fr;
+    }
+    .byob-right {
+        position: static;
+        order: -1; /* summary above grid on narrow screens */
+    }
+    .byob-panel { max-width: 540px; margin: 0 auto; }
+}
+
+@media (max-width: 768px) {
+    /* Hide desktop summary panel, show sticky bar instead */
+    .byob-right { display: none; }
+    .byob-sticky-bar { display: block; }
+    /* Add bottom padding so last card isn't hidden behind sticky bar */
+    .byob-section { padding-bottom: 4.5rem; }
+}
+
+@media (max-width: 600px) {
+    .byob-header { padding: 2.5rem 1rem 1.5rem; }
+    .byob-sizes-wrap { padding: 0 1rem 2rem; }
+    .byob-deal-selector { gap: 0.6rem; }
+    .byob-size-btn { min-width: 100px; padding: 0.8rem 1rem; }
+    .byob-size-label { font-size: 1.25rem; }
+    .byob-body { padding: 0 1rem; }
+    .byob-product-grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 0.65rem; }
+}
+
+@media (max-width: 380px) {
+    .byob-size-btn { min-width: 85px; padding: 0.7rem 0.7rem; }
+    .byob-size-label { font-size: 1.1rem; }
+    .byob-product-grid { grid-template-columns: repeat(2, 1fr); }
 }
