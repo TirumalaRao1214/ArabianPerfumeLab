@@ -451,7 +451,15 @@ const BYOB = (() => {
 
     function _openOrder() {
         var url = _buildOrderUrl();
-        if (url) window.open(url, '_blank', 'noopener,noreferrer');
+        if (!url) return;
+        // Route through the customer details checkout modal so delivery
+        // information is always collected before the order is sent.
+        if (typeof Checkout !== 'undefined' && typeof Checkout.openCheckoutForBYOB === 'function') {
+            Checkout.openCheckoutForBYOB(url);
+        } else {
+            // Fallback if checkout module is unavailable
+            window.open(url, '_blank', 'noopener,noreferrer');
+        }
     }
 
     /* ------------------------------------------------------------------

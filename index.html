@@ -26,12 +26,15 @@
        SECURITY HEADERS (meta fallback — authoritative headers are
        in _headers / netlify.toml / vercel.json for the host)
        ============================================================ -->
-  <!-- Content-Security-Policy: restrict to self + data URIs + approved image CDNs -->
+  <!-- Content-Security-Policy — hardened: blocks inline style attrs, rogue workers, forces HTTPS -->
   <meta http-equiv="Content-Security-Policy"
-        content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://lh3.googleusercontent.com https://encrypted-tbn0.gstatic.com https://images.unsplash.com https://plus.unsplash.com https://images.pexels.com; font-src 'self'; connect-src 'self'; media-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self';">
+        content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; style-src-attr 'none'; img-src 'self' data: https://lh3.googleusercontent.com https://encrypted-tbn0.gstatic.com https://images.unsplash.com https://plus.unsplash.com https://images.pexels.com; font-src 'self'; connect-src 'self'; media-src 'self'; object-src 'none'; worker-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests;">
 
   <!-- Prevent MIME-type sniffing -->
   <meta http-equiv="X-Content-Type-Options" content="nosniff">
+
+  <!-- Legacy XSS filter for older browsers -->
+  <meta http-equiv="X-XSS-Protection" content="1; mode=block">
 
   <!-- Referrer policy — only send origin on cross-origin requests -->
   <meta name="referrer" content="strict-origin-when-cross-origin">
@@ -290,9 +293,7 @@
         </h1>
 
         <p class="hero-sub reveal delay-2">
-          50ml Perfumes starts @ ₹499 · 2 for ₹999 · 100ml @ ₹999.
-          Attars starts @ ₹100. Solid Perfumes starts @ ₹99.
-          Your favourite perfume is here.
+          Your personality deserves its own fragrance. Explore our collection and discover the scent that speaks for you.
         </p>
 
         <div class="hero-cta reveal delay-3">
@@ -304,6 +305,10 @@
             <svg class="icon icon-sm" aria-hidden="true" focusable="false"><use href="assets/icons/icons.svg#icon-sparkles"></use></svg>
             <span>Scent Quiz</span>
           </button>
+          <a href="#byob-section" class="btn btn-outline" aria-label="Offers — Build Your Own Box">
+            <svg class="icon icon-sm" aria-hidden="true" focusable="false"><use href="assets/icons/icons.svg#icon-star"></use></svg>
+            <span>BUILD YOUR BOX</span>
+          </a>
           <button class="btn btn-outline" id="hero-cart-btn" aria-label="View cart" style="display:none;">
             <svg class="icon icon-sm" aria-hidden="true" focusable="false"><use href="assets/icons/icons.svg#icon-bag"></use></svg>
             <span>View Cart</span>
@@ -755,21 +760,19 @@
         <div class="catalogue-filters">
 
           <div class="filter-group">
-            <label for="filter-collection" class="filter-label">Category</label>
-            <select id="filter-collection" class="filter-select" aria-label="Filter by category">
+            <label for="filter-category" class="filter-label">Category</label>
+            <select id="filter-category" class="filter-select" aria-label="Filter by category">
               <option value="all">All Categories</option>
-              <optgroup label="── Attars ──────────────">
-                <option value="attars">Attars (All)</option>
-                <option value="french-attars">French Attars</option>
-                <option value="arabic-attars">Arabic Attars</option>
-                <option value="floral-attars">Floral Attars</option>
-                <option value="fruity-attars">Fruity Attars</option>
-                <option value="aquatic-attars">Aquatic Attars</option>
-                <option value="french-arabic-mix-attars">French &amp; Arabic Mix Attars</option>
-              </optgroup>
-              <optgroup label="── Body Care ───────────">
-                <option value="body-creams-solid-perfumes">Body Creams / Solid Perfumes</option>
-              </optgroup>
+              <option value="attars">Attars</option>
+              <option value="perfumes">Perfumes</option>
+              <option value="body-care">Body Care</option>
+            </select>
+          </div>
+
+          <div class="filter-group">
+            <label for="filter-subcategory" class="filter-label">Subcategory</label>
+            <select id="filter-subcategory" class="filter-select" aria-label="Filter by subcategory">
+              <option value="all">All Subcategories</option>
             </select>
           </div>
 
@@ -1743,7 +1746,7 @@
     </div>
 
     <div class="footer-bottom">
-      <p class="copyright">&copy; 2025 Arabian Perfume Lab. All Rights Reserved. Guntur · Andhra Pradesh · India.</p>
+      <p class="copyright">&copy; 2026 Arabian Perfume Lab. All Rights Reserved. Guntur · Andhra Pradesh · India.</p>
       <div class="footer-badges" aria-hidden="true">
         <span>100% Niche Extracts</span>
         <span class="footer-badge-sep">·</span>
@@ -1751,6 +1754,7 @@
         <span class="footer-badge-sep">·</span>
         <span>Ethically Sourced</span>
       </div>
+      <p class="footer-dev-credit">Designed &amp; Developed by <strong>GTR Web Solutions</strong></p>
     </div>
   </div>
 </footer>

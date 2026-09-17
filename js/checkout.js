@@ -133,6 +133,9 @@ const Checkout = (() => {
         if (!name) {
             _showError('checkout-name', 'checkout-name-error', 'Please enter your name.');
             valid = false;
+        } else if (name.length > 120) {
+            _showError('checkout-name', 'checkout-name-error', 'Name must be 120 characters or fewer.');
+            valid = false;
         }
 
         const normPhone = _normalisePhone(phoneRaw);
@@ -146,6 +149,9 @@ const Checkout = (() => {
 
         if (!address) {
             _showError('checkout-address', 'checkout-address-error', 'Please enter your delivery address.');
+            valid = false;
+        } else if (address.length > 500) {
+            _showError('checkout-address', 'checkout-address-error', 'Address must be 500 characters or fewer.');
             valid = false;
         }
 
@@ -286,6 +292,11 @@ const Checkout = (() => {
         return lines.join('\n');
     }
 
+    /* ── BYOB pending order ─────────────────────────────────────── */
+
+    /** WhatsApp URL to open after details are filled via the BYOB path */
+    let _byobPendingUrl = null;
+
     /* ── Open / Close ───────────────────────────────────────────── */
 
     function _updateDetailsPreview() {
@@ -302,24 +313,16 @@ const Checkout = (() => {
         }
     }
 
-    function openCheckout() {
-        if (!Cart.getItems().length) {
-            if (typeof showToast === 'function') showToast('Your cart is empty. Add a fragrance first.');
-            return;
-        }
-
+    function _openModal() {
         _showStep('checkout-step-details');
         _updateDetailsPreview();
 
-        // Pre-fill from session so "Back" preserves input
         const fields = ['checkout-name', 'checkout-phone', 'checkout-address', 'checkout-pincode'];
         const keys   = ['name', 'phone', 'address', 'pincode'];
         fields.forEach((id, i) => {
             const el = _el(id);
             if (el) el.value = _session[keys[i]];
         });
-
-        // Clear stale errors
         fields.forEach(id => _clearError(id, id + '-error'));
 
         const modal = _el('checkout-modal');
@@ -330,6 +333,31 @@ const Checkout = (() => {
             const first = _el('checkout-name');
             if (first) setTimeout(() => first.focus(), 120);
         }
+    }
+
+    function openCheckout() {
+        if (!Cart.getItems().length) {
+            if (typeof showToast === 'function') showToast('Your cart is empty. Add a fragrance first.');
+            return;
+        }
+        _byobPendingUrl = null;   // normal cart order — no BYOB URL
+        _openModal();
+    }
+
+    /**
+     * Open the customer details modal for a BYOB order.
+     * After the customer fills in their details and confirms, the provided
+     * WhatsApp URL is opened instead of building a cart-based message.
+     * @param {string} byobUrl  — pre-built wa.me URL from byob.js
+     */
+    function openCheckoutForBYOB(byobUrl) {
+        if (typeof byobUrl !== 'string') return;
+        // Only accept a pre-built wa.me URL — reject anything else
+        if (!byobUrl.startsWith('https://wa.me/')) return;
+        // Reasonable length cap (max WhatsApp URL is ~4096 chars including message)
+        if (byobUrl.length > 4096) return;
+        _byobPendingUrl = byobUrl;
+        _openModal();
     }
 
     function closeCheckout() {
@@ -366,6 +394,25 @@ const Checkout = (() => {
                 _session.address = _el('checkout-address').value.trim();
                 _session.pincode = _el('checkout-pincode').value.trim();
 
+                // For BYOB: append customer details to the pending URL and open immediately
+                if (_byobPendingUrl) {
+                    const details = [
+                        '',
+                        '%E2%80%94%E2%80%94%E2%80%94%E2%80%94%E2%80%94%E2%80%94%E2%80%94%E2%80%94%E2%80%94%E2%80%94%E2%80%94%E2%80%94%E2%80%94',
+                        encodeURIComponent('Customer Details'),
+                        encodeURIComponent('Name: '    + _session.name),
+                        encodeURIComponent('Phone: '   + _session.phone),
+                        encodeURIComponent('Address: ' + _session.address),
+                        encodeURIComponent('Pincode: ' + _session.pincode)
+                    ].join('%0A');
+                    const finalUrl = _byobPendingUrl + details;
+                    _byobPendingUrl = null;
+                    _session = { name: '', phone: '', address: '', pincode: '' };
+                    closeCheckout();
+                    window.open(finalUrl, '_blank', 'noopener,noreferrer');
+                    return;
+                }
+
                 _populateSummary();
                 _showStep('checkout-step-summary');
             });
@@ -375,6 +422,7 @@ const Checkout = (() => {
         const backBtn1 = _el('checkout-back-to-cart-btn');
         if (backBtn1) {
             backBtn1.addEventListener('click', () => {
+                _byobPendingUrl = null;
                 closeCheckout();
                 if (typeof openCartDrawer === 'function') openCartDrawer();
             });
@@ -391,12 +439,13 @@ const Checkout = (() => {
         const backBtn2 = _el('checkout-back-to-cart-btn-2');
         if (backBtn2) {
             backBtn2.addEventListener('click', () => {
+                _byobPendingUrl = null;
                 closeCheckout();
                 if (typeof openCartDrawer === 'function') openCartDrawer();
             });
         }
 
-        /* "Confirm & Order on WhatsApp" */
+        /* "Confirm & Order on WhatsApp" (cart path only) */
         const confirmBtn = _el('checkout-confirm-btn');
         if (confirmBtn) {
             confirmBtn.addEventListener('click', () => {
@@ -409,9 +458,7 @@ const Checkout = (() => {
                 const number  = String(BUSINESS.whatsapp).replace(/\D/g, '');
                 const url     = 'https://wa.me/' + number + '?text=' + encodeURIComponent(message);
 
-                // Clear PII from session after handoff
                 _session = { name: '', phone: '', address: '', pincode: '' };
-                // Clear the cart after the order is sent
                 Cart.clear();
                 closeCheckout();
                 window.open(url, '_blank', 'noopener,noreferrer');
@@ -439,7 +486,7 @@ const Checkout = (() => {
         }
     }
 
-    return Object.freeze({ init, openCheckout, closeCheckout, calcDelivery, deliveryMessage });
+    return Object.freeze({ init, openCheckout, openCheckoutForBYOB, closeCheckout, calcDelivery, deliveryMessage });
 })();
 
 // Auto-initialise

@@ -16,15 +16,10 @@
  *   french-attars              → French Attars
  *   arabic-attars              → Arabic Attars
  *   floral-attars              → Floral Attars
- *   fruity-attars              → Fruity Attars
- *   aquatic-attars             → Aquatic Attars
  *   french-arabic-mix-attars   → French & Arabic Mix Attars
- *   french-perfumes            → French Perfumes
- *   arabic-perfumes            → Arabic Perfumes
- *   floral-perfumes            → Floral Perfumes
- *   fruity-perfumes            → Fruity Perfumes
- *   aquatic-perfumes           → Aquatic Perfumes
- *   body-creams-solid-perfumes → Body Creams / Solid Perfumes
+ *   french-perfumes            → French Perfumes  (virtual — maps to french-attars products)
+ *   arabic-perfumes            → Arabic Perfumes  (virtual — maps to arabic-attars products)
+ *   floral-perfumes            → Floral Perfumes  (virtual — maps to floral-attars products)
  *
  * Composite variant key format:  "type:sizeLabel"
  *   attar:3ml | attar:6ml | attar:12ml
@@ -48,42 +43,74 @@
  */
 
 /**
- * CATEGORIES — canonical mapping of slug → display label.
- * Used by filterProducts() for both exact and parent-group matching.
- * "all" is NOT a real category — it is a UI sentinel.
+ * CATEGORIES — canonical mapping of subcategory slug → display label.
+ * Only real product slugs live here. "all", parent group IDs and
+ * body-care group ID are UI sentinels — intentionally absent.
  */
 const CATEGORIES = Object.freeze({
     // ── Attar sub-categories ──────────────────────────────────────
     'french-attars':            'French Attars',
     'arabic-attars':            'Arabic Attars',
     'floral-attars':            'Floral Attars',
-    'fruity-attars':            'Fruity Attars',
-    'aquatic-attars':           'Aquatic Attars',
     'french-arabic-mix-attars': 'French & Arabic Mix Attars',
     // ── Perfume sub-categories ────────────────────────────────────
-    'french-perfumes':          'French Perfumes',
-    'arabic-perfumes':          'Arabic Perfumes',
-    'floral-perfumes':          'Floral Perfumes',
-    'fruity-perfumes':          'Fruity Perfumes',
-    'aquatic-perfumes':         'Aquatic Perfumes',
+    'french-perfumes':              'French Perfumes',
+    'arabic-perfumes':              'Arabic Perfumes',
+    'floral-perfumes':              'Floral Perfumes',
+    'french-arabic-mix-perfumes':   'French & Arabic Mix Perfumes',
     // ── Body Care ─────────────────────────────────────────────────
     'body-creams-solid-perfumes': 'Body Creams / Solid Perfumes'
 });
 
 /**
- * CATEGORY_GROUPS — parent group slug → array of child slugs.
- * "attars" and "perfumes" are group selectors in the UI — no product
- * uses them directly as its category value.
+ * CATEGORY_GROUPS — parent group slug → array of child subcategory slugs.
+ * Used to populate the Subcategory dropdown and for group-level filtering.
+ * body-care has no sub-selection — it is a leaf category itself.
  */
 const CATEGORY_GROUPS = Object.freeze({
     'attars': [
-        'french-attars', 'arabic-attars', 'floral-attars',
-        'fruity-attars', 'aquatic-attars', 'french-arabic-mix-attars'
+        'french-attars', 'arabic-attars', 'floral-attars', 'french-arabic-mix-attars'
     ],
     'perfumes': [
-        'french-perfumes', 'arabic-perfumes', 'floral-perfumes',
-        'fruity-perfumes', 'aquatic-perfumes'
-    ]
+        'french-perfumes', 'arabic-perfumes', 'floral-perfumes', 'french-arabic-mix-perfumes'
+    ],
+    'body-care': []   // leaf — no subcategories
+});
+
+/**
+ * SUBCATEGORY_LABELS — display label for each parent group option.
+ */
+const SUBCATEGORY_LABELS = Object.freeze({
+    'attars':    'Attars',
+    'perfumes':  'Perfumes',
+    'body-care': 'Body Care'
+});
+
+/**
+ * CATEGORY_TYPE_MAP — maps each subcategory slug (or parent group) to the
+ * product type that should be automatically activated.
+ * "all" is intentionally absent — no type is forced.
+ */
+const CATEGORY_TYPE_MAP = Object.freeze({
+    // Parent groups
+    'attars':    'attar',
+    'perfumes':  'perfume',
+    'body-care': 'solid',
+
+    // Attar sub-categories
+    'french-attars':            'attar',
+    'arabic-attars':            'attar',
+    'floral-attars':            'attar',
+    'french-arabic-mix-attars': 'attar',
+
+    // Perfume sub-categories
+    'french-perfumes':            'perfume',
+    'arabic-perfumes':            'perfume',
+    'floral-perfumes':            'perfume',
+    'french-arabic-mix-perfumes': 'perfume',
+
+    // Body Care
+    'body-creams-solid-perfumes': 'solid'
 });
 
 /* ---------- Individual bottle image map ---------- */
@@ -311,8 +338,4 @@ const products = Object.freeze([
     { id:'zidaan-classic',          name:'Zidaan Classic',          category:'byob-only', notes:['Oud','Amber','Oriental'],     description:'', sizes:_sz(ATTAR_ARABIC(), PERF_ARABIC()) },
     { id:'blue-musk',               name:'Blue Musk',               category:'byob-only', notes:['Musk','Fresh','Aquatic'],    description:'', sizes:_sz(ATTAR_ATTARS(), PERF_ATTARS()) },
 
-    /* ===================================================
-       BODY CREAMS / SOLID PERFUMES  (single combined product)
-       =================================================== */
-    { id:'body-cream-solid-perfume', name:'Body Cream / Solid Perfume', category:'body-creams-solid-perfumes', notes:['Musk','Floral','Soft'], description:'Arabian Perfumer\'s luxurious Body Creams and Solid Perfumes — nourishing skin and lasting fragrance in one elegant jar.', sizes:_sz(SOLID_BODY()) }
 ]);

@@ -63,11 +63,28 @@ const WhatsApp = (() => {
             })();
 
             lines.push((index + 1) + '. ' + p.name);
-            // Resolve category slug to display label when available
-            const catLabel = (typeof CATEGORIES !== 'undefined' && CATEGORIES[p.category])
-                ? CATEGORIES[p.category]
-                : (p.category || '');
-            lines.push('   Category: ' + catLabel);
+            // Resolve effective category display label.
+            // For perfume/solid variants, derive the display category from the
+            // product's base category and the variant type, so the message shows
+            // e.g. "Floral Perfumes" when a floral-attar product is ordered as perfume.
+            const effectiveCatLabel = (function() {
+                if (!item.size) return p.category || '';
+                const varType = item.size.split(':')[0]; // 'attar' | 'perfume' | 'solid'
+                if (varType === 'solid') return 'Body Creams / Solid Perfumes';
+                if (varType === 'perfume' && typeof PERFUME_SUBCATEGORY_MAP !== 'undefined') {
+                    // Find the perfume subcategory whose map points to this product's attar category
+                    const perfumeCat = Object.keys(PERFUME_SUBCATEGORY_MAP)
+                        .find(k => PERFUME_SUBCATEGORY_MAP[k] === p.category);
+                    if (perfumeCat && typeof CATEGORIES !== 'undefined' && CATEGORIES[perfumeCat]) {
+                        return CATEGORIES[perfumeCat];
+                    }
+                }
+                // Default: use the product's own category label
+                return (typeof CATEGORIES !== 'undefined' && CATEGORIES[p.category])
+                    ? CATEGORIES[p.category]
+                    : (p.category || '');
+            })();
+            lines.push('   Category: ' + effectiveCatLabel);
             lines.push('   Variant: ' + sizeLabel);
             lines.push('   ' + unitPrice + ' \u00D7 ' + item.qty + ' = ' + lineTot);
             lines.push('');

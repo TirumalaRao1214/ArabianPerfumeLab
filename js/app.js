@@ -47,13 +47,23 @@ document.addEventListener('DOMContentLoaded', () => {
    ICON SPRITE INJECTION
    ========================================================================== */
 function injectIconSprite() {
-    fetch('assets/icons/icons.svg')
-        .then(r => r.text())
+    // Fetch only from the same origin; reject any cross-origin or non-SVG response
+    fetch('assets/icons/icons.svg', { credentials: 'same-origin' })
+        .then(r => {
+            // Guard: only accept same-origin successful responses
+            if (!r.ok || !r.url.startsWith(location.origin)) throw new Error('bad response');
+            const ct = r.headers.get('content-type') || '';
+            if (!ct.includes('svg') && !ct.includes('xml') && !ct.includes('text')) throw new Error('unexpected content-type');
+            return r.text();
+        })
         .then(svgText => {
+            // Sanity check: must start with an SVG tag (strips any injected preamble)
+            const trimmed = svgText.trim();
+            if (!trimmed.startsWith('<svg') && !trimmed.startsWith('<?xml') && !trimmed.startsWith('<!--')) return;
             const div = document.createElement('div');
             div.setAttribute('aria-hidden', 'true');
             div.style.cssText = 'position:absolute;width:0;height:0;overflow:hidden;';
-            div.innerHTML = svgText; // safe: our own local SVG file
+            div.innerHTML = trimmed; // safe: validated same-origin SVG file
             document.body.insertBefore(div, document.body.firstChild);
         })
         .catch(() => {});
@@ -223,26 +233,81 @@ const CATALOGUE = {
     PAGE_SIZE: 12,
     _page: 1,
     _query: '',
-    _collection: 'all',    // 'all' | exact category string
-    _notes: 'all',         // any note chip text
-    _sort: 'default',      // 'default' | 'price-asc' | 'price-desc' | 'az' | 'za'
-    _filtered: []
+    _category:    'all',  // 'all' | 'attars' | 'perfumes' | 'body-care'
+    _subcategory: 'all',  // 'all' | exact subcategory slug
+    _notes: 'all',
+    _sort: 'default',
+    _filtered: [],
+    _forcedType: null     // null | 'attar' | 'perfume' | 'solid'
 };
+
+/**
+ * PERFUME_SUBCATEGORY_MAP
+ * Perfume sub-categories are virtual — their products live under the matching
+ * attar slug.  This map tells filterProducts() which attar slug to use.
+ */
+const PERFUME_SUBCATEGORY_MAP = Object.freeze({
+    'french-perfumes':            'french-attars',
+    'arabic-perfumes':            'arabic-attars',
+    'floral-perfumes':            'floral-attars',
+    'french-arabic-mix-perfumes': 'french-arabic-mix-attars'
+});
+
+/**
+ * Derive the forced product type from the current category + subcategory state.
+ * Subcategory takes priority over parent category.
+ */
+function _deriveForcedType() {
+    const map = (typeof CATEGORY_TYPE_MAP !== 'undefined') ? CATEGORY_TYPE_MAP : {};
+    if (CATALOGUE._subcategory !== 'all') return map[CATALOGUE._subcategory] || null;
+    if (CATALOGUE._category    !== 'all') return map[CATALOGUE._category]    || null;
+    return null;
+}
 
 /** Run the filter + search + sort pipeline and return matching products */
 function filterProducts() {
     // Exclude BYOB-only products from the catalogue at all times
     let list = Array.from(products).filter(p => p.category !== 'byob-only');
 
-    // Category filter — supports exact slug match AND parent group ('attars'/'perfumes')
-    if (CATALOGUE._collection !== 'all') {
-        const col = CATALOGUE._collection;
-        // Check if it's a parent group (CATEGORY_GROUPS defined in products.js)
-        const groupChildren = (typeof CATEGORY_GROUPS !== 'undefined' && CATEGORY_GROUPS[col]);
-        if (groupChildren) {
-            list = list.filter(p => groupChildren.indexOf(p.category) !== -1);
+    const cat    = CATALOGUE._category;
+    const subcat = CATALOGUE._subcategory;
+
+    if (cat === 'body-care') {
+        // Body Care: show ALL 51 fragrances that have a solid variant
+        list = list.filter(p =>
+            typeof p.sizes === 'object' &&
+            Object.keys(p.sizes).some(k => k.startsWith('solid:'))
+        );
+    } else if (cat !== 'all') {
+        if (subcat !== 'all') {
+            // Specific subcategory selected
+            const mirroredAttar = PERFUME_SUBCATEGORY_MAP[subcat];
+            if (mirroredAttar) {
+                // Perfume subcategory: show products from matching attar slug
+                // that have perfume variants
+                list = list.filter(p => p.category === mirroredAttar &&
+                    typeof p.sizes === 'object' &&
+                    Object.keys(p.sizes).some(k => k.startsWith('perfume:')));
+            } else {
+                list = list.filter(p => p.category === subcat);
+            }
         } else {
-            list = list.filter(p => p.category === col);
+            // Parent category, no subcategory — show all products in that group
+            const children = (typeof CATEGORY_GROUPS !== 'undefined' && CATEGORY_GROUPS[cat]) || [];
+            if (cat === 'perfumes') {
+                // Perfume group: show products that have perfume variants
+                // (same underlying products as attar group)
+                const perfSubcats = children; // ['french-perfumes','arabic-perfumes','floral-perfumes']
+                const attarSlugs  = perfSubcats.map(s => PERFUME_SUBCATEGORY_MAP[s]).filter(Boolean);
+                list = list.filter(p =>
+                    attarSlugs.indexOf(p.category) !== -1 &&
+                    typeof p.sizes === 'object' &&
+                    Object.keys(p.sizes).some(k => k.startsWith('perfume:'))
+                );
+            } else {
+                // Attars group: show products belonging to any attar sub-category
+                list = list.filter(p => children.indexOf(p.category) !== -1);
+            }
         }
     }
 
@@ -255,14 +320,12 @@ function filterProducts() {
     // Search query
     if (CATALOGUE._query) {
         const q = CATALOGUE._query.toLowerCase();
-        list = list.filter(p => {
-            return (
-                p.name.toLowerCase().includes(q) ||
-                p.category.toLowerCase().includes(q) ||
-                (p.notes && p.notes.some(n => n.toLowerCase().includes(q))) ||
-                (p.description && p.description.toLowerCase().includes(q))
-            );
-        });
+        list = list.filter(p =>
+            p.name.toLowerCase().includes(q) ||
+            p.category.toLowerCase().includes(q) ||
+            (p.notes && p.notes.some(n => n.toLowerCase().includes(q))) ||
+            (p.description && p.description.toLowerCase().includes(q))
+        );
     }
 
     // Sort
@@ -271,7 +334,7 @@ function filterProducts() {
         case 'price-desc': list.sort((a, b) => lowestPrice(b) - lowestPrice(a)); break;
         case 'az':         list.sort((a, b) => a.name.localeCompare(b.name));    break;
         case 'za':         list.sort((a, b) => b.name.localeCompare(a.name));    break;
-        default:           break; // default order = products.js order
+        default:           break;
     }
 
     CATALOGUE._filtered = list;
@@ -279,10 +342,57 @@ function filterProducts() {
 }
 
 /* ==========================================================================
+   SUBCATEGORY DROPDOWN — dynamic population based on parent category
+   ========================================================================== */
+
+/**
+ * Rebuild the #filter-subcategory <select> options based on the selected parent.
+ * Hides the subcategory dropdown when the parent has no subcategories.
+ */
+function _rebuildSubcategoryDropdown(parentCategory) {
+    const sel = document.getElementById('filter-subcategory');
+    if (!sel) return;
+
+    // Clear all options
+    while (sel.firstChild) sel.removeChild(sel.firstChild);
+
+    const groups  = (typeof CATEGORY_GROUPS !== 'undefined') ? CATEGORY_GROUPS : {};
+    const catMap  = (typeof CATEGORIES      !== 'undefined') ? CATEGORIES      : {};
+    const children = groups[parentCategory] || [];
+
+    // Build "All …" option
+    const allOpt = document.createElement('option');
+    allOpt.value = 'all';
+    if (parentCategory === 'all')       allOpt.textContent = 'All Subcategories';
+    else if (parentCategory === 'attars')    allOpt.textContent = 'All Attars';
+    else if (parentCategory === 'perfumes')  allOpt.textContent = 'All Perfumes';
+    else if (parentCategory === 'body-care') allOpt.textContent = 'Body Creams / Solid Perfumes';
+    else                                     allOpt.textContent = 'All';
+    sel.appendChild(allOpt);
+
+    // Add subcategory options
+    children.forEach(slug => {
+        const opt = document.createElement('option');
+        opt.value = slug;
+        opt.textContent = catMap[slug] || slug;
+        sel.appendChild(opt);
+    });
+
+    // Show/hide the dropdown group
+    const group = sel.closest('.filter-group');
+    if (group) {
+        group.style.display = (parentCategory === 'all' || parentCategory === 'body-care') ? 'none' : '';
+    }
+}
+
+/* ==========================================================================
    CATALOGUE SECTION (search + filters + grid + pagination)
    ========================================================================== */
 function initCatalogueSection() {
     if (typeof products === 'undefined') return;
+
+    // Hide subcategory dropdown initially
+    _rebuildSubcategoryDropdown('all');
 
     // Wire search input
     const searchInput = document.getElementById('catalogue-search');
@@ -294,8 +404,32 @@ function initCatalogueSection() {
         });
     }
 
-    // Wire filter selects
-    ['collection', 'notes', 'sort'].forEach(key => {
+    // Wire Category dropdown
+    const catSel = document.getElementById('filter-category');
+    if (catSel) {
+        catSel.addEventListener('change', () => {
+            CATALOGUE._category    = catSel.value;
+            CATALOGUE._subcategory = 'all';
+            CATALOGUE._forcedType  = _deriveForcedType();
+            CATALOGUE._page        = 1;
+            _rebuildSubcategoryDropdown(catSel.value);
+            renderGrid();
+        });
+    }
+
+    // Wire Subcategory dropdown
+    const subSel = document.getElementById('filter-subcategory');
+    if (subSel) {
+        subSel.addEventListener('change', () => {
+            CATALOGUE._subcategory = subSel.value;
+            CATALOGUE._forcedType  = _deriveForcedType();
+            CATALOGUE._page        = 1;
+            renderGrid();
+        });
+    }
+
+    // Wire Notes + Sort selects
+    ['notes', 'sort'].forEach(key => {
         const el = document.getElementById('filter-' + key);
         if (el) {
             el.addEventListener('change', () => {
@@ -310,17 +444,21 @@ function initCatalogueSection() {
     const clearBtn = document.getElementById('filter-clear-btn');
     if (clearBtn) {
         clearBtn.addEventListener('click', () => {
-            CATALOGUE._query      = '';
-            CATALOGUE._collection = 'all';
-            CATALOGUE._notes      = 'all';
-            CATALOGUE._sort       = 'default';
-            CATALOGUE._page       = 1;
-            // Reset UI controls
+            CATALOGUE._query       = '';
+            CATALOGUE._category    = 'all';
+            CATALOGUE._subcategory = 'all';
+            CATALOGUE._notes       = 'all';
+            CATALOGUE._sort        = 'default';
+            CATALOGUE._forcedType  = null;
+            CATALOGUE._page        = 1;
             if (searchInput) searchInput.value = '';
-            ['collection', 'notes', 'sort'].forEach(key => {
-                const el = document.getElementById('filter-' + key);
-                if (el) el.value = key === 'sort' ? 'default' : 'all';
-            });
+            if (catSel)  catSel.value  = 'all';
+            if (subSel)  subSel.value  = 'all';
+            const notesEl = document.getElementById('filter-notes');
+            const sortEl  = document.getElementById('filter-sort');
+            if (notesEl) notesEl.value = 'all';
+            if (sortEl)  sortEl.value  = 'default';
+            _rebuildSubcategoryDropdown('all');
             renderGrid();
         });
     }
@@ -375,7 +513,8 @@ function renderGrid() {
     }
 
     const fragment = document.createDocumentFragment();
-    page.forEach((p, idx) => fragment.appendChild(buildProductCard(p, idx)));
+    const forcedType = CATALOGUE._forcedType || null;
+    page.forEach((p, idx) => fragment.appendChild(buildProductCard(p, idx, forcedType)));
     grid.appendChild(fragment);
 
     // Re-apply tilt to new cards
@@ -427,7 +566,7 @@ function renderPagination(currentPage, totalPages) {
 /* ==========================================================================
    PRODUCT CARD — built from catalog, no unsafe HTML
    ========================================================================== */
-function buildProductCard(product, index) {
+function buildProductCard(product, index, forcedType) {
     const delayClass = ['', 'delay-1', 'delay-2', 'delay-3'][index % 4];
 
     const article = document.createElement('article');
@@ -440,7 +579,10 @@ function buildProductCard(product, index) {
 
     /* ---- Determine initial state ---- */
     const types    = getProductTypes(product);
-    let selType    = types[0] || 'attar';
+    // If a category forces a specific type and this product has that type, use it.
+    // Otherwise fall back to the first available type.
+    const resolvedType = (forcedType && types.indexOf(forcedType) !== -1) ? forcedType : (types[0] || 'attar');
+    let selType    = resolvedType;
     let selVariants = getVariantsForType(product, selType);
     let selKey     = selVariants.length ? selVariants[0].key : firstSize(product);
     let selVariant = product.sizes[selKey];
@@ -471,9 +613,19 @@ function buildProductCard(product, index) {
 
     const catEl = document.createElement('p');
     catEl.className = 'product-cat';
-    catEl.textContent = (typeof CATEGORIES !== 'undefined' && CATEGORIES[product.category])
-        ? CATEGORIES[product.category]
-        : (product.category || '');
+    // Use the most specific active filter label available.
+    // Subcategory > parent category > product's own category slug label.
+    const displayCategoryLabel = (function() {
+        const catMap = (typeof CATEGORIES !== 'undefined') ? CATEGORIES : {};
+        const subcat = CATALOGUE._subcategory;
+        const cat    = CATALOGUE._category;
+        if (subcat && subcat !== 'all' && catMap[subcat]) return catMap[subcat];
+        if (cat === 'body-care')  return 'Body Creams / Solid Perfumes';
+        if (cat === 'attars')     return 'Attars';
+        if (cat === 'perfumes')   return 'Perfumes';
+        return catMap[product.category] || product.category || '';
+    }());
+    catEl.textContent = displayCategoryLabel;
     body.appendChild(catEl);
 
     const nameEl = document.createElement('h3');
@@ -507,7 +659,7 @@ function buildProductCard(product, index) {
                 selVariant  = product.sizes[selKey];
                 // Update active type button
                 typeRow.querySelectorAll('.type-chip').forEach(c =>
-                    c.classList.toggle('active', c.textContent === (TYPE_LABELS[t] || t))
+                    c.classList.toggle('active', c.dataset.type === t)
                 );
                 _rebuildSizeRow();
                 _updateImage();
@@ -1446,47 +1598,63 @@ function initNavWhatsApp() {
    PRICING CARDS — wire "Shop X" CTAs to filter the catalogue section
    ========================================================================== */
 function initPricingCards() {
-    // Legacy: data-filter-collection — filter by product category
+    // data-filter-collection — jump to a specific parent category
+    // Values: 'attars' | 'perfumes' | 'body-care'  (or legacy subcategory slugs)
     document.querySelectorAll('[data-filter-collection]').forEach(el => {
         el.addEventListener('click', (e) => {
             e.preventDefault();
             const col = el.getAttribute('data-filter-collection');
             if (!col) return;
 
-            CATALOGUE._collection = col;
-            CATALOGUE._page       = 1;
+            // Map legacy subcategory slugs to their parent group
+            const PARENT_MAP = {
+                'french-attars': 'attars', 'arabic-attars': 'attars',
+                'floral-attars': 'attars', 'french-arabic-mix-attars': 'attars',
+                'french-perfumes': 'perfumes', 'arabic-perfumes': 'perfumes',
+                'floral-perfumes': 'perfumes', 'french-arabic-mix-perfumes': 'perfumes',
+                'body-creams-solid-perfumes': 'body-care',
+                'attars': 'attars', 'perfumes': 'perfumes', 'body-care': 'body-care'
+            };
+            const parent = PARENT_MAP[col] || 'all';
+            const subcat = (parent !== col && col !== parent) ? col : 'all';
+
+            CATALOGUE._category    = parent;
+            CATALOGUE._subcategory = subcat;
+            CATALOGUE._forcedType  = _deriveForcedType();
+            CATALOGUE._page        = 1;
             renderGrid();
 
-            const sel = document.getElementById('filter-collection');
-            if (sel) sel.value = col;
+            const catSel = document.getElementById('filter-category');
+            if (catSel) catSel.value = parent;
+            _rebuildSubcategoryDropdown(parent);
+            const subSel = document.getElementById('filter-subcategory');
+            if (subSel) subSel.value = subcat;
 
             const section = document.getElementById('collection');
             if (section) section.scrollIntoView({ behavior: 'smooth' });
         });
     });
 
-    // New promo cards: data-filter-type — scroll to catalogue and pre-select
-    // a product type chip (attar | perfume | solid) on every rendered card.
+    // data-filter-type — force a specific product type on all visible cards
     document.querySelectorAll('[data-filter-type]').forEach(el => {
         el.addEventListener('click', (e) => {
             e.preventDefault();
             const type = el.getAttribute('data-filter-type');
             if (!type) return;
 
-            // Reset category filter so all products are shown
-            CATALOGUE._collection = 'all';
-            CATALOGUE._page       = 1;
+            CATALOGUE._category    = 'all';
+            CATALOGUE._subcategory = 'all';
+            CATALOGUE._forcedType  = null;
+            CATALOGUE._page        = 1;
             renderGrid();
 
-            const sel = document.getElementById('filter-collection');
-            if (sel) sel.value = 'all';
+            const catSel = document.getElementById('filter-category');
+            if (catSel) catSel.value = 'all';
+            _rebuildSubcategoryDropdown('all');
 
-            // Scroll to catalogue
             const section = document.getElementById('collection');
             if (section) section.scrollIntoView({ behavior: 'smooth' });
 
-            // After the grid has rendered, click the matching type chip on
-            // every visible product card so the correct type is pre-selected.
             requestAnimationFrame(() => {
                 document.querySelectorAll('.type-chip[data-type="' + type + '"]').forEach(chip => {
                     if (!chip.classList.contains('active')) chip.click();
@@ -1888,8 +2056,12 @@ function initScentFinderQuiz() {
         });
     }
 
-    // Expose for footer/inline links
-    window.openQuizModal = openQuizModal;
+    // Expose for footer/inline links — read-only, non-configurable
+    Object.defineProperty(window, 'openQuizModal', {
+        value: openQuizModal,
+        writable: false,
+        configurable: false
+    });
 }
 
 /* ==========================================================================
@@ -1988,9 +2160,10 @@ function initBackgroundMusic() {
     // Low ambient volume
     audio.volume = 0.18;
 
-    // Restore saved preference (default: off)
-    const saved = localStorage.getItem('apl_music');
-    let   playing = saved === 'on';
+    // Restore saved preference (default: off) — strictly validate stored value
+    let savedRaw;
+    try { savedRaw = localStorage.getItem('apl_music'); } catch (_) { savedRaw = null; }
+    let playing = (typeof savedRaw === 'string' && savedRaw.length <= 3 && savedRaw === 'on');
 
     function _applyState() {
         if (playing) {
