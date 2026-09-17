@@ -233,9 +233,16 @@ const CATALOGUE = {
 function filterProducts() {
     let list = Array.from(products); // products is frozen array from products.js
 
-    // Category filter (matches product.category exactly)
+    // Category filter — supports exact slug match AND parent group ('attars'/'perfumes')
     if (CATALOGUE._collection !== 'all') {
-        list = list.filter(p => p.category === CATALOGUE._collection);
+        const col = CATALOGUE._collection;
+        // Check if it's a parent group (CATEGORY_GROUPS defined in products.js)
+        const groupChildren = (typeof CATEGORY_GROUPS !== 'undefined' && CATEGORY_GROUPS[col]);
+        if (groupChildren) {
+            list = list.filter(p => groupChildren.indexOf(p.category) !== -1);
+        } else {
+            list = list.filter(p => p.category === col);
+        }
     }
 
     // Notes/family filter

@@ -144,6 +144,7 @@
     <nav class="nav-links" aria-label="Primary navigation">
       <a href="#home"        class="nav-link active" data-section="home">Home</a>
       <a href="#collection"  class="nav-link" data-section="collection">Collection</a>
+      <a href="#byob-section" class="nav-link" data-section="byob-section">Build a Box</a>
       <button class="nav-link nav-quiz-link" id="nav-quiz-btn" aria-label="Find your perfect scent with our quiz">✦ Scent Quiz</button>
       <a href="#about"       class="nav-link" data-section="about">About</a>
       <a href="#visit"       class="nav-link" data-section="visit">Visit Us</a>
@@ -213,6 +214,7 @@
     <ul>
       <li class="drawer-nav-item"><a href="#home"       class="drawer-nav-link">Home</a></li>
       <li class="drawer-nav-item"><a href="#collection" class="drawer-nav-link">Our Collection</a></li>
+      <li class="drawer-nav-item"><a href="#byob-section" class="drawer-nav-link">Build Your Own Box</a></li>
       <li class="drawer-nav-item">
         <button class="drawer-nav-link drawer-quiz-link" id="drawer-quiz-btn" style="background:none;border:none;cursor:pointer;font-family:inherit;width:100%;text-align:left;color:var(--c-gold);">✦ Scent Finder Quiz</button>
       </li>
@@ -756,11 +758,26 @@
             <label for="filter-collection" class="filter-label">Category</label>
             <select id="filter-collection" class="filter-select" aria-label="Filter by category">
               <option value="all">All Categories</option>
-              <option value="Attars">Attars</option>
-              <option value="Arabic">Arabic</option>
-              <option value="French &amp; Arabic Mix">French &amp; Arabic Mix</option>
-              <option value="Floral">Floral</option>
-              <option value="French">French</option>
+              <optgroup label="── Attars ──────────────">
+                <option value="attars">Attars (All)</option>
+                <option value="french-attars">French Attars</option>
+                <option value="arabic-attars">Arabic Attars</option>
+                <option value="floral-attars">Floral Attars</option>
+                <option value="fruity-attars">Fruity Attars</option>
+                <option value="aquatic-attars">Aquatic Attars</option>
+                <option value="french-arabic-mix-attars">French &amp; Arabic Mix Attars</option>
+              </optgroup>
+              <optgroup label="── Perfumes ────────────">
+                <option value="perfumes">Perfumes (All)</option>
+                <option value="french-perfumes">French Perfumes</option>
+                <option value="arabic-perfumes">Arabic Perfumes</option>
+                <option value="floral-perfumes">Floral Perfumes</option>
+                <option value="fruity-perfumes">Fruity Perfumes</option>
+                <option value="aquatic-perfumes">Aquatic Perfumes</option>
+              </optgroup>
+              <optgroup label="── Body Care ───────────">
+                <option value="body-creams-solid-perfumes">Body Creams / Solid Perfumes</option>
+              </optgroup>
             </select>
           </div>
 
@@ -823,6 +840,85 @@
           or endorsed by the respective fragrance brands or celebrities mentioned.
           Our fragrances are original creations inspired by the scent profile of well-known perfumes.
         </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==========================================
+       BUILD YOUR OWN BOX
+       ========================================== -->
+  <section id="byob-section" class="section-spacing byob-section" aria-labelledby="byob-heading">
+    <div class="container">
+
+      <div class="section-header center reveal">
+        <div class="section-tag center">
+          <span class="gold-icon" aria-hidden="true">✦</span>
+          <span>Curate Your Signature</span>
+          <span class="gold-icon" aria-hidden="true">✦</span>
+        </div>
+        <h2 class="section-title" id="byob-heading">
+          Build Your Own Box
+        </h2>
+        <p class="section-subtitle">
+          Select your preferred size, then pick your fragrances. One price. Your choice.
+        </p>
+      </div>
+
+      <!-- Step 1: Choose box size -->
+      <div class="byob-step reveal">
+        <h3 class="byob-step-title">Step 1 — Choose your size</h3>
+        <div id="byob-deal-selector" class="byob-deal-selector" role="group" aria-label="Box size options">
+          <!-- Rendered by byob.js -->
+        </div>
+      </div>
+
+      <!-- Step 2: Choose fragrances -->
+      <div class="byob-step reveal">
+        <h3 class="byob-step-title">Step 2 — Choose your fragrances</h3>
+        <p id="byob-select-size-msg" class="byob-hint">
+          Select a box size above to see available fragrances.
+        </p>
+        <div id="byob-product-grid" class="byob-product-grid" role="group" aria-label="Available fragrances for box">
+          <!-- Rendered by byob.js -->
+        </div>
+      </div>
+
+      <!-- Step 3: Summary & order -->
+      <div id="byob-summary" class="byob-summary hidden reveal" aria-live="polite" aria-atomic="true">
+        <div class="byob-summary-inner">
+          <div class="byob-summary-header">
+            <span class="byob-summary-icon" aria-hidden="true">✦</span>
+            <h3 class="byob-summary-title">Your Box</h3>
+          </div>
+          <div class="byob-summary-body">
+            <p class="byob-summary-info">
+              Box Price: <strong id="byob-box-price" class="byob-price-display">—</strong>
+            </p>
+            <p class="byob-summary-info">
+              Selected: <strong><span id="byob-selected-count">0</span> / <span id="byob-max-count">—</span></strong>
+            </p>
+            <ol id="byob-selected-list" class="byob-selected-list" aria-label="Selected fragrances">
+              <!-- Rendered by byob.js -->
+            </ol>
+          </div>
+          <div class="byob-summary-actions">
+            <button id="byob-order-btn"
+                    class="btn btn-whatsapp byob-order-btn"
+                    type="button"
+                    disabled
+                    aria-disabled="true"
+                    aria-label="Order your box on WhatsApp">
+              Order on WhatsApp
+            </button>
+            <button id="byob-reset-btn"
+                    class="btn btn-ghost byob-reset-btn"
+                    type="button"
+                    aria-label="Reset box selection">
+              Reset
+            </button>
+          </div>
+        </div>
       </div>
 
     </div>
@@ -2035,6 +2131,7 @@
 <script src="js/cart.js"></script>
 <script src="js/whatsapp.js"></script>
 <script src="js/checkout.js"></script>
+<script src="js/byob.js"></script>
 <script src="js/app.js"></script>
 
 </body>

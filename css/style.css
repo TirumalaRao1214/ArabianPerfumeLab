@@ -4243,3 +4243,104 @@ ul, ol { list-style: none; }
 .checkout-price-row.delivery-free-row {
     color: var(--c-ivory);
 }
+
+/* ==========================================================================
+   BUILD YOUR OWN BOX (BYOB) — styles
+   ========================================================================== */
+
+.byob-section { background: var(--c-black); }
+
+.byob-step { margin: var(--sp-2xl) 0 0; }
+
+.byob-step-title {
+    font-family: var(--f-heading);
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--c-gold);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: var(--sp-md);
+}
+
+.byob-hint { color: var(--c-ivory-muted); font-size: 0.9rem; margin: var(--sp-sm) 0; }
+
+/* Deal selector */
+.byob-deal-selector { display: flex; flex-wrap: wrap; gap: var(--sp-md); justify-content: center; }
+
+.byob-deal-btn {
+    display: flex; flex-direction: column; align-items: center; gap: 0.3rem;
+    min-width: 140px; padding: var(--sp-md) var(--sp-lg);
+    background: var(--c-card); border: 1px solid var(--c-border); border-radius: 8px;
+    color: var(--c-ivory); cursor: pointer;
+    transition: border-color 0.2s, background 0.2s, transform 0.15s;
+    font-family: var(--f-body);
+}
+.byob-deal-btn:hover, .byob-deal-btn:focus-visible {
+    border-color: var(--c-gold); background: var(--c-card-hover); outline: none; transform: translateY(-2px);
+}
+.byob-deal-btn.active {
+    border-color: var(--c-gold); background: var(--c-gold-bg); box-shadow: 0 0 0 1px var(--c-gold);
+}
+.byob-deal-size { font-family: var(--f-heading); font-size: 1.35rem; font-weight: 700; color: var(--c-gold); }
+.byob-deal-offer { font-size: 0.8rem; color: var(--c-ivory-muted); text-align: center; }
+
+/* Product grid */
+.byob-product-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: var(--sp-md); margin-top: var(--sp-md);
+}
+.byob-product-card {
+    position: relative; display: flex; flex-direction: column; align-items: center;
+    gap: 0.4rem; padding: var(--sp-md) var(--sp-sm);
+    background: var(--c-card); border: 1px solid var(--c-border); border-radius: 8px;
+    cursor: pointer; transition: border-color 0.2s, background 0.2s, opacity 0.2s;
+    text-align: center; user-select: none;
+}
+.byob-product-card:hover:not(.maxed), .byob-product-card:focus-visible:not(.maxed) {
+    border-color: var(--c-gold-dim); background: var(--c-card-hover); outline: none;
+}
+.byob-product-card.selected { border-color: var(--c-gold); background: var(--c-gold-bg); }
+.byob-product-card.maxed    { opacity: 0.4; cursor: not-allowed; }
+
+.byob-product-img  { width: 60px; height: 90px; object-fit: contain; display: block; }
+.byob-product-name { font-size: 0.8rem; font-weight: 600; color: var(--c-ivory); line-height: 1.3; }
+.byob-product-cat  { font-size: 0.68rem; color: var(--c-ivory-dim); line-height: 1.2; }
+.byob-product-tick {
+    position: absolute; top: 6px; right: 8px;
+    font-size: 0.8rem; color: var(--c-gold); font-weight: 700; min-width: 1em; min-height: 1em;
+}
+
+/* Summary */
+.byob-summary { margin-top: var(--sp-2xl); }
+.byob-summary.hidden { display: none; }
+
+.byob-summary-inner {
+    max-width: 480px; margin: 0 auto;
+    background: var(--c-card); border: 1px solid var(--c-border-sub); border-radius: 12px;
+    padding: var(--sp-xl); text-align: center;
+}
+.byob-summary-header { display: flex; align-items: center; justify-content: center; gap: var(--sp-sm); margin-bottom: var(--sp-md); }
+.byob-summary-icon  { color: var(--c-gold); font-size: 1rem; }
+.byob-summary-title { font-family: var(--f-heading); font-size: 1.2rem; color: var(--c-gold); margin: 0; }
+.byob-summary-info  { color: var(--c-ivory-muted); font-size: 0.9rem; margin: 0.4rem 0; }
+.byob-price-display { color: var(--c-gold); font-size: 1.1rem; }
+
+.byob-selected-list { list-style: none; padding: 0; margin: var(--sp-md) 0; text-align: left; }
+.byob-selected-list li { color: var(--c-ivory); font-size: 0.9rem; padding: 0.2rem 0; border-bottom: 1px solid var(--c-border); }
+.byob-selected-list li:last-child { border-bottom: none; }
+
+.byob-summary-actions { display: flex; flex-direction: column; gap: var(--sp-sm); margin-top: var(--sp-lg); }
+.byob-order-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+
+.btn-whatsapp {
+    background: #25d366; color: #fff; border: none; border-radius: 6px;
+    padding: 0.75rem 1.5rem; font-size: 0.95rem; font-weight: 600;
+    cursor: pointer; transition: background 0.2s;
+}
+.btn-whatsapp:hover:not(:disabled) { background: #1ebe5a; }
+
+@media (max-width: 480px) {
+    .byob-deal-selector { flex-direction: column; align-items: center; }
+    .byob-deal-btn { width: 100%; max-width: 280px; }
+    .byob-product-grid { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); }
+}

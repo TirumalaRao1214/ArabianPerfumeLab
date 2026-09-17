@@ -63,7 +63,11 @@ const WhatsApp = (() => {
             })();
 
             lines.push((index + 1) + '. ' + p.name);
-            lines.push('   Category: ' + (p.category || ''));
+            // Resolve category slug to display label when available
+            const catLabel = (typeof CATEGORIES !== 'undefined' && CATEGORIES[p.category])
+                ? CATEGORIES[p.category]
+                : (p.category || '');
+            lines.push('   Category: ' + catLabel);
             lines.push('   Variant: ' + sizeLabel);
             lines.push('   ' + unitPrice + ' \u00D7 ' + item.qty + ' = ' + lineTot);
             lines.push('');
