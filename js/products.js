@@ -289,36 +289,27 @@ const products = Object.freeze([
     { id:'most-wanted',  name:'Most Wanted',  category:'french-attars', notes:['Spicy','Amber','Woody'],    description:'Cardamom, juniper berry and coumarin — the fragrance of audacity.', sizes:_sz(ATTAR_FRENCH(), PERF_FRENCH()) },
 
     /* ===================================================
-       NEW PRODUCTS (16) — category/pricing from matching tier
+       BUILD YOUR OWN BOX products (16)
+       category:'byob-only' — excluded from the main catalogue.
+       These records exist solely so BYOB can look up names for
+       WhatsApp orders. They are never shown in the Collection grid.
        =================================================== */
-
-    /* --- French Perfumes inspired --- */
-    { id:'cool-water',              name:'Cool Water',              category:'french-perfumes',  notes:['Aquatic','Fresh','Citrus'],    description:'An Arabian Perfumer\'s inspired cool aquatic fragrance — fresh sea air and crisp citrus.',        sizes:_sz(ATTAR_FRENCH(), PERF_FRENCH()) },
-    { id:'jpg-le-male',             name:'JPG Le Male',             category:'french-perfumes',  notes:['Fresh','Minty','Vanilla'],     description:'An Arabian Perfumer\'s inspired fresh fougère with mint, lavender and warm vanilla.',             sizes:_sz(ATTAR_FRENCH(), PERF_FRENCH()) },
-    { id:'polo-sports',             name:'Polo Sports',             category:'french-perfumes',  notes:['Fresh','Aquatic','Citrus'],    description:'An Arabian Perfumer\'s inspired sporty aquatic freshness — clean and energetic.',                  sizes:_sz(ATTAR_FRENCH(), PERF_FRENCH()) },
-    { id:'erose-flame',             name:'Erose Flame',             category:'french-perfumes',  notes:['Minty','Vanilla','Spicy'],     description:'An Arabian Perfumer\'s inspired bold and fiery twist on the classic Eros composition.',            sizes:_sz(ATTAR_FRENCH(), PERF_FRENCH()) },
-
-    /* --- Aquatic Perfumes inspired --- */
-    { id:'paris-ocean',             name:'Paris Ocean',             category:'aquatic-perfumes', notes:['Aquatic','Fresh','Marine'],    description:'An Arabian Perfumer\'s inspired oceanic perfume — breezy marine with a Parisian elegance.',        sizes:_sz(ATTAR_FRENCH(), PERF_FRENCH()) },
-    { id:'lemon-lavender',          name:'Lemon Lavender',          category:'aquatic-perfumes', notes:['Citrus','Lavender','Fresh'],   description:'Zesty lemon and calming lavender — a refreshing herbal accord.',                                   sizes:_sz(ATTAR_FRENCH(), PERF_FRENCH()) },
-    { id:'lemon-blast',             name:'Lemon Blast',             category:'aquatic-perfumes', notes:['Citrus','Fresh','Zesty'],      description:'An intense citrus burst — lemon zest and cool aquatic freshness.',                                 sizes:_sz(ATTAR_FRENCH(), PERF_FRENCH()) },
-    { id:'white-tea',               name:'White Tea',               category:'aquatic-perfumes', notes:['Fresh','Tea','Clean'],         description:'Delicate white tea leaves — serene, clean and softly lingering.',                                  sizes:_sz(ATTAR_FRENCH(), PERF_FRENCH()) },
-
-    /* --- Floral Perfumes inspired --- */
-    { id:'my-way-yalang',           name:'My Way Yalang',           category:'floral-perfumes',  notes:['Floral','Ylang','Vanilla'],    description:'An Arabian Perfumer\'s inspired radiant floral — ylang-ylang and warm vanilla.',                   sizes:_sz(ATTAR_FLORAL(), PERF_FLORAL()) },
-    { id:'libre-flowers-and-flame', name:'Libre Flowers and Flame', category:'floral-perfumes',  notes:['Floral','Lavender','Vanilla'], description:'An Arabian Perfumer\'s inspired bold floral-lavender with a warm amber heart.',                    sizes:_sz(ATTAR_FLORAL(), PERF_FLORAL()) },
-    { id:'honey-suckle',            name:'Honey Suckle',            category:'floral-perfumes',  notes:['Floral','Honey','Sweet'],      description:'Sweet honeysuckle blossoms with a delicate floral character.',                                     sizes:_sz(ATTAR_FLORAL(), PERF_FLORAL()) },
-    { id:'jasmine',                 name:'Jasmine',                 category:'floral-perfumes',  notes:['Jasmine','Floral','Sweet'],    description:'Pure, heady jasmine — the queen of flowers in an elegant perfume.',                                sizes:_sz(ATTAR_FLORAL(), PERF_FLORAL()) },
-
-    /* --- Fruity Perfumes --- */
-    { id:'pink-peach',              name:'Pink Peach',              category:'fruity-perfumes',  notes:['Fruity','Peach','Sweet'],      description:'Juicy pink peach with a soft sweet finish — bright and playful.',                                  sizes:_sz(ATTAR_FLORAL(), PERF_FLORAL()) },
-    { id:'pink-luxica',             name:'Pink Luxica',             category:'fruity-perfumes',  notes:['Fruity','Floral','Sweet'],     description:'A luxurious pink fruity floral — sweet berries and soft petals.',                                  sizes:_sz(ATTAR_FLORAL(), PERF_FLORAL()) },
-
-    /* --- Arabic Attars (new) --- */
-    { id:'zidaan-classic',          name:'Zidaan Classic',          category:'arabic-attars',    notes:['Oud','Amber','Oriental'],      description:'A rich Arabian classic — deep oud and warm amber in the Zidaan tradition.',                        sizes:_sz(ATTAR_ARABIC(), PERF_ARABIC()) },
-
-    /* --- Floral Attars (new) --- */
-    { id:'blue-musk',               name:'Blue Musk',               category:'floral-attars',    notes:['Musk','Fresh','Aquatic'],      description:'A refreshing cool blue musk — clean, crisp and long-lasting.',                                    sizes:_sz(ATTAR_ATTARS(), PERF_ATTARS()) },
+    { id:'cool-water',              name:'Cool Water',              category:'byob-only', notes:['Aquatic','Fresh','Citrus'],    description:'', sizes:_sz(ATTAR_FRENCH(), PERF_FRENCH()) },
+    { id:'jpg-le-male',             name:'JPG Le Male',             category:'byob-only', notes:['Fresh','Minty','Vanilla'],    description:'', sizes:_sz(ATTAR_FRENCH(), PERF_FRENCH()) },
+    { id:'polo-sports',             name:'Polo Sports',             category:'byob-only', notes:['Fresh','Aquatic','Citrus'],   description:'', sizes:_sz(ATTAR_FRENCH(), PERF_FRENCH()) },
+    { id:'erose-flame',             name:'Erose Flame',             category:'byob-only', notes:['Minty','Vanilla','Spicy'],    description:'', sizes:_sz(ATTAR_FRENCH(), PERF_FRENCH()) },
+    { id:'paris-ocean',             name:'Paris Ocean',             category:'byob-only', notes:['Aquatic','Fresh','Marine'],   description:'', sizes:_sz(ATTAR_FRENCH(), PERF_FRENCH()) },
+    { id:'lemon-lavender',          name:'Lemon Lavender',          category:'byob-only', notes:['Citrus','Lavender','Fresh'],  description:'', sizes:_sz(ATTAR_FRENCH(), PERF_FRENCH()) },
+    { id:'lemon-blast',             name:'Lemon Blast',             category:'byob-only', notes:['Citrus','Fresh','Zesty'],     description:'', sizes:_sz(ATTAR_FRENCH(), PERF_FRENCH()) },
+    { id:'white-tea',               name:'White Tea',               category:'byob-only', notes:['Fresh','Tea','Clean'],        description:'', sizes:_sz(ATTAR_FRENCH(), PERF_FRENCH()) },
+    { id:'my-way-yalang',           name:'My Way Yalang',           category:'byob-only', notes:['Floral','Ylang','Vanilla'],   description:'', sizes:_sz(ATTAR_FLORAL(), PERF_FLORAL()) },
+    { id:'libre-flowers-and-flame', name:'Libre Flowers and Flame', category:'byob-only', notes:['Floral','Lavender','Vanilla'],description:'', sizes:_sz(ATTAR_FLORAL(), PERF_FLORAL()) },
+    { id:'honey-suckle',            name:'Honey Suckle',            category:'byob-only', notes:['Floral','Honey','Sweet'],     description:'', sizes:_sz(ATTAR_FLORAL(), PERF_FLORAL()) },
+    { id:'jasmine',                 name:'Jasmine',                 category:'byob-only', notes:['Jasmine','Floral','Sweet'],   description:'', sizes:_sz(ATTAR_FLORAL(), PERF_FLORAL()) },
+    { id:'pink-peach',              name:'Pink Peach',              category:'byob-only', notes:['Fruity','Peach','Sweet'],     description:'', sizes:_sz(ATTAR_FLORAL(), PERF_FLORAL()) },
+    { id:'pink-luxica',             name:'Pink Luxica',             category:'byob-only', notes:['Fruity','Floral','Sweet'],    description:'', sizes:_sz(ATTAR_FLORAL(), PERF_FLORAL()) },
+    { id:'zidaan-classic',          name:'Zidaan Classic',          category:'byob-only', notes:['Oud','Amber','Oriental'],     description:'', sizes:_sz(ATTAR_ARABIC(), PERF_ARABIC()) },
+    { id:'blue-musk',               name:'Blue Musk',               category:'byob-only', notes:['Musk','Fresh','Aquatic'],    description:'', sizes:_sz(ATTAR_ATTARS(), PERF_ATTARS()) },
 
     /* ===================================================
        BODY CREAMS / SOLID PERFUMES  (single combined product)

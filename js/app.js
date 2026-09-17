@@ -231,7 +231,8 @@ const CATALOGUE = {
 
 /** Run the filter + search + sort pipeline and return matching products */
 function filterProducts() {
-    let list = Array.from(products); // products is frozen array from products.js
+    // Exclude BYOB-only products from the catalogue at all times
+    let list = Array.from(products).filter(p => p.category !== 'byob-only');
 
     // Category filter — supports exact slug match AND parent group ('attars'/'perfumes')
     if (CATALOGUE._collection !== 'all') {

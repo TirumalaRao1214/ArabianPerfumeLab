@@ -42,6 +42,7 @@ const Cart = (() => {
         if (!product) return false;
         if (product.productType === 'wholesale') return false;
         if (product.productType === 'enquiry')   return false;
+        if (product.category === 'byob-only')    return false; // BYOB products not in retail cart
         if (!product.sizes || Object.keys(product.sizes).length === 0) return false;
         return true;
     }
