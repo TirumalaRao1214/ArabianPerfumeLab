@@ -471,7 +471,9 @@ function buildProductCard(product, index) {
 
     const catEl = document.createElement('p');
     catEl.className = 'product-cat';
-    catEl.textContent = product.category || '';
+    catEl.textContent = (typeof CATEGORIES !== 'undefined' && CATEGORIES[product.category])
+        ? CATEGORIES[product.category]
+        : (product.category || '');
     body.appendChild(catEl);
 
     const nameEl = document.createElement('h3');
@@ -711,7 +713,9 @@ function openProductModal(productId, preferredSize) {
     imgEl.alt = product.name;
 
     nameEl.textContent  = product.name;
-    concEl.textContent  = product.category || '';
+    concEl.textContent  = (typeof CATEGORIES !== 'undefined' && CATEGORIES[product.category])
+        ? CATEGORIES[product.category]
+        : (product.category || '');
     tagEl.textContent   = product.description ? (product.description.split('.')[0] + '.') : '';
     descEl.textContent  = product.description || '';
     qtyNumEl.textContent = '1';
@@ -1000,7 +1004,9 @@ function renderCartContents() {
 
         const itemCat = document.createElement('p');
         itemCat.className = 'cart-item-size'; // muted style
-        itemCat.textContent = product.category || '';
+        itemCat.textContent = (typeof CATEGORIES !== 'undefined' && CATEGORIES[product.category])
+            ? CATEGORIES[product.category]
+            : (product.category || '');
         info.appendChild(itemCat);
 
         const itemName = document.createElement('p');
@@ -1782,7 +1788,9 @@ function showQuizResults() {
 
         const brand = document.createElement('p');
         brand.className = 'quiz-result-brand';
-        brand.textContent = product.category || '';
+        brand.textContent = (typeof CATEGORIES !== 'undefined' && CATEGORIES[product.category])
+            ? CATEGORIES[product.category]
+            : (product.category || '');
         info.appendChild(brand);
 
         const name = document.createElement('h4');
